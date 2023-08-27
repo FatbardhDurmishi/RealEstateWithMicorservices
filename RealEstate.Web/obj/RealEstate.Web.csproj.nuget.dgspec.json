@@ -1,0 +1,81 @@
+{
+  "format": 1,
+  "restore": {
+    "c:\\Riinvest\\VitiIII\\Semestri6\\TemaDiplomes\\RealEstateMicroservices\\RealEstateWithMicorservices\\RealEstate.Web\\RealEstate.Web.csproj": {}
+  },
+  "projects": {
+    "c:\\Riinvest\\VitiIII\\Semestri6\\TemaDiplomes\\RealEstateMicroservices\\RealEstateWithMicorservices\\RealEstate.Web\\RealEstate.Web.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "c:\\Riinvest\\VitiIII\\Semestri6\\TemaDiplomes\\RealEstateMicroservices\\RealEstateWithMicorservices\\RealEstate.Web\\RealEstate.Web.csproj",
+        "projectName": "RealEstate.Web",
+        "projectPath": "c:\\Riinvest\\VitiIII\\Semestri6\\TemaDiplomes\\RealEstateMicroservices\\RealEstateWithMicorservices\\RealEstate.Web\\RealEstate.Web.csproj",
+        "packagesPath": "C:\\Users\\fatba\\.nuget\\packages\\",
+        "outputPath": "c:\\Riinvest\\VitiIII\\Semestri6\\TemaDiplomes\\RealEstateMicroservices\\RealEstateWithMicorservices\\RealEstate.Web\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\fatba\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Riinvest\\VitiIII\\Semestri6\\TemaDiplomes\\packages": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.Rest.ClientRuntime": {
+              "target": "Package",
+              "version": "[2.3.24, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[6.10.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "c:\\program files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
