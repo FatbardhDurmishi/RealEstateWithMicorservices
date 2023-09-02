@@ -106,6 +106,7 @@ namespace RealEstate.Services.AuthAPI.Controllers
 
             UserDto userDto = new()
             {
+                Id = user.Id,
                 Name = user.Name,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,

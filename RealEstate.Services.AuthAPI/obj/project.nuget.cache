@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "f5CV4R2KYHvAR1YIzwIuPJKTyRoi3b3EwVR5bD5ej1nsIrmRtSCdbi0qgUaZn6X8Bhak2ayIjt5/OcYECULCxA==",
+  "dgSpecHash": "96tTQZMjflScmwa0kNBj8hie2BFR88+SkG7QaqQxOvsX+Jnxvz3cPOIUk6LmyaYAvfns32U5+r4CY2zWvAN2Sw==",
   "success": true,
-  "projectFilePath": "c:\\Riinvest\\VitiIII\\Semestri6\\TemaDiplomes\\RealEstateMicroservices\\RealEstateWithMicorservices\\RealEstate.Services.AuthAPI\\RealEstate.Services.AuthAPI.csproj",
+  "projectFilePath": "C:\\Riinvest\\VitiIII\\Semestri6\\TemaDiplomes\\RealEstateMicroservices\\RealEstateWithMicorservices\\RealEstate.Services.AuthAPI\\RealEstate.Services.AuthAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\fatba\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\fatba\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\6.0.21\\microsoft.aspnetcore.authentication.jwtbearer.6.0.21.nupkg.sha512",

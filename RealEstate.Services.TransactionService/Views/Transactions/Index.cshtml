@@ -1,0 +1,89 @@
+﻿@model IEnumerable<RealEstate.Services.TransactionService.Models.Transaction>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OwnerId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BuyerId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PropertyId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RentStartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RentEndDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RentPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TransactionType)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OwnerId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BuyerId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PropertyId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RentStartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RentEndDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RentPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TransactionType.Id)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

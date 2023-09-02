@@ -76,7 +76,7 @@ namespace RealEstate.Web.Controllers
 
             if(currentUserRole == RoleConstants.Role_Admin)
             {
-                var response = await _httpClient.GetAsync("api/user/GetUsers");
+                var response = await _httpClient.GetAsync($"{APIBaseUrls.AuthAPIBaseUrl}api/user/GetUsers");
                 if (response.IsSuccessStatusCode)
                 {
                     var users = await response.Content.ReadFromJsonAsync<List<UserDto>>();
@@ -85,7 +85,7 @@ namespace RealEstate.Web.Controllers
             }
             else
             {
-                var response = await _httpClient.GetAsync($"api/user/GetUsers/{currentUserId}");
+                var response = await _httpClient.GetAsync($"{APIBaseUrls.AuthAPIBaseUrl}api/user/GetUsers/{currentUserId}");
                 if (response.IsSuccessStatusCode)
                 {
                     var users = await response.Content.ReadFromJsonAsync<List<UserDto>>();

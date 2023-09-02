@@ -5,11 +5,13 @@ VisualStudioVersion = 17.7.34009.444
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{46E0B3C8-2344-49DA-BA49-7B8540D8E681}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealEstate.Services.AuthAPI", "RealEstate.Services.AuthAPI\RealEstate.Services.AuthAPI.csproj", "{11368E9A-FAD1-4ED0-9AA6-755BD3C117E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealEstate.Services.AuthAPI", "RealEstate.Services.AuthAPI\RealEstate.Services.AuthAPI.csproj", "{11368E9A-FAD1-4ED0-9AA6-755BD3C117E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealEstate.Web", "RealEstate.Web\RealEstate.Web.csproj", "{FF8CC60D-04E8-4BAA-92C2-B82DA96FA06B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealEstate.Web", "RealEstate.Web\RealEstate.Web.csproj", "{FF8CC60D-04E8-4BAA-92C2-B82DA96FA06B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealEstate.Services.PropertyService", "RealEstate.Services.PropertyService\RealEstate.Services.PropertyService.csproj", "{3A372E1B-5614-41FC-B53B-20659E07AA6D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealEstate.Services.PropertyService", "RealEstate.Services.PropertyService\RealEstate.Services.PropertyService.csproj", "{3A372E1B-5614-41FC-B53B-20659E07AA6D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealEstate.Services.TransactionService", "RealEstate.Services.TransactionService\RealEstate.Services.TransactionService.csproj", "{3FED86A6-77B6-48CE-A35F-C56F9084487F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +31,10 @@ Global
 		{3A372E1B-5614-41FC-B53B-20659E07AA6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A372E1B-5614-41FC-B53B-20659E07AA6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A372E1B-5614-41FC-B53B-20659E07AA6D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FED86A6-77B6-48CE-A35F-C56F9084487F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FED86A6-77B6-48CE-A35F-C56F9084487F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FED86A6-77B6-48CE-A35F-C56F9084487F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FED86A6-77B6-48CE-A35F-C56F9084487F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -36,6 +42,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{11368E9A-FAD1-4ED0-9AA6-755BD3C117E1} = {46E0B3C8-2344-49DA-BA49-7B8540D8E681}
 		{3A372E1B-5614-41FC-B53B-20659E07AA6D} = {46E0B3C8-2344-49DA-BA49-7B8540D8E681}
+		{3FED86A6-77B6-48CE-A35F-C56F9084487F} = {46E0B3C8-2344-49DA-BA49-7B8540D8E681}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {02752BD7-798C-4F9D-ADC0-3114ADF6EF94}

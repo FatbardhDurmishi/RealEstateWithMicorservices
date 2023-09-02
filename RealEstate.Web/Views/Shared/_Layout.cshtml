@@ -1,49 +1,83 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - RealEstate.Web</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/RealEstate.Web.styles.css" asp-append-version="true" />
-</head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">RealEstate.Web</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+﻿@using Microsoft.AspNetCore.Identity
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - RealEstate.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Real Estate @ViewData["Title"]</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="~/theme/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="~/theme/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="~/theme/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/css/site.css" />
+    @*flag icon*@
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.3.0/css/flag-icon.min.css">
+
+
+    <!-- Template Stylesheet -->
+    <link href="~/theme/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+    @RenderSection("Styles",false)
+</head>
+
+<body>
+    @* qetu zevendesohet me current user *@
+    @if (true)
+    {
+        <partial name="_Navbar" />
+
+    }
+
+    <div class="container-xxl position-relative bg-white d-flex p-0">
+        <partial name="_Notification" />
+       @* qetu zevendesohet me current user *@
+        @if (1==2)
+        {
+            <partial name="_Sidebar" />
+
+        }
+        @RenderBody()
+      
+
+    </div>
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/theme/lib/chart/chart.min.js"></script>
+    <script src="~/theme/lib/easing/easing.min.js"></script>
+    <script src="~/theme/lib/waypoints/waypoints.min.js"></script>
+    <script src="~/theme/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="~/theme/lib/tempusdominus/js/moment.min.js"></script>
+    <script src="~/theme/lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="~/theme/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://kit.fontawesome.com/a68cad6f07.js" crossorigin="anonymous"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+
+    <!-- Template Javascript -->
+    <script src="~/theme/js/main.js"></script>
+    @RenderSection("Scripts",false)
 </body>
+
 </html>

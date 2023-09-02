@@ -32,6 +32,13 @@ namespace RealEstate.Services.AuthAPI.Controllers
             return Ok(users);
         }
 
+        [HttpGet("{companyId}")]
+        public async Task<ActionResult<UserDto>> GetUsersByCompanyId(string companyId)
+        {
+            var users = await _userRepository.GetAll(x=>x.CompanyId==companyId);
+            return Ok(users);
+        }
+
         [HttpPost]
         public async Task<ActionResult<UserDto>> CreateUser([FromBody] dynamic parameters)
         {
@@ -40,7 +47,6 @@ namespace RealEstate.Services.AuthAPI.Controllers
                 return BadRequest();
             }
 
-          
 
             var user = new ApplicationUser
             {
@@ -51,7 +57,6 @@ namespace RealEstate.Services.AuthAPI.Controllers
                 State = parameters.User.State,
                 PostalCode = parameters.User.PostalCode,
                 PhoneNumber = parameters.User.PhoneNumber,
-              
             };
             if (parameters.CurrentUserRole == RoleConstants.Role_User_Comp)
             {
@@ -63,7 +68,7 @@ namespace RealEstate.Services.AuthAPI.Controllers
                 user.Role = parameters.User.Role;
             }
             var result= await _userManager.CreateAsync(user, parameters.User.Password);
-            if(!result.Succeeded)   
+            if(!result.Succeeded)
             {
                 return BadRequest();
             }
@@ -97,7 +102,7 @@ namespace RealEstate.Services.AuthAPI.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<UserDto>> UpdateUser(string id, UserDto userDto)
         {
-         
+
             var user = await _userRepository.GetFirstOrDefault(x => x.Id == id);
             if(user == null)
             {
