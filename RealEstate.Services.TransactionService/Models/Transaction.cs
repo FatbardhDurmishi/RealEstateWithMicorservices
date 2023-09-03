@@ -26,11 +26,7 @@ namespace RealEstate.Services.TransactionService.Models
         public decimal? TotalPrice { get; set; }
         [StringLength(50)]
         public string? Status { get; set; }
-        public int? TransactionTypeId { get; set; }
-        
-        [ForeignKey("TransactionTypeId")]
-        [InverseProperty("Transactions")]
-        public virtual TransactionType? TransactionType { get; set; }
+        public string TransactionType { get; set; } = null!;
         [NotMapped]
         public bool ShowButtons = false;
     }

@@ -1,0 +1,218 @@
+﻿@using RealEstate.Web.Constants;
+@using RealEstate.Web.Services.IServices;
+@model RegisterViewModel
+@inject IUserService userService
+@{
+    var action=string.Empty;
+if (string.IsNullOrEmpty(Model.Id))
+    {
+        action = "CreateUser";
+    }
+    else
+    {
+        action = "UpdateUser";
+    }
+}
+
+<div class="content">
+    <partial name="_Navbar" />
+    <div class="row">
+        <div>
+            <span id="close" style="float:right" class="hidden-sm hidden-xs">
+                <span id="expand">CloseHelp</span>
+                <i class="fa fa-chevron-right" id="icon-expand" aria-hidden="true" onclick="OpenHelp()"></i>
+            </span>
+        </div>
+        <div class="col-md-9" id="left-side-bar">
+            <div class="container-fluid pt-4 px-4 col-12 justify-content-between">
+                <div class="row mb-3">
+                    <div class="col-10">
+                        <ol class="breadcrumb float-sm-right col-10 text-start">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item"><a href="#">Users</a></li>
+                            @if (string.IsNullOrEmpty(Model.Id))
+                            {
+                                <li class="breadcrumb-item active">Add</li>
+                            }
+                            else
+                            {
+                                <li class="breadcrumb-item">Edit</li>
+                                <li class="breadcrumb-item active">@Model.Id</li>
+
+                            }
+                        </ol>
+                    </div>
+                    <div class="col-2 text-end">
+                        <a  asp-controller="User" asp-action="Index" class="btn btn-primary ">Back to list</a>
+                    </div>
+
+
+                </div>
+                <form  asp-controller="User" asp-action="@action" method="post" enctype="">
+                    <input type="hidden" asp-for="Id" />
+                    <div class="col-lg-12 col-12">
+                        <div class="form-floating mb-3  ">
+                            <input type="email" asp-for="Email" class="form-control help-sidebar" data-title="Email" data-description="Enter Email" id="floatingInput" placeholder="name@example.com">
+                            <label for="floatingInput">Email address</label>
+                            <span asp-validation-for="@Model.Email" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    @if (string.IsNullOrEmpty(Model.Id))
+                    {
+                        <div class=" row">
+                            <div class="form-floating mb-3 col-sm-6 ">
+                                <input type="password" asp-for="Password" class="form-control help-sidebar" data-title="Password" data-description="Enter Password. Password must contain at least 6 characters, one uppercase letter,lowercase letter, number and non alphanumeric character. " id="floatingPassword" placeholder="Password">
+                                <label for="floatingPassword">&nbsp; Password</label>
+                                <span asp-validation-for="@Model.Password" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mb-3 col-sm-6 ">
+                                <input type="password" asp-for="ConfirmPassword" class="form-control help-sidebar" data-title="Confirm Password" data-description="Confirm password must be the same as password" id="floatingPassword" placeholder="Password">
+                                <label for="floatingPassword">&nbsp; Confirm Password</label>
+                                <span asp-validation-for="@Model.ConfirmPassword" class="text-danger"></span>
+                            </div>
+                        </div>
+                    }
+                    <div class="d-flex row">
+
+                        <div class="form-floating mb-3  col-sm-6 ">
+                            <input type="text" asp-for="Name" class="form-control help-sidebar" data-title="Name" data-description="Enter Name" id="floatingText" placeholder="text">
+                            <label for="floatingText">&nbsp; Full Name</label>
+                            <span asp-validation-for="@Model.Name" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating mb-3 col-sm-6">
+                            <input asp-for="State" class="form-control help-sidebar" data-title="State" data-description="Enter the State you live" id="floatingText" placeholder="Password">
+                            <label for="floatingText">&nbsp; State</label>
+                            <span asp-validation-for="@Model.State" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row justify-content-between">
+                        <div class="form-floating mb-3 col-sm-6">
+                            <input asp-for="City" class="form-control help-sidebar" data-title="City" data-description="Enter the City you live" id="floatingText" placeholder="Password">
+                            <label for="floatingText">&nbsp; City</label>
+                            <span asp-validation-for="@Model.City" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-floating mb-3 col-sm-6">
+                            <input asp-for="PostalCode" class="form-control help-sidebar" data-title="PostalCode" data-description="Enter the Postal Code of your city" id="floatingText" placeholder="Password">
+                            <label for="floatingText">&nbsp; Postal Code</label>
+                            <span asp-validation-for="@Model.PostalCode" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input asp-for="StreetAddres" class="form-control help-sidebar" data-title="StreetAddress" data-description="Enter your Address" id="floatingText" placeholder="Password">
+                        <label for="floatingText">&nbsp; Street Address</label>
+                        <span asp-validation-for="@Model.StreetAddres" class="text-danger"></span>
+                    </div>
+
+                    @if (userService.GetCurrentUser().Role == RoleConstants.Role_Admin)
+                    {
+
+                        <div class="form-floating mb-3 col-sm-12">
+
+                            <select asp-for="@Model.Role" data-title="User Role" data-description="Choose the Role of the User" class="form-select help-sidebar">
+                                <option disabled selected>Choose User Role</option>
+                                <option value="@RoleConstants.Role_Admin">Admin</option>
+                                <option value="@RoleConstants.Role_User_Indi">User</option>
+                                <option value="@RoleConstants.Role_User_Comp">Company</option>
+                            </select>
+                        </div>
+                    }
+                    @if (string.IsNullOrEmpty(Model.Id))
+                    {
+                        <button type="submit" class="btn btn-primary py-3 w-100 mb-4 col-sm-6">Add User</button>
+
+                    }
+                    else
+                    {
+                        <button type="submit" class="btn btn-secondary py-3 w-100 mb-4 col-sm-6">Update</button>
+
+                    }
+                </form>
+            </div>
+        </div>
+        <div class="col-md-3 navbar-right hidden-sm hidden-xs help-bar remove-left-padding" id="right-sidebar">
+            <div class="card @(string.IsNullOrEmpty(Model.Id) ? "card-primary" : "card-secondary")">
+                <div class="card-header">
+                    <h3 class="card-title"><span id="title">QuickHelp</span></h3>
+                </div>
+                <div class="card-body">
+                    <p id="description">
+                        @(string.IsNullOrEmpty(Model.Id) ? "User Add Form" : "User Edit Form")
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+    <script>
+        $(document).ready(function () {
+
+            //if (localStorage.isHelpVisible == 'true') {
+            //    Close();
+            //}
+            //else {
+            //    Open();
+            //}
+            $(window).scroll(function () {
+                $("#right-sidebar").css("margin-top", Math.max(0, $(this).scrollTop() - 112));
+            });
+
+            $(".help-sidebar").click(function () {
+                var event = $(this);
+                var title = $(this).attr("data-title");
+                var description = $(this).attr("data-description");
+                HelpSideBar(title, description);
+            });
+
+            //Function that fill help right side bar
+            function HelpSideBar(title, description) {
+                //debugger;
+                $("#title").text(title);
+                $("#description").text(description);
+            }
+
+            $("#close").click(function () {
+                if ($("#right-sidebar").is(':visible')) {
+                    Open();
+                }
+                else {
+                    Close();
+                }
+            });
+
+            function Open() {
+
+                var option = { direction: 'right' };
+                $("#right-sidebar").hide();
+                $("#left-side-bar").removeClass("col-md-9");
+                $("#left-side-bar").addClass("col-md-12");
+
+                $("#icon-expand").removeClass("fa-chevron-right");
+                $("#icon-expand").addClass("fa-chevron-left");
+                $("#expand").html("OpenHelp");
+
+                localStorage.isHelpVisible = false;
+            }
+            function Close() {
+                //debugger;
+                $("#left-side-bar").removeClass("col-md-12");
+                $("#left-side-bar").addClass("col-md-9");
+                var option = { direction: 'right' };
+                $("#right-sidebar").show();
+                $("#icon-expand").removeClass("fa-chevron-left");
+                $("#icon-expand").addClass("fa-chevron-right");
+                $("#expand").html("CloseHelp");
+
+                localStorage.isHelpVisible = true;
+            }
+        });
+    </script>
+}
+
+

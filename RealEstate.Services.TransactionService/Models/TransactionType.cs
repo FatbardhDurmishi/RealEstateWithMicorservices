@@ -8,10 +8,8 @@ namespace RealEstate.Services.TransactionService.Models
     {
         [Key]
         public int Id { get; set; }
+
         [StringLength(50)]
         public string Name { get; set; } = null!;
-
-        [InverseProperty("TransactionType")]
-        public virtual ICollection<Transaction> Transactions { get; set; }
     }
 }

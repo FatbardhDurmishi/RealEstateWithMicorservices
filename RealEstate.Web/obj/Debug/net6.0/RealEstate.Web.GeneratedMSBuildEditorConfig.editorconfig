@@ -32,6 +32,18 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Riinvest/VitiIII/Semestri6/TemaDiplomes/RealEstateMicroservices/RealEstateWithMicorservices/RealEstate.Web/Views/Properties/AddUpdateProperty.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvcGVydGllc1xBZGRVcGRhdGVQcm9wZXJ0eS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Riinvest/VitiIII/Semestri6/TemaDiplomes/RealEstateMicroservices/RealEstateWithMicorservices/RealEstate.Web/Views/Properties/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvcGVydGllc1xEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Riinvest/VitiIII/Semestri6/TemaDiplomes/RealEstateMicroservices/RealEstateWithMicorservices/RealEstate.Web/Views/Properties/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvcGVydGllc1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Riinvest/VitiIII/Semestri6/TemaDiplomes/RealEstateMicroservices/RealEstateWithMicorservices/RealEstate.Web/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -50,6 +62,26 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Riinvest/VitiIII/Semestri6/TemaDiplomes/RealEstateMicroservices/RealEstateWithMicorservices/RealEstate.Web/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Riinvest/VitiIII/Semestri6/TemaDiplomes/RealEstateMicroservices/RealEstateWithMicorservices/RealEstate.Web/Views/Transaction/AddTransaction.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJhbnNhY3Rpb25cQWRkVHJhbnNhY3Rpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Riinvest/VitiIII/Semestri6/TemaDiplomes/RealEstateMicroservices/RealEstateWithMicorservices/RealEstate.Web/Views/Transaction/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJhbnNhY3Rpb25cRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Riinvest/VitiIII/Semestri6/TemaDiplomes/RealEstateMicroservices/RealEstateWithMicorservices/RealEstate.Web/Views/Transaction/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJhbnNhY3Rpb25cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Riinvest/VitiIII/Semestri6/TemaDiplomes/RealEstateMicroservices/RealEstateWithMicorservices/RealEstate.Web/Views/User/CreateUpdateUser.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxDcmVhdGVVcGRhdGVVc2VyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Riinvest/VitiIII/Semestri6/TemaDiplomes/RealEstateMicroservices/RealEstateWithMicorservices/RealEstate.Web/Views/User/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Riinvest/VitiIII/Semestri6/TemaDiplomes/RealEstateMicroservices/RealEstateWithMicorservices/RealEstate.Web/Views/_ViewImports.cshtml]

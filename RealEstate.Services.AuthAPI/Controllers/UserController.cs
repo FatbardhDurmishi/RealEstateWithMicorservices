@@ -18,7 +18,6 @@ namespace RealEstate.Services.AuthAPI.Controllers
         private readonly IUserRepository _userRepository;
         private readonly UserManager<ApplicationUser> _userManager;
 
-
         public UserController(IUserRepository userRepository, UserManager<ApplicationUser> userManager)
         {
             _userRepository = userRepository;
@@ -28,25 +27,29 @@ namespace RealEstate.Services.AuthAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<UserDto>> GetUsers(string? currentUserId)
         {
-            var users = await _userRepository.GetAll();
-            return Ok(users);
+            if (currentUserId == null)
+            {
+                var usersForAdmin = await _userRepository.GetAll();
+                return Ok(usersForAdmin);
+            }
+            var usersForCompany = await _userRepository.GetFirstOrDefault(x => x.Id == currentUserId);
+            return Ok(usersForCompany);
         }
 
         [HttpGet("{companyId}")]
         public async Task<ActionResult<UserDto>> GetUsersByCompanyId(string companyId)
         {
-            var users = await _userRepository.GetAll(x=>x.CompanyId==companyId);
+            var users = await _userRepository.GetAll(x => x.CompanyId == companyId);
             return Ok(users);
         }
 
         [HttpPost]
-        public async Task<ActionResult<UserDto>> CreateUser([FromBody] dynamic parameters)
+        public async Task<ActionResult<RegisterDto>> CreateUser([FromBody] dynamic parameters)
         {
-            if(parameters.User == null)
+            if (parameters.User == null)
             {
                 return BadRequest();
             }
-
 
             var user = new ApplicationUser
             {
@@ -67,8 +70,8 @@ namespace RealEstate.Services.AuthAPI.Controllers
             {
                 user.Role = parameters.User.Role;
             }
-            var result= await _userManager.CreateAsync(user, parameters.User.Password);
-            if(!result.Succeeded)
+            var result = await _userManager.CreateAsync(user, parameters.User.Password);
+            if (!result.Succeeded)
             {
                 return BadRequest();
             }
@@ -79,8 +82,8 @@ namespace RealEstate.Services.AuthAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<UserDto>> DeleteUser(string id)
         {
-            var user = await _userRepository.GetFirstOrDefault(x=>x.Id==id);
-            if(user == null)
+            var user = await _userRepository.GetFirstOrDefault(x => x.Id == id);
+            if (user == null)
             {
                 return NotFound();
             }
@@ -92,33 +95,40 @@ namespace RealEstate.Services.AuthAPI.Controllers
         public async Task<ActionResult<UserDto>> GetUser(string id)
         {
             var user = await _userRepository.GetFirstOrDefault(x => x.Id == id);
-            if(user == null)
+            if (user == null)
             {
                 return NotFound();
             }
             return Ok(user);
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult<UserDto>> UpdateUser(string id, UserDto userDto)
+        [HttpPut]
+        public async Task<ActionResult<RegisterDto>> UpdateUser(RegisterDto registerDto)
         {
-
-            var user = await _userRepository.GetFirstOrDefault(x => x.Id == id);
-            if(user == null)
+            var user = await _userRepository.GetFirstOrDefault(x => x.Id == registerDto.Id);
+            if (user == null)
             {
                 return NotFound();
             }
-            user.Name = userDto.Name;
-            user.Email = userDto.Email;
-            user.StreetAddres = userDto.StreetAddres;
-            user.City = userDto.City;
-            user.State = userDto.State;
-            user.PostalCode = userDto.PostalCode;
-            user.PhoneNumber = userDto.PhoneNumber;
-            user.Role = userDto.Role;
-            await _userRepository.Update(user);
+
+            user.Name = registerDto.Name;
+            user.Email = registerDto.Email;
+            user.StreetAddres = registerDto.StreetAddres;
+            user.City = registerDto.City;
+            user.State = registerDto.State;
+            user.PostalCode = registerDto.PostalCode;
+            user.PhoneNumber = registerDto.PhoneNumber;
+            user.Role = registerDto.Role;
+            var result = await _userManager.UpdateAsync(user);
+            if (result.Succeeded)
+            {
+                var roleResult = await _userManager.RemoveFromRoleAsync(user, registerDto.Role);
+                if (roleResult.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(user, user.Role);
+                }
+            }
             return Ok(user);
         }
-
     }
 }

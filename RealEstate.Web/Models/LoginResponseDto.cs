@@ -1,4 +1,6 @@
-﻿namespace RealEstate.Web.Models
+﻿using RealEstate.Web.Models.Dtos;
+
+namespace RealEstate.Web.Models
 {
     public class LoginResponseDto
     {

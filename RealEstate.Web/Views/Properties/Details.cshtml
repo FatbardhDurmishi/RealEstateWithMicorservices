@@ -1,0 +1,345 @@
+﻿@model PropertyDetailsViewModel
+@inject IUserService userService
+@using Microsoft.AspNetCore.Identity
+@using RealEstate.Web.Constants;
+@using RealEstate.Web.Services.IServices;
+
+
+@{
+    var open = "";
+    var content = "";
+    var showButton = "";
+    if (userService.GetCurrentUser()!=null)
+    {
+        open = "content";
+    }
+    else
+    {
+        open = "content open";
+    }
+
+    if (Model.Property.TransactionType == TransactionTypes.Rent)
+    {
+        content = "Rent Property";
+    }
+    else
+    {
+        content = "Buy Property";
+    }
+    if (userService.GetCurrentUser().Id == Model.Property.UserId || userService.GetCurrentUser().Id == Model.User.CompanyId || userService.GetCurrentUser().Role == RoleConstants.Role_User_Comp)
+    {
+        showButton = "hidden";
+    }
+
+
+
+}
+@if (userService.GetCurrentUser()!=null)
+{
+    <div class="@open">
+        <partial name="_Navbar" />
+
+        @*<div class="container-fluid pt-4 px-4 col-12">
+    <input type="hidden" asp-for="Id" />
+    <!-- Content Header (Page header) -->
+    <div class="row">
+    @* <div class="col-sm-6 col-xl-3 ">
+    @*<h1>Users</h1>
+    </div>*@
+        @*  <div class="col-6">
+    <ol class="breadcrumb float-sm-right col-6 text-start ">
+    <li class="breadcrumb-item"><a href="#">Home</a></li>
+    <li class="breadcrumb-item"><a href="#">Properties</a></li>
+    <li class="breadcrumb-item active">Details</li>
+    <li class="breadcrumb-item active">@Model.Id</li>
+    </ol>
+    </div>
+    <div class="col-6 text-end">
+    <a asp-area="Company" asp-action="Index" asp-controller="Properties" class="btn btn-secondary">Back to list</a>
+    </div>
+    </div>
+    </div>*@
+        <div class="row mb-3">
+            @* <div class="col-10">
+        <ol class="breadcrumb float-sm-right col-10 text-start">
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li class="breadcrumb-item"><a href="#">Users</a></li>
+        @if (string.IsNullOrEmpty(Model.Id))
+        {
+        <li class="breadcrumb-item active">Add</li>
+        }
+        else
+        {
+        <li class="breadcrumb-item">Edit</li>
+        <li class="breadcrumb-item active">Id</li>
+
+        }
+        </ol>
+        </div>*@
+            <div class="text-start">
+                <a asp-controller="Properties" asp-action="Index" class="btn btn-primary ">Back to List</a>
+            </div>
+        </div>
+        <div class="container-fluid pt-4  col-12">
+
+
+
+            @* <div class="row mb-2">
+        <div class="col-6 col-sm-3 text start">
+        <a asp-area="Company" asp-action="RequestProperty" asp-controller="Transaction" class="btn btn-primary">&nbsp;@content</a>
+        </div>
+        <div class="col-6 col-sm-3 text-end">
+        <a asp-area="Company" asp-action="RequestProperty" asp-controller="Transaction" class="btn btn-primary">&nbsp;@content</a>
+
+        </div>
+
+        </div>*@
+            <div class="d-flex justify-content-center align-items-center">
+                <div id="carouselExampleIndicators" style="width:500px" class="carousel slide mb-4 " data-bs-ride="true">
+
+                    <div class="carousel-inner">
+                        @{
+                            int i = 0;
+                        }
+                        @foreach (var url in Model.Property.BlobUrls)
+                        {
+                            i++;
+                            var active = i == 1 ? "active" : "";
+                            <div class="carousel-item w-100 @active">
+                                <img src="@url" class="d-block w-100 img-fluid" style="width:100%;aspect-ratio:1;height:auto;" alt="...">
+                            </div>
+                        }
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="false"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="false"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+            <div class="card container mb-4">
+                <div class="card-header bg-secondary text-light row">
+                    <div class="row">
+                        <div class="col-lg-8 col-md-8">
+                            <h1 class="text-white">@Model.Property.Name</h1>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="row">
+                            <div class="col-lg-8 col-md-6">
+                                <h1 class="text-white">@Model.Property.Price.ToString("c")</h1>
+                            </div>
+                            <div class="text-end col-lg-4 col-md-6 col-sm-1">
+                                <a  asp-action="AddTransaction" asp-controller="Transaction" asp-route-property="@Model.Property" class="btn btn-primary" style="visibility:@showButton;">&nbsp;@content</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="card-body row container">
+
+                    <div class="row mb-3">
+                        <div class="col-12 col-md-6">
+                            <h5 class="text-black">Description:</h5>
+                            <p class="text-black-50">@Model.Property.Description</p>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-lg-3 col-sm-6 mt-2">
+                            <h5 class="text-black">BedRooms: <span class="text-black-50">@Model.Property.BedRooms</span></h5>
+                        </div>
+                        <div class="col-lg-3 col-sm-6 mt-2">
+                            <h5 class="text-black">BathRooms: <span class="text-black-50">@Model.Property.BathRooms</span></h5>
+                        </div>
+                        <div class="col-lg-3 col-sm-6 mt-2">
+                            <h5 class="text-black">Area(in m&sup2;): <span class="text-black-50">@Model.Property.Area</span></h5>
+                        </div>
+                        <div class="col-lg-3 col-sm-6 mt-2">
+                            <h5 class="text-black">Status: <span class="text-black-50">@Model.Property.Status</span></h5>
+                        </div>
+                        <div class="col-lg-3 col-sm-6 mt-2">
+                            <h5 class="text-black">Property Type: <span class="text-black-50">@Model.Property.PropertyType.Name</span></h5>
+                        </div>
+                        <div class="col-lg-3 col-sm-6 mt-2">
+                            <h5 class="text-black">Transaction Type: <span class="text-black-50">@Model.Property.TransactionType</span></h5>
+                        </div>
+                    </div>
+                    <hr style="height:3px;border:none;color:#333;background-color:#333;" />
+
+                    <div class="col-12 col-md-6">
+                        <h1 class="text-black-50">Location</h1>
+                    </div>
+
+                    <div class="row  mb-3 mt-3">
+                        <div class="col-lg-3 col-sm-6 mt-2 ">
+                            <h5 class="text-black">State: <span class="text-black-50">@Model.Property.State</span></h5>
+                        </div>
+                        <div class="col-lg-3 col-sm-6 mt-2">
+                            <h5 class="text-black">City: <span class="text-black-50">@Model.Property.City</span></h5>
+                        </div>
+                        <div class="col-lg-3 col-sm-12 mt-2">
+                            <h5 class="text-black">StreetAddress: <span class="text-black-50">@Model.Property.StreetAddress</span></h5>
+                        </div>
+                    </div>
+                    <hr style="height:3px;border:none;color:#333;background-color:#333;" />
+                    <div class="col-12 col-md-6">
+                        <h1 class="text-black-50">Contact</h1>
+
+                    </div>
+
+                    <div class="row mb-3 mt-3">
+                        <div class="col-lg-3 col-sm-6 mt-2 ">
+                            <h5 class="text-black">Agent: <span class="text-black-50">@Model.User.Name</span></h5>
+                        </div>
+                        <div class="col-lg-5 col-sm-6 mt-2 ">
+                            <h5 class="text-black">Email: <span class="text-black-50">@Model.User.Email</span></h5>
+                        </div>
+                        <div class="col-lg-3 col-sm-6 mt-2 ">
+                            <h5 class="text-black text-start">PhoneNumber: <span class="text-black-50">@Model.User.PhoneNumber</span></h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="@open">
+        <partial name="_Navbar" />
+
+        @*<div class="container-fluid pt-4 px-4 col-12">
+    <input type="hidden" asp-for="Id" />
+    <!-- Content Header (Page header) -->
+    <div class="row">
+    @* <div class="col-sm-6 col-xl-3 ">
+    @*<h1>Users</h1>
+    </div>*@
+        @*  <div class="col-6">
+    <ol class="breadcrumb float-sm-right col-6 text-start ">
+    <li class="breadcrumb-item"><a href="#">Home</a></li>
+    <li class="breadcrumb-item"><a href="#">Properties</a></li>
+    <li class="breadcrumb-item active">Details</li>
+    <li class="breadcrumb-item active">@Model.Id</li>
+    </ol>
+    </div>
+    <div class="col-6 text-end">
+    <a asp-area="Company" asp-action="Index" asp-controller="Properties" class="btn btn-secondary">Back to list</a>
+    </div>
+    </div>
+    </div>*@
+
+        <div class="container-fluid pt-4  col-12">
+            <div class="d-flex justify-content-center align-items-center">
+                <div id="carouselExampleIndicators" style="width:500px" class="carousel slide mb-4 " data-bs-ride="true">
+
+                    <div class="carousel-inner">
+                        @{
+                            int i = 0;
+                        }
+                        @foreach (var url in Model.Property.BlobUrls)
+                        {
+                            i++;
+                            var active = i == 1 ? "active" : "";
+                            <div class="carousel-item w-100 @active">
+                                <img src="@url" class="d-block w-100 img-fluid" style="width:100%;aspect-ratio:1;height:auto;" alt="...">
+                            </div>
+                        }
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="false"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="false"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+            <div class="card container mb-4">
+                <div class="card-header bg-secondary text-light row">
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <h1 class="text-white">@Model.Property.Name</h1>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-12 col-md-6">
+                            <h1 class="text-white">@Model.Property.Price.ToString("c")</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body row container">
+
+                    <div class="row mb-3">
+                        <div class="col-12 col-md-6">
+                            <h5 class="text-black">Description:</h5>
+                            <p class="text-black-50">@Model.Property.Description</p>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-lg-3 col-sm-6 mt-2">
+                            <h5 class="text-black">BedRooms: <span class="text-black-50">@Model.Property.BedRooms</span></h5>
+                        </div>
+                        <div class="col-lg-3 col-sm-6 mt-2">
+                            <h5 class="text-black">BathRooms: <span class="text-black-50">@Model.Property.BathRooms</span></h5>
+                        </div>
+                        <div class="col-lg-3 col-sm-6 mt-2">
+                            <h5 class="text-black">Area(in m&sup2;): <span class="text-black-50">@Model.Property.Area</span></h5>
+                        </div>
+                        <div class="col-lg-3 col-sm-6 mt-2">
+                            <h5 class="text-black">Status: <span class="text-black-50">@Model.Property.Status</span></h5>
+                        </div>
+                        <div class="col-lg-3 col-sm-6 mt-2">
+                            <h5 class="text-black">Property Type: <span class="text-black-50">@Model.Property.PropertyType.Name</span></h5>
+                        </div>
+                        <div class="col-lg-3 col-sm-6 mt-2">
+                            <h5 class="text-black">Transaction Type: <span class="text-black-50">@Model.Property.TransactionType</span></h5>
+                        </div>
+                    </div>
+                    <hr style="height:3px;border:none;color:#333;background-color:#333;" />
+
+                    <div class="col-12 col-md-6">
+                        <h1 class="text-black-50">Location</h1>
+                    </div>
+
+                    <div class="row  mb-3 mt-3">
+                        <div class="col-lg-3 col-sm-6 mt-2 ">
+                            <h5 class="text-black">State: <span class="text-black-50">@Model.Property.State</span></h5>
+                        </div>
+                        <div class="col-lg-3 col-sm-6 mt-2">
+                            <h5 class="text-black">City: <span class="text-black-50">@Model.Property.City</span></h5>
+                        </div>
+                        <div class="col-lg-3 col-sm-12 mt-2">
+                            <h5 class="text-black">StreetAddress: <span class="text-black-50">@Model.Property.StreetAddress</span></h5>
+                        </div>
+                    </div>
+                    <hr style="height:3px;border:none;color:#333;background-color:#333;" />
+                    <div class="col-12 col-md-6">
+                        <h1 class="text-black-50">Contact</h1>
+
+                    </div>
+
+                    <div class="row mb-3 mt-3">
+                        <div class="col-lg-3 col-sm-6 mt-2 ">
+                            <h5 class="text-black">Agent: <span class="text-black-50">@Model.User.Name</span></h5>
+                        </div>
+                        <div class="col-lg-5 col-sm-6 mt-2 ">
+                            <h5 class="text-black">Email: <span class="text-black-50">@Model.User.Email</span></h5>
+                        </div>
+                        <div class="col-lg-3 col-sm-6 mt-2 ">
+                            <h5 class="text-black text-start">PhoneNumber: <span class="text-black-50">@Model.User.PhoneNumber</span></h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

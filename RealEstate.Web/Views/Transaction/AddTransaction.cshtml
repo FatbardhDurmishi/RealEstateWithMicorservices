@@ -1,0 +1,130 @@
+﻿@using RealEstate.Web.Constants;
+@model AddTranscationViewModel
+
+@{
+    var buttonName = "";
+    if (Model.Property.TransactionType == TransactionTypes.Rent)
+    {
+        buttonName = "Request to Rent Property";
+    }
+    else
+    {
+        buttonName = "Request to buy Property";
+    }
+}
+<div class="content">
+    <partial name="_Navbar" />
+    <div class="container-fluid pt-4 px-4 col-12 justify-content-between">
+        <div class="row mb-3">
+            @* <div class="col-10">
+            <ol class="breadcrumb float-sm-right col-10 text-start">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item"><a href="#">Users</a></li>
+            @if (string.IsNullOrEmpty(Model.Id))
+            {
+            <li class="breadcrumb-item active">Add</li>
+            }
+            else
+            {
+            <li class="breadcrumb-item">Edit</li>
+            <li class="breadcrumb-item active">Id</li>
+
+            }
+            </ol>
+            </div>*@
+            <div class="col-2 text-end">
+                <a asp-area="Company" asp-controller="Properties" asp-action="Details" asp-route-propertyId="Property.Id" class="btn btn-primary ">Back to Property</a>
+            </div>
+        </div>
+        <form asp-area="Company" asp-controller="Transaction" asp-action="AddTransaction" method="post">
+            <input type="hidden" asp-for="Transaction.Id" />
+            <input type="hidden" asp-for="Property.Id" />
+            <input type="hidden" asp-for="Property.UserId" />
+            <input type="hidden" asp-for="Property.TransactionType" />
+            <input type="hidden" asp-for="Property.PropertyType" />
+            <input type="hidden" asp-for="Property.Price" />
+            <input type="hidden" asp-for="Property.TransactionType" />
+            <div class="row">
+                <div class="form-floating mb-3 col-sm-6 ">
+                    <input readonly asp-for="Property.Name" class="form-control" id="floatingInput">
+                    <label for="floatingInput">Property Name</label>
+                </div>
+                <div class="form-floating mb-3 col-sm-6 ">
+                    <input readonly asp-for="Property.Price" class="form-control" id="floatingInput">
+                    <label for="floatingInput">Price</label>
+                </div>
+            </div>
+
+
+            <div class="col-lg-12 col-12">
+                <div class="form-floating mb-3">
+                    <textarea readonly rows="3" asp-for="Property.Description" class="form-control"></textarea>
+                    <label>Description</label>
+                </div>
+            </div>
+
+            <div class="d-flex row">
+                <div class="form-floating mb-3  col-sm-6 ">
+                    <input readonly asp-for="Property.BedRooms" class="form-control" id="floatingText" placeholder="text">
+                    <label for="floatingText">&nbsp; BedRooms</label>
+                </div>
+                <div class="form-floating mb-3 col-sm-6">
+                    <input readonly asp-for="Property.BathRooms" class="form-control" id="floatingText" placeholder="Password">
+                    <label for="floatingText">&nbsp; BathRooms</label>
+                </div>
+            </div>
+            <div class="row justify-content-between">
+                <div class="form-floating mb-3 col-sm-6">
+                    <input readonly asp-for="Property.Area" class="form-control" id="floatingText" placeholder="Password">
+                    <label for="floatingText">&nbsp; Area(in m&sup2;)</label>
+                </div>
+
+                <div class="form-floating mb-3 col-sm-6">
+                    <input readonly asp-for="Property.Status" class="form-control" id="floatingText" placeholder="Password">
+                    <label for="floatingText">&nbsp; Status</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-floating mb-3 col-sm-6">
+                    <input readonly asp-for="Property.City" class="form-control" id="floatingText" placeholder="Password">
+                    <label for="floatingText">&nbsp; City</label>
+                </div>
+                <div class="form-floating mb-3 col-sm-6">
+                    <input readonly asp-for="Property.StreetAddress" class="form-control" id="floatingText" placeholder="Password">
+                    <label for="floatingText">&nbsp; Street Address</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-floating mb-3 col-sm-6">
+                    <input readonly asp-for="Property.PropertyType.Name" class="form-control" id="floatingText" placeholder="Password">
+                    <label for="floatingText">&nbsp; Property Type</label>
+                </div>
+                <div class="form-floating mb-3 col-sm-6">
+                    <input readonly asp-for="Property.TransactionType" class="form-control" id="floatingText" placeholder="Password">
+                    <label for="floatingText">&nbsp;Transaction Type</label>
+                </div>
+            </div>
+            @if (Model.Property.TransactionType == TransactionTypes.Rent)
+            {
+                <div class="row">
+                    <div class="form-floating mb-3 col-sm-6">
+                        <input type="date" asp-for="Transaction.RentStartDate" class="form-control" id="floatingText" placeholder="Password">
+                        <label for="floatingText">&nbsp; Rent Start Date</label>
+                        <span asp-validation-for="Transaction.RentStartDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3 col-sm-6">
+                        <input type="date" asp-for="Transaction.RentEndDate" class="form-control" id="floatingText" placeholder="Password">
+                        <label for="floatingText">&nbsp; Rent End Date </label>
+                        <span asp-validation-for="Transaction.RentEndDate" class="text-danger"></span>
+
+                    </div>
+                </div>
+            }
+            <button type="submit" class="btn btn-primary py-3 w-100 mb-4 col-sm-6">@buttonName</button>
+        </form>
+    </div>
+</div>
+
+@*@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}*@

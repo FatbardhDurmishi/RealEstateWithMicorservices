@@ -13,8 +13,32 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "C:\\Riinvest\\VitiIII\\Semestri6\\TemaDiplomes\\RealEstateMicroservices\\RealEstateWithMicorservices\\RealEstate.Web\\wwwroot\\js\\help.js",
+      "PackagePath": "staticwebassets\\js\\help.js"
+    },
+    {
+      "Id": "C:\\Riinvest\\VitiIII\\Semestri6\\TemaDiplomes\\RealEstateMicroservices\\RealEstateWithMicorservices\\RealEstate.Web\\wwwroot\\js\\properties.js",
+      "PackagePath": "staticwebassets\\js\\properties.js"
+    },
+    {
+      "Id": "C:\\Riinvest\\VitiIII\\Semestri6\\TemaDiplomes\\RealEstateMicroservices\\RealEstateWithMicorservices\\RealEstate.Web\\wwwroot\\js\\propertyTypes.js",
+      "PackagePath": "staticwebassets\\js\\propertyTypes.js"
+    },
+    {
       "Id": "C:\\Riinvest\\VitiIII\\Semestri6\\TemaDiplomes\\RealEstateMicroservices\\RealEstateWithMicorservices\\RealEstate.Web\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
+    },
+    {
+      "Id": "C:\\Riinvest\\VitiIII\\Semestri6\\TemaDiplomes\\RealEstateMicroservices\\RealEstateWithMicorservices\\RealEstate.Web\\wwwroot\\js\\transactions.js",
+      "PackagePath": "staticwebassets\\js\\transactions.js"
+    },
+    {
+      "Id": "C:\\Riinvest\\VitiIII\\Semestri6\\TemaDiplomes\\RealEstateMicroservices\\RealEstateWithMicorservices\\RealEstate.Web\\wwwroot\\js\\transactiontTypes.js",
+      "PackagePath": "staticwebassets\\js\\transactiontTypes.js"
+    },
+    {
+      "Id": "C:\\Riinvest\\VitiIII\\Semestri6\\TemaDiplomes\\RealEstateMicroservices\\RealEstateWithMicorservices\\RealEstate.Web\\wwwroot\\js\\user.js",
+      "PackagePath": "staticwebassets\\js\\user.js"
     },
     {
       "Id": "C:\\Riinvest\\VitiIII\\Semestri6\\TemaDiplomes\\RealEstateMicroservices\\RealEstateWithMicorservices\\RealEstate.Web\\wwwroot\\lib\\bootstrap\\LICENSE",

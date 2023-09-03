@@ -2,17 +2,19 @@
 using Microsoft.AspNetCore.Mvc;
 using RealEstate.Web.Constants;
 using RealEstate.Web.Models;
+using RealEstate.Web.Services.IServices;
 
 namespace RealEstate.Web.Controllers
 {
     public class AccountController : Controller
     {
-
         private readonly HttpClient _httpClient;
+        private readonly IUserService _userService;
 
-        public AccountController(HttpClient httpClient)
+        public AccountController(HttpClient httpClient, IUserService userService)
         {
             _httpClient = httpClient;
+            _userService = userService;
         }
 
         [HttpGet]
@@ -32,10 +34,9 @@ namespace RealEstate.Web.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     var loginResponse = await response.Content.ReadFromJsonAsync<LoginResponseDto>();
+                    _userService.SetCurrentUser(loginResponse.User);
 
-                    Response.Cookies.Append("token", loginResponse.Token);
-
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Properties");
                 }
             }
             else
@@ -47,16 +48,15 @@ namespace RealEstate.Web.Controllers
             return View(model);
         }
 
-
         [HttpGet]
-        public IActionResult Register(RegisterViewModel model)
+        public IActionResult Register()
         {
-            return View(model);
+            return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RegisterPost(RegisterViewModel model)
+        public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -74,11 +74,10 @@ namespace RealEstate.Web.Controllers
             return View(model);
         }
 
-
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
-            Response.Cookies.Delete("token");
+            _userService.RemoveCurrentUser();
             await HttpContext.SignOutAsync();
             return RedirectToAction(nameof(Login));
         }

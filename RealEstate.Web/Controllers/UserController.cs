@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RealEstate.Web.Constants;
 using RealEstate.Web.Models;
+using RealEstate.Web.Models.Dtos;
+using RealEstate.Web.Services.IServices;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace RealEstate.Web.Controllers
@@ -8,10 +10,12 @@ namespace RealEstate.Web.Controllers
     public class UserController : Controller
     {
         private readonly HttpClient _httpClient;
+        private readonly IUserService _userService;
 
-        public UserController(HttpClient httpClient)
+        public UserController(HttpClient httpClient, IUserService userService)
         {
             _httpClient = httpClient;
+            _userService = userService;
         }
 
         public IActionResult Index()
@@ -20,10 +24,35 @@ namespace RealEstate.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult CreateUser()
+        public async Task<IActionResult> CreateUser(string? id)
         {
-            RegisterViewModel model = new RegisterViewModel();
-            return View(model);
+            if (id == null)
+            {
+                return View();
+            }
+            var response = await _httpClient.GetAsync($"{APIBaseUrls.AuthAPIBaseUrl}api/user/GetUser/{id}");
+            if (response.IsSuccessStatusCode)
+            {
+                var user = await response.Content.ReadFromJsonAsync<RegisterViewModel>();
+                var model = new RegisterViewModel
+                {
+                    Id = user.Id,
+                    Name = user.Name,
+                    Email = user.Email,
+                    PhoneNumber = user.PhoneNumber,
+                    Role = user.Role,
+                    StreetAddres = user.StreetAddres,
+                    City = user.City,
+                    State = user.State,
+                    PostalCode = user.PostalCode
+                };
+
+                return View(model);
+            }
+            else
+            {
+                return View();
+            }
         }
 
         [HttpPost]
@@ -31,13 +60,8 @@ namespace RealEstate.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                string token = Request.Cookies["token"];
-
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var jwtSecurityToken = tokenHandler.ReadJwtToken(token);
-
-                var currentUserRole = jwtSecurityToken.Claims.First(x => x.Type == "Role").Value;
-                var currentUserId = jwtSecurityToken.Claims.First(x => x.Type == "Sub").Value;
+                var currentUserRole = _userService.GetCurrentUser().Role;
+                var currentUserId = _userService.GetCurrentUser().Id;
 
                 var parameters = new
                 {
@@ -46,8 +70,7 @@ namespace RealEstate.Web.Controllers
                     CurrentUserId = currentUserId
                 };
 
-
-                var response = await _httpClient.PostAsJsonAsync("api/user/CreateUser", parameters);
+                var response = await _httpClient.PostAsJsonAsync($"{APIBaseUrls.AuthAPIBaseUrl}api/user/CreateUser", parameters);
                 if (response.IsSuccessStatusCode)
                 {
                     return RedirectToAction(nameof(Index));
@@ -61,20 +84,34 @@ namespace RealEstate.Web.Controllers
             return View(model);
         }
 
+        [HttpPut]
+        public async Task<IActionResult> UpdateUser(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = await _httpClient.PutAsJsonAsync($"{APIBaseUrls.AuthAPIBaseUrl}api/user/UpdateUser", model);
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("", "Invalid attempt");
+                return View(model);
+            }
+            return View(model);
+        }
+
         #region API CALLS
 
         [HttpGet]
         public async Task<IActionResult> GetUsersJson()
         {
-            string token = Request.Cookies["token"];
+            var currentUserRole = _userService.GetCurrentUser().Role;
+            var currentUserId = _userService.GetCurrentUser().Id;
 
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var jwtSecurityToken = tokenHandler.ReadJwtToken(token);
-
-            var currentUserRole = jwtSecurityToken.Claims.First(x => x.Type == "Role").Value;
-            var currentUserId = jwtSecurityToken.Claims.First(x => x.Type == "Sub").Value;
-
-            if(currentUserRole == RoleConstants.Role_Admin)
+            if (currentUserRole == RoleConstants.Role_Admin)
             {
                 var response = await _httpClient.GetAsync($"{APIBaseUrls.AuthAPIBaseUrl}api/user/GetUsers");
                 if (response.IsSuccessStatusCode)
@@ -93,9 +130,8 @@ namespace RealEstate.Web.Controllers
                 }
             }
             return View();
-
         }
 
-        #endregion
+        #endregion API CALLS
     }
 }

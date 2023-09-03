@@ -1,7 +1,11 @@
+using RealEstate.Web.Services;
+using RealEstate.Web.Services.IServices;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddHttpClient();
 var app = builder.Build();

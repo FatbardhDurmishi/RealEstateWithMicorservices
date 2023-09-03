@@ -7,6 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\js\help.js" />
+    <None Include="wwwroot\js\properties.js" />
+    <None Include="wwwroot\js\propertyTypes.js" />
+    <None Include="wwwroot\js\transactions.js" />
+    <None Include="wwwroot\js\transactiontTypes.js" />
+    <None Include="wwwroot\js\user.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.Rest.ClientRuntime" Version="2.3.24" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.10.0" />
   </ItemGroup>

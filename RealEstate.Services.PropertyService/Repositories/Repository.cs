@@ -9,6 +9,7 @@ namespace RealEstate.Services.PropertyService.Repositories
     {
         private readonly AppDbContext _db;
         internal DbSet<T> dbSet { get; set; }
+
         public Repository(AppDbContext db)
         {
             _db = db;
@@ -28,7 +29,6 @@ namespace RealEstate.Services.PropertyService.Repositories
             if (filter != null)
             {
                 query = query.Where(filter);
-
             }
             if (includeProperties != null)
             {
@@ -78,7 +78,6 @@ namespace RealEstate.Services.PropertyService.Repositories
             }
             catch (Exception e)
             {
-
                 throw e;
             }
         }
@@ -92,7 +91,6 @@ namespace RealEstate.Services.PropertyService.Repositories
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
@@ -106,7 +104,6 @@ namespace RealEstate.Services.PropertyService.Repositories
             }
             catch (Exception)
             {
-
                 throw;
             }
         }

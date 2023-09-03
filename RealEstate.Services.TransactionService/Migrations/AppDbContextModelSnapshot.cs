@@ -60,12 +60,11 @@ namespace RealEstate.Services.TransactionService.Migrations
                     b.Property<decimal?>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("TransactionTypeId")
-                        .HasColumnType("int");
+                    b.Property<string>("TransactionType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("TransactionTypeId");
 
                     b.ToTable("Transactions");
                 });
@@ -86,20 +85,6 @@ namespace RealEstate.Services.TransactionService.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TransactionTypes");
-                });
-
-            modelBuilder.Entity("RealEstate.Services.TransactionService.Models.Transaction", b =>
-                {
-                    b.HasOne("RealEstate.Services.TransactionService.Models.TransactionType", "TransactionType")
-                        .WithMany("Transactions")
-                        .HasForeignKey("TransactionTypeId");
-
-                    b.Navigation("TransactionType");
-                });
-
-            modelBuilder.Entity("RealEstate.Services.TransactionService.Models.TransactionType", b =>
-                {
-                    b.Navigation("Transactions");
                 });
 #pragma warning restore 612, 618
         }

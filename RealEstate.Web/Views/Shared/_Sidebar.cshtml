@@ -1,4 +1,6 @@
 ﻿@using RealEstate.Web.Constants;
+@using RealEstate.Web.Services.IServices;
+@inject IUserService userService
 
 <div class="sidebar pe-4 pb-3">
     <nav class="navbar bg-light navbar-light">
@@ -16,24 +18,24 @@
             </div>
         </div>
         <div class="navbar-nav w-100">
-            @if ("Admi" == RoleConstants.Role_Admin)
+            @if (userService.GetCurrentUser().Role == RoleConstants.Role_Admin)
             {
-                <a asp-area="Admin" asp-controller="User" asp-action="Index" class="nav-item nav-link"><i class="nav-icon fas fa-user me-2"></i>Users</a>
-                <a asp-area="Admin" asp-controller="PropertyTypes" asp-action="Index" class="nav-item nav-link"><i class="fa fa-layer-group me-2"></i>PropertyTypes</a>
-                <a asp-area="Admin" asp-controller="TransactionTypes" asp-action="Index" class="nav-item nav-link"><i class="fa fa-layer-group me-2"></i>TransactionTypes</a>
+                <a  asp-controller="User" asp-action="Index" class="nav-item nav-link"><i class="nav-icon fas fa-user me-2"></i>Users</a>
+                <a  asp-controller="PropertyTypes" asp-action="Index" class="nav-item nav-link"><i class="fa fa-layer-group me-2"></i>PropertyTypes</a>
+                @* <a asp-area="Admin" asp-controller="TransactionTypes" asp-action="Index" class="nav-item nav-link"><i class="fa fa-layer-group me-2"></i>TransactionTypes</a> *@
             }
 
-            @if ("Roli userit "  == RoleConstants.Role_User_Indi || "Roli userit" == RoleConstants.Role_User_Comp)
+            @if (userService.GetCurrentUser().Role == RoleConstants.Role_User_Indi || "Roli userit" == RoleConstants.Role_User_Comp)
             {
-                <a asp-area="Individual" asp-controller="Home" asp-action="Dashboard" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
-                <a asp-area="Company" asp-controller="Properties" asp-action="Index" class="nav-item nav-link"><i class="bi bi-house me-2"></i>MyProperties</a>
-                <a asp-area="Individual" asp-controller="Home" asp-action="Index" class="nav-item nav-link"><i class="bi bi-house me-2"></i>Properties</a>
-                <a asp-area="Company" asp-controller="Transaction" asp-action="Index" class="nav-item nav-link"><i class="fa-sharp fa-solid fa-euro-sign"></i>Transactions</a>
+                <a asp-controller="Home" asp-action="Dashboard" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+                <a  asp-controller="Properties" asp-action="Index" class="nav-item nav-link"><i class="bi bi-house me-2"></i>MyProperties</a>
+                <a  asp-controller="Home" asp-action="Index" class="nav-item nav-link"><i class="bi bi-house me-2"></i>Properties</a>
+                <a asp-controller="Transaction" asp-action="Index" class="nav-item nav-link"><i class="fa-sharp fa-solid fa-euro-sign"></i>Transactions</a>
 
             }
-            @if ("Roli userit " == RoleConstants.Role_User_Comp)
+            @if (userService.GetCurrentUser().Role == RoleConstants.Role_User_Comp)
             {
-                <a asp-area="Admin" asp-controller="User" asp-action="Index" class="nav-item nav-link"><i class="nav-icon fas fa-user me-2"></i>Agents</a>
+                <a  asp-controller="User" asp-action="Index" class="nav-item nav-link"><i class="nav-icon fas fa-user me-2"></i>Agents</a>
             }
 
 

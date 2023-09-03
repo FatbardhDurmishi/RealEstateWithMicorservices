@@ -1,8 +1,11 @@
 @using Microsoft.AspNetCore.Identity
+@using RealEstate.Web.Services.IServices;
+@inject IUserService userService
+
 
 
 @* duhet me kshyr current user a osht nul qe me dit osht login a jo *@
-@if (1==2)
+@if (userService.GetCurrentUser()!=null)
 {
     <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-2">
         <a href="#" class="sidebar-toggler flex-shrink-0">
@@ -12,7 +15,7 @@
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                     <img class="rounded-circle me-lg-2" src="~/theme/img/default-profile-picture.jpg" alt="" style="width: 40px; height: 40px;">
-                    <span class="d-none d-lg-inline-flex">Emri Userit</span>
+                    <span class="d-none d-lg-inline-flex">@userService.GetCurrentUser().Name</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
                     <form asp-area="Individual" asp-action="Logout" asp-controller="Account" method="post">
@@ -28,8 +31,8 @@ else
 {
     <nav class="navbar navbar-expand navbar-light sticky-top px-4 py-2 bg-dark">
 
-        <a class="nav-link text-primary" asp-area="Individual" asp-controller="Home" asp-action="Index">Properties</a>
-       
+        <a class="nav-link text-primary"  asp-controller="Home" asp-action="Index">Properties</a>
+
         <ul class="navbar-nav align-items-center ms-auto">
             <li class="nav-item">
                 <a class="nav-link text-primary"  asp-controller="Account" asp-action="Register">Register</a>

@@ -1,0 +1,77 @@
+﻿@section Styles{
+    <!-- DataTables -->
+    <link rel="stylesheet" href="~/theme/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/theme/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/theme/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+
+    <link rel="stylesheet" href="//cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" />
+    <!-- jQuery Confirm -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+}
+<div class="content">
+    <partial name="_Navbar" />
+    <div class="container-fluid pt-4 px-4 col-12">
+        <!-- Content Header (Page header) -->
+        <div class="row">
+            @* <div class="col-sm-6 col-xl-3 ">
+            @*<h1>Users</h1>
+            </div>*@
+            <div class="col-6">
+                <ol class="breadcrumb float-sm-right col-6 text-start ">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Transactions</li>
+                </ol>
+            </div>
+            @* <div class="col-6 text-end">
+            <a asp-area="Transaction" asp-action="Upsert" asp-controller="Properties" class="btn btn-primary"><i class="bi bi-plus-circle"></i>&nbsp; Add Property</a>
+            </div>*@
+        </div>
+    </div>
+
+    <div class="container-fluid pt-4 px-4 col-12">
+        <!-- Main content -->
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Transactions List</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="transactions-list" class="table table-bordered table-striped table-hover">
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+        <!-- /.container-fluid -->
+    </div>
+</div>
+
+<!-- /.content -->
+@section Scripts{
+    <script src="~/theme/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/theme/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/theme/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/theme/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/theme/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/theme/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/theme/plugins/jszip/jszip.min.js"></script>
+    <script src="~/theme/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="~/theme/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="~/theme/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/theme/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="~/theme/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <script src="//cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://kit.fontawesome.com/a68cad6f07.js" crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <!-- jQuery Confirm -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+    <script src="~/js/transactions.js"></script>
+    }
