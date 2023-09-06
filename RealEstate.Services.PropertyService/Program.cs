@@ -13,9 +13,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddControllers();
 
-builder.Services.AddScoped<IPropertyRepository, PropertyRepository>();
-builder.Services.AddScoped<IPropertyTypeRepository, PropertyTypeRepository>();
-builder.Services.AddScoped<IPropertyImageRepository, PropertyImageRepository>();
+builder.Services.AddTransient<IPropertyRepository, PropertyRepository>();
+builder.Services.AddTransient<IPropertyTypeRepository, PropertyTypeRepository>();
+builder.Services.AddTransient<IPropertyImageRepository, PropertyImageRepository>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

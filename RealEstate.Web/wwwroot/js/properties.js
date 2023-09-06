@@ -19,7 +19,7 @@ function loadDataTable() {
         //"filter": true,
         //"orderMulti": false,
         ajax: {
-            url: '/Company/Properties/GetProperties',
+            url: '/Properties/GetProperties',
             dataSrc: ""
         },
         columns: [
@@ -39,7 +39,7 @@ function loadDataTable() {
                           <div class="w-75 btn-group align-items-center" role="group">
                              <a href="/Properties/AddProperty?id=${data.id}" class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i></a>
                              <a onClick=Delete('/Properties/DeleteProperty/${data.id}') class="btn btn-danger mx-2"><i class="bi bi-trash-fill"></i></a>
-                             <a href="/Company/Properties/Details?propertyId=${data.id}" class="btn btn-secondary mx-2"><i class="fa-solid fa-circle-info"></i></a>
+                             <a href="/Properties/Details?propertyId=${data.id}" class="btn btn-secondary mx-2"><i class="fa-solid fa-circle-info"></i></a>
                           </div>
                             `
                     } else {

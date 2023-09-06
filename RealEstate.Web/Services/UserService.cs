@@ -1,5 +1,6 @@
 ﻿using RealEstate.Web.Models.Dtos;
 using RealEstate.Web.Services.IServices;
+using System.Runtime.CompilerServices;
 
 namespace RealEstate.Web.Services
 {
@@ -9,11 +10,24 @@ namespace RealEstate.Web.Services
         {
         }
 
-        public UserDto? CurrentUser { get; set; }
+        private UserDto? CurrentUser { get; set; }
 
         public UserDto GetCurrentUser()
         {
+            if (CurrentUser == null)
+            {
+                return null;
+            }
             return CurrentUser;
+        }
+
+        public string GetCurrentUserRole()
+        {
+            if (CurrentUser == null)
+            {
+                return " ";
+            }
+            return CurrentUser.Role;
         }
 
         public void RemoveCurrentUser()

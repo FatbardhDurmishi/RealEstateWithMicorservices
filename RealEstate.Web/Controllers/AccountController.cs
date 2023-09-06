@@ -78,7 +78,6 @@ namespace RealEstate.Web.Controllers
         public async Task<IActionResult> Logout()
         {
             _userService.RemoveCurrentUser();
-            await HttpContext.SignOutAsync();
             return RedirectToAction(nameof(Login));
         }
     }

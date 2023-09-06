@@ -24,7 +24,7 @@ namespace RealEstate.Services.AuthAPI.Controllers
             _userManager = userManager;
         }
 
-        [HttpGet]
+        [HttpGet("GetUsers")]
         public async Task<ActionResult<UserDto>> GetUsers(string? currentUserId)
         {
             if (currentUserId == null)
@@ -91,7 +91,7 @@ namespace RealEstate.Services.AuthAPI.Controllers
             return Ok(user);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("GetUser/{id}")]
         public async Task<ActionResult<UserDto>> GetUser(string id)
         {
             var user = await _userRepository.GetFirstOrDefault(x => x.Id == id);

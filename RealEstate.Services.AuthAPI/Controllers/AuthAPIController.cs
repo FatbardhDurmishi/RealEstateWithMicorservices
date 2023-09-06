@@ -4,6 +4,7 @@ using RealEstate.Services.AuthAPI.Constants;
 using RealEstate.Services.AuthAPI.Data;
 using RealEstate.Services.AuthAPI.Models;
 using RealEstate.Services.AuthAPI.Models.Dto;
+using RealEstate.Services.AuthAPI.Repositories.IRepository;
 using RealEstate.Services.AuthAPI.Service.IService;
 
 namespace RealEstate.Services.AuthAPI.Controllers
@@ -16,12 +17,15 @@ namespace RealEstate.Services.AuthAPI.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
-        public AuthAPIController(AppDbContext context, UserManager<ApplicationUser> userManager, IJwtTokenGenerator jwtTokenGenerator, RoleManager<IdentityRole> roleManager)
+        private readonly IUserRepository _userRepository;
+
+        public AuthAPIController(AppDbContext context, UserManager<ApplicationUser> userManager, IJwtTokenGenerator jwtTokenGenerator, RoleManager<IdentityRole> roleManager, IUserRepository userRepository)
         {
             _context = context;
             _userManager = userManager;
             _jwtTokenGenerator = jwtTokenGenerator;
             _roleManager = roleManager;
+            _userRepository = userRepository;
         }
 
         [HttpPost("register")]
@@ -77,21 +81,38 @@ namespace RealEstate.Services.AuthAPI.Controllers
                 }
                 else
                 {
-
                     return BadRequest(result.Errors);
                 }
             }
             catch (Exception ex)
             {
-
             }
             return BadRequest();
-
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
+            var users = _context.ApplicationUsers.ToList();
+            if (users.Count() < 3)
+            {
+                var adminUser = new ApplicationUser { UserName = "admin@gmail.com", Email = "admin@gmail.com", EmailConfirmed = true };
+
+                adminUser.StreetAddres = "Admin";
+                adminUser.City = "Admin";
+                adminUser.State = "Admin";
+                adminUser.PostalCode = "Admin";
+                adminUser.Name = "Admin";
+                adminUser.PhoneNumber = "Admin";
+                adminUser.Role = "Admin";
+
+                var result = await _userManager.CreateAsync(adminUser, "Admin.123");
+
+                if (result.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(adminUser, RoleConstants.Role_Admin);
+                }
+            }
 
             var user = _context.ApplicationUsers.FirstOrDefault(x => x.Email.ToLower() == loginDto.Email.ToLower());
 
@@ -125,8 +146,5 @@ namespace RealEstate.Services.AuthAPI.Controllers
 
             return Ok(loginResponseDto);
         }
-
-
-        
     }
 }

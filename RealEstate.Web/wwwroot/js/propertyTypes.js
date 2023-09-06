@@ -5,7 +5,7 @@ $(document).ready(function () {
 });
 
 function loadDataTable() {
-    dataTable = $("#propertiestypes-list").DataTable({
+    dataTable = $("#propertyTypes-list").DataTable({
         buttons: [
             'copy', 'excel', 'pdf'
         ],
@@ -19,30 +19,28 @@ function loadDataTable() {
         //"filter": true,
         //"orderMulti": false,
         ajax: {
-            url: '/Admin/PropertyTypes/GetPropertyTypesJson',
+            url: '/PropertyTypes/GetPropertyTypes',
             dataSrc: ""
         },
         columns: [
             { data: "id", title: "Id" },
-            { data: "name", title: "Name"},
+            { data: "name", title: "Name" },
             {
                 data: "id",
                 render: function (data) {
                     return `
                           <div class=" btn-group align-items-center" role="group">
-                            <a href="/Admin/PropertyTypes/Upsert?id=${data}" class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i></a>
-                            <a onClick=Delete('/Admin/PropertyTypes/Delete/${data}') class="btn btn-danger mx-2"><i class="bi bi-trash-fill"></i></a>
+                            <a href="/PropertyTypes/AddPropertyType?id=${data}" class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i></a>
+                            <a onClick=Delete('/PropertyTypes/Delete/${data}') class="btn btn-danger mx-2"><i class="bi bi-trash-fill"></i></a>
                         </div>
                             `
                 },
-                width:"10%"
+                width: "10%"
             },
 
         ]
     });
-
 }
-
 
 function Delete(url) {
     Swal.fire({

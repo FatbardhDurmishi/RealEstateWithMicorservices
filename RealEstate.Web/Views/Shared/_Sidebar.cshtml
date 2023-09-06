@@ -13,8 +13,8 @@
                 <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
             </div>
             <div class="ms-3">
-                <h6 class="mb-0">emri userit</h6>
-                <span class="mt-2">Roli userit</span>
+                <h6 class="mb-0">@userService.GetCurrentUser().Name</h6>
+                <span class="mt-2">userService.GetCurrentUser().Role</span>
             </div>
         </div>
         <div class="navbar-nav w-100">
@@ -37,9 +37,6 @@
             {
                 <a  asp-controller="User" asp-action="Index" class="nav-item nav-link"><i class="nav-icon fas fa-user me-2"></i>Agents</a>
             }
-
-
-
         </div>
     </nav>
 </div>

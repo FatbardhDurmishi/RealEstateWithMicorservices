@@ -35,36 +35,36 @@ namespace RealEstate.Services.PropertyService.Controllers
             _propertyImageRepository = propertyImageRepository;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddProperty([FromBody] dynamic parameters)
+        [HttpPost("AddProperty")]
+        public async Task<IActionResult> AddProperty([FromForm] AddPropertyDto addPropertyDto)
         {
-            if (parameters.addPropertyDto == null)
+            if (addPropertyDto == null)
             {
                 return BadRequest();
             }
-            if (parameters.AddPropertyDto.CoverImage != null)
+            if (addPropertyDto.CoverImage != null)
             {
-                parameters.AddPropertyDto.Property.CoverImageUrl = parameters.AddPropertyDto.CoverImage.FileName;
-                await UploadToBlob(containerClient, parameters.AddPropertyDto.CoverImage);
+                addPropertyDto.Property.CoverImageUrl = addPropertyDto.CoverImage.FileName;
+                await UploadToBlob(containerClient, addPropertyDto.CoverImage);
             }
-            if (parameters.AddPropertyDto.PropertyImages != null)
+            if (addPropertyDto.PropertyImages != null)
             {
-                foreach (var image in parameters.AddPropertyDto.PropertyImages)
+                foreach (var image in addPropertyDto.PropertyImages)
                 {
                     var Image = new PropertyImage
                     {
                         ImageUrl = image.FileName
                     };
-                    parameters.AddPropertyDto.Property.PropertyImages.Add(Image);
+                    addPropertyDto.Property.PropertyImages.Add(Image);
                     await UploadToBlob(containerClient, image);
                 }
             }
-            parameters.AddPropertyDto.Property.Status = PropertyStatus.Free;
-            if (parameters.CurrentUserRole == RoleConstants.Role_User_Indi)
+            addPropertyDto.Property.Status = PropertyStatus.Free;
+            if (addPropertyDto.CurrentUserRole == RoleConstants.Role_User_Indi)
             {
-                parameters.AddPropertyDto.Property.UserId = parameters.CurrentUserId;
+                addPropertyDto.Property.UserId = addPropertyDto.CurrentUserId;
             }
-            await _propertyRepository.Add(parameters.AddPropertyDto.Property);
+            await _propertyRepository.Add(addPropertyDto.Property);
             return Ok();
         }
 
@@ -138,7 +138,11 @@ namespace RealEstate.Services.PropertyService.Controllers
                 {
                     property.CoverImageBlobUrl = await GetBlobUrl(containerClient, property.CoverImageUrl);
                 }
-                return Ok(properties);
+                if (properties != null)
+                {
+                    return Ok(properties);
+                }
+                return NoContent();
             }
             if (currentUserRole == RoleConstants.Role_User_Comp)
             {
@@ -147,19 +151,22 @@ namespace RealEstate.Services.PropertyService.Controllers
                 {
                     var users = await response.Content.ReadFromJsonAsync<List<UserDto>>();
                     var properties = await _propertyRepository.GetAll(x => users.Any(y => x.UserId == y.Id), includeProperties: "PropertyType");
-                    foreach (var property in properties)
+                    if (properties != null)
                     {
-                        property.CoverImageBlobUrl = await GetBlobUrl(containerClient, property.CoverImageUrl);
-                        foreach (var user in users)
+                        foreach (var property in properties)
                         {
-                            if (property.UserId == user.Id)
+                            property.CoverImageBlobUrl = await GetBlobUrl(containerClient, property.CoverImageUrl);
+                            foreach (var user in users)
                             {
-                                property.User = user;
+                                if (property.UserId == user.Id)
+                                {
+                                    property.User = user;
+                                }
                             }
                         }
+                        return Ok(properties);
                     }
-
-                    return Ok(properties);
+                    return NoContent();
                 }
                 else
                 {
@@ -173,15 +180,19 @@ namespace RealEstate.Services.PropertyService.Controllers
                 {
                     var users = response.Content.ReadFromJsonAsync<List<UserDto>>();
                     var properties = await _propertyRepository.GetAll(x => x.UserId == currentUserId, includeProperties: "PropertyType");
-                    foreach (var property in properties)
+                    if (properties != null)
                     {
-                        property.CoverImageBlobUrl = await GetBlobUrl(containerClient, property.CoverImageUrl);
-                        if (users.Result.Any(x => x.Id == property.UserId))
+                        foreach (var property in properties)
                         {
-                            property.User = users.Result.FirstOrDefault(x => x.Id == property.UserId);
+                            property.CoverImageBlobUrl = await GetBlobUrl(containerClient, property.CoverImageUrl);
+                            if (users.Result.Any(x => x.Id == property.UserId))
+                            {
+                                property.User = users.Result.FirstOrDefault(x => x.Id == property.UserId);
+                            }
                         }
+                        return Ok(properties);
                     }
-                    return Ok(properties);
+                    return NoContent();
                 }
                 else
                 {

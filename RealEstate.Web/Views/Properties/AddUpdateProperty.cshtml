@@ -12,6 +12,18 @@
 @{
     int k = 0;
 }
+
+@{
+    var action = string.Empty;
+    if (Model.Property.Id==0)
+    {
+        action = "AddProperty";
+    }
+    else
+    {
+        action = "UpdateProperty";
+    }
+}
 <div class="content">
     <partial name="_Navbar" />
     <div class="row">
@@ -41,10 +53,10 @@
                         </ol>
                     </div>
                     <div class="col-2 text-end">
-                        <a asp-area="Company" asp-controller="Properties" asp-action="Index" class="btn btn-primary ">Back to list</a>
+                        <a  asp-controller="Properties" asp-action="Index" class="btn btn-primary ">Back to list</a>
                     </div>
                 </div>
-                <form asp-area="Company" asp-controller="Properties" asp-action="Upsert" method="post" enctype="multipart/form-data">
+                <form asp-controller="Properties" asp-action="@action" method="post" enctype="multipart/form-data">
                     <input type="hidden" asp-for="Property.Id" />
                     <input type="hidden" asp-for="Property.CoverImageUrl" />
                     <input type="hidden" asp-for="Property.PropertyImages" />
@@ -119,7 +131,7 @@
                         </div>
 
                         <div class="form-floating mb-3 col-sm-6">
-                            <select asp-for="Property.PropertyType" asp-items="@Model.PropertyTypeList" class="form-select help-sidebar" data-title="Property Type" data-description="Select the Property type of the property" id="floatingInput"></select>
+                            <select asp-for="Property.PropertyTypeId" asp-items="@Model.PropertyTypeList" class="form-select help-sidebar" data-title="Property Type" data-description="Select the Property type of the property" id="floatingInput"></select>
                             <label for="floatingText">&nbsp; Property Type</label>
                             <span asp-validation-for="@Model.Property.PropertyType" class="text-danger"></span>
                         </div>

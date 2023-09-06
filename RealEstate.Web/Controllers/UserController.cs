@@ -28,7 +28,7 @@ namespace RealEstate.Web.Controllers
         {
             if (id == null)
             {
-                return View();
+                return View("CreateUpdateUser");
             }
             var response = await _httpClient.GetAsync($"{APIBaseUrls.AuthAPIBaseUrl}api/user/GetUser/{id}");
             if (response.IsSuccessStatusCode)
@@ -47,11 +47,11 @@ namespace RealEstate.Web.Controllers
                     PostalCode = user.PostalCode
                 };
 
-                return View(model);
+                return View("CreateUpdateUser", model);
             }
             else
             {
-                return View();
+                return View("CreateUpdateUser");
             }
         }
 
@@ -79,12 +79,12 @@ namespace RealEstate.Web.Controllers
             else
             {
                 ModelState.AddModelError("", "Invalid login attempt");
-                return View(model);
+                return View("CreateUpdateUser", model);
             }
-            return View(model);
+            return View("CreateUpdateUser", model);
         }
 
-        [HttpPut]
+        [HttpPost]
         public async Task<IActionResult> UpdateUser(RegisterViewModel model)
         {
             if (ModelState.IsValid)
@@ -98,9 +98,9 @@ namespace RealEstate.Web.Controllers
             else
             {
                 ModelState.AddModelError("", "Invalid attempt");
-                return View(model);
+                return View("CreateUpdateUser", model);
             }
-            return View(model);
+            return View("CreateUpdateUser", model);
         }
 
         #region API CALLS
@@ -117,7 +117,7 @@ namespace RealEstate.Web.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     var users = await response.Content.ReadFromJsonAsync<List<UserDto>>();
-                    return Json(new { data = users });
+                    return new JsonResult(users);
                 }
             }
             else
@@ -126,10 +126,10 @@ namespace RealEstate.Web.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     var users = await response.Content.ReadFromJsonAsync<List<UserDto>>();
-                    return Json(new { data = users });
+                    return new JsonResult(users);
                 }
             }
-            return View();
+            return new JsonResult(null);
         }
 
         #endregion API CALLS

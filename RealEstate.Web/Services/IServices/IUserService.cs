@@ -9,5 +9,7 @@ namespace RealEstate.Web.Services.IServices
         UserDto GetCurrentUser();
 
         void RemoveCurrentUser();
+
+        string GetCurrentUserRole();
     }
 }

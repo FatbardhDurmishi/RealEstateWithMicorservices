@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 using RealEstate.Web.Constants;
 using RealEstate.Web.Models;
 using RealEstate.Web.Models.Dtos;
 using RealEstate.Web.Services.IServices;
+using System.Net.Mime;
 
 namespace RealEstate.Web.Controllers
 {
@@ -31,13 +32,18 @@ namespace RealEstate.Web.Controllers
             var model = new AddPropertyViewModel();
             if (id == null)
             {
-                var usersResponse = await _httpClient.GetAsync($"{APIBaseUrls.AuthAPIBaseUrl}api/user/GetUsers");
-                if (usersResponse.IsSuccessStatusCode)
+                model.Property = new PropertyViewModel();
+                if (_userService.GetCurrentUser().Role == RoleConstants.Role_User_Comp)
                 {
-                    var users = await usersResponse.Content.ReadFromJsonAsync<List<UserDto>>();
-                    model.UsersList = users.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() });
+                    var usersResponse = await _httpClient.GetAsync($"{APIBaseUrls.AuthAPIBaseUrl}api/user/GetUsers/{_userService.GetCurrentUser().Id}");
+                    if (usersResponse.IsSuccessStatusCode)
+                    {
+                        var users = await usersResponse.Content.ReadFromJsonAsync<List<UserDto>>();
+                        model.UsersList = users.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() });
+                    }
                 }
-                var propertyTypesResponse = await _httpClient.GetAsync($"{APIBaseUrls.PropertyAPIBaseUrl}api/property/GetPropertyTypes");
+
+                var propertyTypesResponse = await _httpClient.GetAsync($"{APIBaseUrls.PropertyAPIBaseUrl}api/propertyTypes/GetPropertyTypes");
                 if (propertyTypesResponse.IsSuccessStatusCode)
                 {
                     var propertyTypes = await propertyTypesResponse.Content.ReadFromJsonAsync<List<PropertyType>>();
@@ -49,60 +55,91 @@ namespace RealEstate.Web.Controllers
                     Value = x.Name
                 });
 
-                return View(model);
+                return View("AddUpdateProperty", model);
             }
-            return View();
+            else
+            {
+                var response = await _httpClient.GetAsync($"{APIBaseUrls.PropertyAPIBaseUrl}api/property/GetPropertyById/{id}");
+                if (response.IsSuccessStatusCode)
+                {
+                    var property = await response.Content.ReadFromJsonAsync<PropertyViewModel>();
+                    model.Property = property;
+                    var usersResponse = await _httpClient.GetAsync($"{APIBaseUrls.AuthAPIBaseUrl}api/user/GetUsers");
+                    if (usersResponse.IsSuccessStatusCode)
+                    {
+                        var users = await usersResponse.Content.ReadFromJsonAsync<List<UserDto>>();
+                        model.UsersList = users.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() });
+                    }
+                    var propertyTypesResponse = await _httpClient.GetAsync($"{APIBaseUrls.PropertyAPIBaseUrl}api/propertyTypes/GetPropertyTypes");
+                    if (propertyTypesResponse.IsSuccessStatusCode)
+                    {
+                        var propertyTypes = await propertyTypesResponse.Content.ReadFromJsonAsync<List<PropertyType>>();
+                        model.PropertyTypeList = propertyTypes.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() });
+                    }
+                    model.Cities = CityConstants._cities.Select(x => new SelectListItem
+                    {
+                        Text = x.Name,
+                        Value = x.Name
+                    });
+                    return RedirectToAction("AddProperty", model);
+                }
+                else
+                {
+                    return RedirectToAction("AddProperty", model);
+                }
+            }
         }
 
         [HttpPost]
+        [RequestSizeLimit(long.MaxValue)]
         public async Task<IActionResult> AddProperty(AddPropertyViewModel model)
         {
             if (ModelState.IsValid)
             {
+                var currentUser = _userService.GetCurrentUser();
                 var addPropertyDto = new AddPropertyDto
                 {
                     Property = model.Property,
                     CoverImage = model.CoverImage,
-                    PropertyImages = model.PropertyImages
+                    PropertyImages = model.PropertyImages,
+                    CurrentUserId = currentUser.Id,
+                    CurrentUserRole = currentUser.Role
                 };
-                var currentUser = _userService.GetCurrentUser();
-                var parameters = new
-                {
-                    AddPropertyDto = addPropertyDto,
-                    CurrentUserRole = currentUser.Role,
-                    CurrentUserId = currentUser.Id
-                };
-                var response = await _httpClient.PostAsJsonAsync($"{APIBaseUrls.PropertyAPIBaseUrl}api/property/AddProperty", parameters);
+                //var parameters = new
+                //{
+                //    AddPropertyDto = addPropertyDto,
+                //    CurrentUserRole = currentUser.Role,
+                //    CurrentUserId = currentUser.Id
+                //};
+
+                var response = await _httpClient.PostAsJsonAsync($"{APIBaseUrls.PropertyAPIBaseUrl}api/property/AddProperty", addPropertyDto);
                 if (response.IsSuccessStatusCode)
                 {
                     return RedirectToAction("Index");
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Invalid login attempt");
-                    return View(model);
+                    ModelState.AddModelError("", "Invalid attempt");
+                    return RedirectToAction("AddProperty");
                 }
             }
             else
             {
-                ModelState.AddModelError("", "Invalid login attempt");
-                return View(model);
+                ModelState.AddModelError("", "Invalid attempt");
+                return RedirectToAction("AddProperty");
             }
         }
 
         [HttpGet]
         public async Task<IActionResult> GetProperties()
         {
+            var properties = new List<PropertyViewModel>();
             var response = await _httpClient.GetAsync($"{APIBaseUrls.PropertyAPIBaseUrl}api/property/GetProperties/{_userService.GetCurrentUser().Id}/{_userService.GetCurrentUser().Role}");
             if (response.IsSuccessStatusCode)
             {
-                var properties = await response.Content.ReadFromJsonAsync<List<PropertyViewModel>>();
-                return Json(new { data = properties });
+                properties = await response.Content.ReadFromJsonAsync<List<PropertyViewModel>>();
             }
-            else
-            {
-                return View();
-            }
+            return Json(new { data = properties });
         }
 
         [HttpDelete]

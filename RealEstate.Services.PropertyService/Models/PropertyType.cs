@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace RealEstate.Services.PropertyService.Models
 {
@@ -7,10 +8,12 @@ namespace RealEstate.Services.PropertyService.Models
     {
         [Key]
         public int Id { get; set; }
+
         [StringLength(50)]
         public string Name { get; set; } = null!;
 
         [InverseProperty("PropertyType")]
-        public virtual ICollection<Property> Properties { get; set; }
+        [ValidateNever]
+        public virtual ICollection<Property>? Properties { get; set; }
     }
 }
