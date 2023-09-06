@@ -102,7 +102,7 @@ namespace RealEstate.Services.AuthAPI.Controllers
             return Ok(user);
         }
 
-        [HttpPut]
+        [HttpPut("UpdateUser")]
         public async Task<ActionResult<RegisterDto>> UpdateUser(RegisterDto registerDto)
         {
             var user = await _userRepository.GetFirstOrDefault(x => x.Id == registerDto.Id);

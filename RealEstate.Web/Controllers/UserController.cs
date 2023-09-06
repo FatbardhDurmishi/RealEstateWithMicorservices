@@ -87,6 +87,8 @@ namespace RealEstate.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateUser(RegisterViewModel model)
         {
+            ModelState.Remove("Password");
+            ModelState.Remove("ConfirmPassword");
             if (ModelState.IsValid)
             {
                 var response = await _httpClient.PutAsJsonAsync($"{APIBaseUrls.AuthAPIBaseUrl}api/user/UpdateUser", model);
