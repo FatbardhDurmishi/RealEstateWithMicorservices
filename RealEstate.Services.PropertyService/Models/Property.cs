@@ -44,8 +44,6 @@ namespace RealEstate.Services.PropertyService.Models
 
         public int? PropertyTypeId { get; set; }
 
-        [ForeignKey("PropertyTypeId")]
-        [InverseProperty("Properties")]
         public virtual PropertyType? PropertyType { get; set; }
 
         [InverseProperty("Property")]
@@ -55,7 +53,7 @@ namespace RealEstate.Services.PropertyService.Models
         public List<string> BlobUrls { get; set; } = new List<string>();
 
         [NotMapped]
-        public string CoverImageBlobUrl { get; set; }
+        public string CoverImageBlobUrl { get; set; } = null!;
 
         [NotMapped]
         public bool ShowButtons = false;

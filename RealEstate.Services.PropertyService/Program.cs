@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using RealEstate.Services.PropertyService.Data;
 using RealEstate.Services.PropertyService.Repositories;
 using RealEstate.Services.PropertyService.Repositories.IRepositories;
+using Newtonsoft.Json;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +13,15 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-builder.Services.AddControllers();
+builder.Services.AddHttpClient();
+
+builder.Services.AddControllers(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true).
+    AddNewtonsoftJson(options =>
+    {
+        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+        options.AllowInputFormatterExceptionMessages = false;
+    }
+);
 
 builder.Services.AddTransient<IPropertyRepository, PropertyRepository>();
 builder.Services.AddTransient<IPropertyTypeRepository, PropertyTypeRepository>();

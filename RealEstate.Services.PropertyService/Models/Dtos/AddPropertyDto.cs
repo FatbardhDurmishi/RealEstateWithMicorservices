@@ -2,10 +2,8 @@
 {
     public class AddPropertyDto
     {
-        public Property Property { get; set; }
-        public IFormFile CoverImage { get; set; }
-        public IFormFileCollection PropertyImages { get; set; }
-        public string CurrentUserId { get; set; }
-        public string CurrentUserRole { get; set; }
+        public PropertyDto Property { get; set; } = null!;
+        public string CurrentUserId { get; set; } = null!;
+        public string CurrentUserRole { get; set; } = null!;
     }
 }

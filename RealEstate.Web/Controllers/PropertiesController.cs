@@ -6,6 +6,7 @@ using RealEstate.Web.Models;
 using RealEstate.Web.Models.Dtos;
 using RealEstate.Web.Services.IServices;
 using System.Net.Mime;
+using System.Text;
 
 namespace RealEstate.Web.Controllers
 {
@@ -91,20 +92,46 @@ namespace RealEstate.Web.Controllers
         }
 
         [HttpPost]
-        [RequestSizeLimit(long.MaxValue)]
         public async Task<IActionResult> AddProperty(AddPropertyViewModel model)
         {
             if (ModelState.IsValid)
             {
                 var currentUser = _userService.GetCurrentUser();
-                var addPropertyDto = new AddPropertyDto
+                var propertyDto = new PropertyDto()
                 {
-                    Property = model.Property,
-                    CoverImage = model.CoverImage,
-                    PropertyImages = model.PropertyImages,
+                    Id = model.Property.Id,
+                    Name = model.Property.Name,
+                    Description = model.Property.Description,
+                    BathRooms = model.Property.BathRooms,
+                    BedRooms = model.Property.BedRooms,
+                    Area = model.Property.Area,
+                    Price = model.Property.Price,
+                    Status = model.Property.Status,
+                    State = model.Property.State,
+                    City = model.Property.City,
+                    StreetAddress = model.Property.StreetAddress,
+                    CoverImageUrl = model.CoverImage.FileName,
+                    TransactionType = model.Property.TransactionType,
+                    UserId = model.Property.UserId,
+                    PropertyTypeId = model.Property.PropertyTypeId,
                     CurrentUserId = currentUser.Id,
-                    CurrentUserRole = currentUser.Role
+                    CurrentUserRole = currentUser.Role,
                 };
+
+                //var addPropertyDto = new AddPropertyDto
+                //{
+                //    Property = model.Property,
+                //    CurrentUserId = currentUser.Id,
+                //    CurrentUserRole = currentUser.Role
+                //};
+                //var content = new MultipartFormDataContent();
+                ////var addPropertyDtoJson = JsonConvert.SerializeObject(model);
+                //content.Add(new StringContent(JsonConvert.SerializeObject(addPropertyDto), Encoding.UTF8, "application/json"), "AddPropertyDto");
+                //content.Add(new StreamContent(model.CoverImage.OpenReadStream()), "CoverImage", model.CoverImage.FileName);
+                //foreach (var image in model.PropertyImages)
+                //{
+                //    content.Add(new StreamContent(image.OpenReadStream()), "PropertyImages", image.FileName);
+                //}
                 //var parameters = new
                 //{
                 //    AddPropertyDto = addPropertyDto,
@@ -112,10 +139,26 @@ namespace RealEstate.Web.Controllers
                 //    CurrentUserId = currentUser.Id
                 //};
 
-                var response = await _httpClient.PostAsJsonAsync($"{APIBaseUrls.PropertyAPIBaseUrl}api/property/AddProperty", addPropertyDto);
+                var response = await _httpClient.PostAsJsonAsync($"{APIBaseUrls.PropertyAPIBaseUrl}api/property/AddProperty", propertyDto);
                 if (response.IsSuccessStatusCode)
                 {
-                    return RedirectToAction("Index");
+                    var content = new MultipartFormDataContent
+                    {
+                        { new StreamContent(model.CoverImage.OpenReadStream()), "CoverImage", model.CoverImage.FileName }
+                    };
+                    foreach (var image in model.PropertyImages)
+                    {
+                        content.Add(new StreamContent(image.OpenReadStream()), "PropertyImages", image.FileName);
+                    }
+                    var uploadImagesResponse = await _httpClient.PostAsync($"{APIBaseUrls.PropertyAPIBaseUrl}api/property/UploadImages", content);
+                    if (uploadImagesResponse.IsSuccessStatusCode)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        return View();
+                    }
                 }
                 else
                 {
@@ -139,7 +182,7 @@ namespace RealEstate.Web.Controllers
             {
                 properties = await response.Content.ReadFromJsonAsync<List<PropertyViewModel>>();
             }
-            return Json(new { data = properties });
+            return new JsonResult(properties);
         }
 
         [HttpDelete]
@@ -183,11 +226,22 @@ namespace RealEstate.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var updatePropertyDto = new AddPropertyDto
+                var updatePropertyDto = new PropertyDto()
                 {
-                    Property = model.Property,
-                    CoverImage = model.CoverImage,
-                    PropertyImages = model.PropertyImages
+                    Name = model.Property.Name,
+                    Description = model.Property.Description,
+                    BathRooms = model.Property.BathRooms,
+                    BedRooms = model.Property.BedRooms,
+                    Area = model.Property.Area,
+                    Price = model.Property.Price,
+                    Status = model.Property.Status,
+                    State = model.Property.State,
+                    City = model.Property.City,
+                    StreetAddress = model.Property.StreetAddress,
+                    CoverImageUrl = model.CoverImage.FileName,
+                    TransactionType = model.Property.TransactionType,
+                    UserId = model.Property.UserId,
+                    PropertyTypeId = model.Property.PropertyTypeId,
                 };
                 var parameters = new
                 {

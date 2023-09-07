@@ -12,9 +12,10 @@ namespace RealEstate.Services.PropertyService.Repositories
         {
             _db = db;
         }
+
         public string UpdateStatus(Property property, string status)
         {
-            property.Status = status;
+            //property.Status = status;
             return status;
         }
     }

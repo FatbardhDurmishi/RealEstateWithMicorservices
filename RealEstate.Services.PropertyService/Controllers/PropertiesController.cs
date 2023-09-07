@@ -35,36 +35,65 @@ namespace RealEstate.Services.PropertyService.Controllers
             _propertyImageRepository = propertyImageRepository;
         }
 
-        [HttpPost("AddProperty")]
-        public async Task<IActionResult> AddProperty([FromForm] AddPropertyDto addPropertyDto)
+        [HttpPost("addProperty")]
+        public async Task<IActionResult> AddProperty(PropertyDto addPropertyDto)
         {
             if (addPropertyDto == null)
             {
                 return BadRequest();
             }
-            if (addPropertyDto.CoverImage != null)
+            var property = new Property()
             {
-                addPropertyDto.Property.CoverImageUrl = addPropertyDto.CoverImage.FileName;
-                await UploadToBlob(containerClient, addPropertyDto.CoverImage);
-            }
-            if (addPropertyDto.PropertyImages != null)
-            {
-                foreach (var image in addPropertyDto.PropertyImages)
-                {
-                    var Image = new PropertyImage
-                    {
-                        ImageUrl = image.FileName
-                    };
-                    addPropertyDto.Property.PropertyImages.Add(Image);
-                    await UploadToBlob(containerClient, image);
-                }
-            }
-            addPropertyDto.Property.Status = PropertyStatus.Free;
+                Name = addPropertyDto.Name,
+                Description = addPropertyDto.Description,
+                BedRooms = addPropertyDto.BedRooms,
+                BathRooms = addPropertyDto.BedRooms,
+                Area = addPropertyDto.Area,
+                Price = addPropertyDto.Price,
+                State = addPropertyDto.State,
+                Status = PropertyStatus.Free,
+                City = addPropertyDto.City,
+                StreetAddress = addPropertyDto.StreetAddress,
+                CoverImageUrl = addPropertyDto.CoverImageUrl,
+                TransactionType = addPropertyDto.TransactionType,
+                PropertyTypeId = addPropertyDto.PropertyTypeId,
+            };
             if (addPropertyDto.CurrentUserRole == RoleConstants.Role_User_Indi)
             {
-                addPropertyDto.Property.UserId = addPropertyDto.CurrentUserId;
+                property.UserId = addPropertyDto.CurrentUserId;
             }
-            await _propertyRepository.Add(addPropertyDto.Property);
+            else
+            {
+                property.UserId = addPropertyDto.UserId;
+            }
+            await _propertyRepository.Add(property);
+            return Ok();
+        }
+
+        [HttpPost("UploadImages/{propertyId}")]
+        public async Task<IActionResult> UploadImages([FromForm(Name = "CoverImage")] IFormFile CoverImage, [FromForm(Name = "PropertyImages")] IFormFileCollection PropertyImages, int propertyId)
+        {
+            var property = await _propertyRepository.GetFirstOrDefault(x => x.Id == propertyId);
+            if (property == null)
+            {
+                return BadRequest();
+            }
+            if (CoverImage != null)
+            {
+                property.CoverImageUrl = CoverImage.FileName;
+                await _propertyRepository.Update(property);
+                await UploadToBlob(containerClient, CoverImage);
+            }
+            foreach (var image in PropertyImages)
+            {
+                var Image = new PropertyImage
+                {
+                    ImageUrl = image.FileName,
+                    PropertyId = propertyId
+                };
+                await _propertyImageRepository.Add(Image);
+                await UploadToBlob(containerClient, image);
+            }
             return Ok();
         }
 
@@ -128,7 +157,7 @@ namespace RealEstate.Services.PropertyService.Controllers
             return Ok();
         }
 
-        [HttpGet]
+        [HttpGet("GetProperties")]
         public async Task<IActionResult> GetProperties(string? currentUserId, string? currentUserRole)
         {
             if (string.IsNullOrEmpty(currentUserId))

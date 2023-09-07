@@ -90,7 +90,7 @@ namespace RealEstate.Services.PropertyService.Migrations
 
                     b.HasIndex("PropertyTypeId");
 
-                    b.ToTable("Properties");
+                    b.ToTable("Properties", (string)null);
                 });
 
             modelBuilder.Entity("RealEstate.Services.PropertyService.Models.PropertyImage", b =>
@@ -112,7 +112,7 @@ namespace RealEstate.Services.PropertyService.Migrations
 
                     b.HasIndex("PropertyId");
 
-                    b.ToTable("PropertyImages");
+                    b.ToTable("PropertyImages", (string)null);
                 });
 
             modelBuilder.Entity("RealEstate.Services.PropertyService.Models.PropertyType", b =>
@@ -130,7 +130,7 @@ namespace RealEstate.Services.PropertyService.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PropertyTypes");
+                    b.ToTable("PropertyTypes", (string)null);
                 });
 
             modelBuilder.Entity("RealEstate.Services.PropertyService.Models.Property", b =>
