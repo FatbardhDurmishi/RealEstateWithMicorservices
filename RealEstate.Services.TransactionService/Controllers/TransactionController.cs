@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 using RealEstate.Services.TransactionService.Constants;
 using RealEstate.Services.TransactionService.Models;
 using RealEstate.Services.TransactionService.Models.Dtos;
@@ -19,13 +20,13 @@ namespace RealEstate.Services.TransactionService.Controllers
             _httpClient = httpClient;
         }
 
-        [HttpGet]
+        [HttpGet("GetTransactions/{currentUserId}/{currentUserRole}")]
         public async Task<ActionResult> GetTransactions(string currentUserId, string currentUserRole)
         {
             if (currentUserRole == RoleConstants.Role_User_Comp)
             {
                 //one option is to get all the users of the company and then get all the transactions of those users
-                var response = await _httpClient.GetAsync($"{APIBaseUrls.AuthAPIBaseUrl}api/user/GetUsersByCompanyId/{currentUserId}");
+                var response = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/user/GetUsersByCompanyId/{currentUserId}");
                 if (response.IsSuccessStatusCode)
                 {
                     var users = await response.Content.ReadFromJsonAsync<List<UserDto>>();
@@ -56,7 +57,7 @@ namespace RealEstate.Services.TransactionService.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("GetTransaction/{id}")]
         public async Task<ActionResult> GetTransaction(int id)
         {
             var transaction = await _transactionRepository.GetFirstOrDefault(x => x.Id == id);
@@ -67,33 +68,31 @@ namespace RealEstate.Services.TransactionService.Controllers
             return Ok(transaction);
         }
 
-        [HttpPost]
-        public async Task<ActionResult> AddTransaction([FromBody] dynamic parameters)
+        [HttpPost("AddTransaction")]
+        public async Task<ActionResult> AddTransaction(AddTransactionDto transactionDto)
         {
-            int propertyId = parameters.TransactionDto.Property.Id;
-            string userId = parameters.userId;
-            var transaction = _transactionRepository.GetAll(x => x.BuyerId == userId && x.PropertyId == propertyId).Result.OrderByDescending(x => x.Date).FirstOrDefault();
+            var transaction = _transactionRepository.GetAll(x => x.BuyerId == transactionDto.BuyerId && x.PropertyId == transactionDto.PropertyId).Result.OrderByDescending(x => x.Date).FirstOrDefault();
             if (transaction == null || transaction.Status == TransactionStatus.Denied || transaction.Status == TransactionStatus.Sold)
             {
                 var transactionToAdd = new Transaction
                 {
                     Status = TransactionStatus.Pending,
                     Date = DateTime.Now,
-                    OwnerId = parameters.TransactionDto.Property.UserId,
-                    BuyerId = userId,
-                    PropertyId = propertyId,
-                    TransactionType = parameters.TransactionDto.Property.TransactionType,
+                    OwnerId = transactionDto.OwnerId,
+                    BuyerId = transactionDto.BuyerId,
+                    PropertyId = transactionDto.PropertyId,
+                    TransactionType = transactionDto.TransactionType
                 };
-                if (parameters.TransactionDto.Property.TransactionType == TransactionTypes.Rent)
+                if (transactionDto.TransactionType == TransactionTypes.Rent)
                 {
-                    transactionToAdd.RentStartDate = parameters.TransactionDto.Transaction.RentStartDate;
-                    transactionToAdd.RentEndDate = parameters.TransactionDto.Transaction.RentEndDate;
-                    transactionToAdd.TotalPrice = parameters.TransactionDto.Property.Price * CalculateTotalMonthsForRent(parameters.TransactionDto.Transaction.RentStartDate, parameters.TransactionDto.Transaction.RentEndDate);
-                    transactionToAdd.RentPrice = parameters.TransactionDto.Property.Price;
+                    transactionToAdd.RentStartDate = transactionDto.RentStartDate;
+                    transactionToAdd.RentEndDate = transactionDto.RentEndDate;
+                    transactionToAdd.TotalPrice = transactionDto.PropertyPrice * CalculateTotalMonthsForRent(transactionDto.RentStartDate, transactionDto.RentEndDate);
+                    transactionToAdd.RentPrice = transactionDto.PropertyPrice;
                 }
                 else
                 {
-                    transactionToAdd.TotalPrice = parameters.TransactionDto.Property.Price;
+                    transactionToAdd.TotalPrice = transactionDto.PropertyPrice;
                 }
 
                 await _transactionRepository.Add(transactionToAdd);
@@ -130,7 +129,7 @@ namespace RealEstate.Services.TransactionService.Controllers
                     propertyId = transaction.PropertyId,
                     status = PropertyStatus.Rented
                 };
-                var response = await _httpClient.PostAsJsonAsync($"{APIBaseUrls.PropertyAPIBaseUrl}api/property/UpdatePropertyStatus", parameters);
+                var response = await _httpClient.PostAsJsonAsync($"{APIGatewayUrl.URL}api/property/UpdatePropertyStatus", parameters);
                 if (!response.IsSuccessStatusCode)
                 {
                     return BadRequest();
@@ -147,7 +146,7 @@ namespace RealEstate.Services.TransactionService.Controllers
                 _transactionRepository.UpdateStatus(transaction, TransactionStatus.Sold);
                 await _transactionRepository.SaveChanges();
                 //me shtu ni api call te property service per me ndryshu statusin e property
-                var response = await _httpClient.PostAsJsonAsync($"{APIBaseUrls.PropertyAPIBaseUrl}api/property/UpdatePropertyStatus", parameters);
+                var response = await _httpClient.PostAsJsonAsync($"{APIGatewayUrl.URL}api/property/UpdatePropertyStatus", parameters);
                 //qetu duhet me ndryshu edhe owner te property
 
                 if (!response.IsSuccessStatusCode)
@@ -171,7 +170,7 @@ namespace RealEstate.Services.TransactionService.Controllers
             return Ok();
         }
 
-        [HttpDelete("delete/{id}")]
+        [HttpDelete("DeleteTransaction/{id}")]
         public async Task<ActionResult> DeleteTransaction(int id)
         {
             var transaction = await _transactionRepository.GetFirstOrDefault(x => x.Id == id);
@@ -183,7 +182,7 @@ namespace RealEstate.Services.TransactionService.Controllers
             return Ok();
         }
 
-        [HttpDelete("deleteByPropertyId/{id}")]
+        [HttpDelete("DeleteTransactionByPropertyId/{id}")]
         public async Task<ActionResult> DeleteTransactionByPropertyId(int id)
         {
             var transactions = await _transactionRepository.GetAll(x => x.PropertyId == id);

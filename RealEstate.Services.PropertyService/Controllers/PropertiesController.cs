@@ -67,7 +67,7 @@ namespace RealEstate.Services.PropertyService.Controllers
                 property.UserId = addPropertyDto.UserId;
             }
             await _propertyRepository.Add(property);
-            return Ok();
+            return Ok(property);
         }
 
         [HttpPost("UploadImages/{propertyId}")]
@@ -97,39 +97,22 @@ namespace RealEstate.Services.PropertyService.Controllers
             return Ok();
         }
 
-        [HttpPut]
+        [HttpPut("UpdateProperty")]
         public async Task<IActionResult> UpdateProperty([FromBody] dynamic parameters)
         {
-            if (parameters.AddPropertyDto == null)
+            int propertyId = parameters.addPropertyDto.id;
+            if (propertyId == 0)
             {
                 return BadRequest();
             }
-            int propertyId = parameters.AddPropertyDto.PropertyId;
             var property = await _propertyRepository.GetFirstOrDefault(x => x.Id == propertyId);
             if (property == null)
             {
                 return NotFound();
             }
-            if (parameters.AddPropertyDto.CoverImage != null)
+            if (parameters.imagesToDelete != null)
             {
-                property.CoverImageUrl = parameters.AddPropertyDto.CoverImage.FileName;
-                await UploadToBlob(containerClient, parameters.AddPropertyDto.CoverImage);
-            }
-            if (parameters.AddPropertyDto.PropertyImages != null)
-            {
-                foreach (var image in parameters.AddPropertyDto.PropertyImages)
-                {
-                    var Image = new PropertyImage
-                    {
-                        ImageUrl = image.FileName
-                    };
-                    property.PropertyImages.Add(Image);
-                    await UploadToBlob(containerClient, image);
-                }
-            }
-            if (parameters.ImagesToDelete != null)
-            {
-                foreach (var imageId in parameters.ImagesToDelete)
+                foreach (var imageId in parameters.imagesToDelete)
                 {
                     int Id = imageId;
                     var image = await _propertyImageRepository.GetFirstOrDefault(x => x.Id == Id);
@@ -140,25 +123,34 @@ namespace RealEstate.Services.PropertyService.Controllers
                     }
                 }
             }
-            property.Name = parameters.AddPropertyDto.Property.Name;
-            property.Description = parameters.AddPropertyDto.Property.Description;
-            property.City = parameters.AddPropertyDto.Property.City;
-            property.State = parameters.AddPropertyDto.Property.State;
-            property.StreetAddress = parameters.AddPropertyDto.Property.StreetAddress;
-            property.Price = parameters.AddPropertyDto.Property.Price;
-            property.BedRooms = parameters.AddPropertyDto.Property.BedRooms;
-            property.BathRooms = parameters.AddPropertyDto.Property.BathRooms;
-            property.Area = parameters.AddPropertyDto.Property.Area;
-            property.PropertyTypeId = parameters.AddPropertyDto.Property.PropertyTypeId;
-            property.Status = parameters.AddPropertyDto.Property.Status;
-            property.TransactionType = parameters.AddPropertyDto.Property.TransactionType;
-            property.UserId = parameters.AddPropertyDto.Property.UserId;
+            property.Name = parameters.addPropertyDto.name;
+            property.Name = parameters.addPropertyDto.name;
+            property.Description = parameters.addPropertyDto.description;
+            property.City = parameters.addPropertyDto.city;
+            property.State = parameters.addPropertyDto.state;
+            property.StreetAddress = parameters.addPropertyDto.streetAddress;
+            property.Price = parameters.addPropertyDto.price;
+            property.BedRooms = parameters.addPropertyDto.bedRooms;
+            property.BathRooms = parameters.addPropertyDto.bathRooms;
+            property.Area = parameters.addPropertyDto.area;
+            property.PropertyTypeId = parameters.addPropertyDto.propertyTypeId;
+            if (parameters.addPropertyDto.Status != null)
+            {
+                property.Status = parameters.addPropertyDto.status;
+            }
+            if (parameters.addPropertyDto.coverImageUrl != null)
+            {
+                await DeleteBlob(containerClient, property.CoverImageUrl);
+                property.CoverImageUrl = parameters.addPropertyDto.coverImageUrl;
+            }
+            property.TransactionType = parameters.addPropertyDto.transactionType;
+            property.UserId = parameters.addPropertyDto.userId;
             await _propertyRepository.Update(property);
             return Ok();
         }
 
-        [HttpGet("GetProperties")]
-        public async Task<IActionResult> GetProperties(string? currentUserId, string? currentUserRole)
+        [HttpGet("GetProperties/{currentUserId}/{currentUserRole}")]
+        public async Task<IActionResult> GetProperties(string currentUserId, string currentUserRole)
         {
             if (string.IsNullOrEmpty(currentUserId))
             {
@@ -175,7 +167,7 @@ namespace RealEstate.Services.PropertyService.Controllers
             }
             if (currentUserRole == RoleConstants.Role_User_Comp)
             {
-                var response = await _httpClient.GetAsync($"{APIBaseUrls.AuthAPIBaseUrl}api/user/GetUsersByCompanyId/{currentUserId}");
+                var response = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/user/GetUsersByCompanyId/{currentUserId}");
                 if (response.IsSuccessStatusCode)
                 {
                     var users = await response.Content.ReadFromJsonAsync<List<UserDto>>();
@@ -184,6 +176,10 @@ namespace RealEstate.Services.PropertyService.Controllers
                     {
                         foreach (var property in properties)
                         {
+                            if (property.Status != PropertyStatus.Rented)
+                            {
+                                property.ShowButtons = true;
+                            }
                             property.CoverImageBlobUrl = await GetBlobUrl(containerClient, property.CoverImageUrl);
                             foreach (var user in users)
                             {
@@ -204,33 +200,23 @@ namespace RealEstate.Services.PropertyService.Controllers
             }
             else
             {
-                var response = await _httpClient.GetAsync($"{APIBaseUrls.AuthAPIBaseUrl}/api/user/GetUsers");
-                if (response.IsSuccessStatusCode)
+                //var response = await _httpClient.GetAsync($"{APIBaseUrls.AuthAPIBaseUrl}/api/user/GetUser/{currentUserId}");
+
+                //var users = response.Content.ReadFromJsonAsync<List<UserDto>>();
+                var properties = await _propertyRepository.GetAll(x => x.UserId == currentUserId, includeProperties: "PropertyType");
+                if (properties != null)
                 {
-                    var users = response.Content.ReadFromJsonAsync<List<UserDto>>();
-                    var properties = await _propertyRepository.GetAll(x => x.UserId == currentUserId, includeProperties: "PropertyType");
-                    if (properties != null)
+                    foreach (var property in properties)
                     {
-                        foreach (var property in properties)
-                        {
-                            property.CoverImageBlobUrl = await GetBlobUrl(containerClient, property.CoverImageUrl);
-                            if (users.Result.Any(x => x.Id == property.UserId))
-                            {
-                                property.User = users.Result.FirstOrDefault(x => x.Id == property.UserId);
-                            }
-                        }
-                        return Ok(properties);
+                        property.CoverImageBlobUrl = await GetBlobUrl(containerClient, property.CoverImageUrl);
                     }
-                    return NoContent();
+                    return Ok(properties);
                 }
-                else
-                {
-                    return BadRequest(response);
-                }
+                return NoContent();
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("GetProperty/{id}")]
         public async Task<IActionResult> GetProperty(int id)
         {
             var property = await _propertyRepository.GetFirstOrDefault(x => x.Id == id, includeProperties: "PropertyImages,PropertyType");
@@ -245,7 +231,44 @@ namespace RealEstate.Services.PropertyService.Controllers
             return Ok(property);
         }
 
-        [HttpDelete("{id}")]
+        [HttpGet("GetPropertiesForIndex/{currentUserId}/{currentUserRole}")]
+        public async Task<IActionResult> GetPropertiesForIndex(string currentUserId, string currentUserRole)
+        {
+            //get the properties that dont beling to the current user
+
+            if (currentUserRole == RoleConstants.Role_User_Indi)
+            {
+                var properties = await _propertyRepository.GetAll(x => x.UserId != currentUserId, includeProperties: "PropertyImages,PropertyType");
+                foreach (var property in properties)
+                {
+                    property.CoverImageBlobUrl = await GetBlobUrl(containerClient, property.CoverImageUrl);
+                }
+                if (properties != null)
+                {
+                    return Ok(properties);
+                }
+            }
+            else
+            {
+                var usersResponse = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/user/GetUsersByCompanyId/{currentUserId}");
+                if (usersResponse.IsSuccessStatusCode)
+                {
+                    var users = await usersResponse.Content.ReadFromJsonAsync<List<UserDto>>();
+                    var properties = await _propertyRepository.GetAll(x => users.Any(y => x.UserId == y.Id), includeProperties: "PropertyType");
+                    if (properties != null)
+                    {
+                        foreach (var property in properties)
+                        {
+                            property.CoverImageBlobUrl = await GetBlobUrl(containerClient, property.CoverImageUrl);
+                        }
+                        return Ok(properties);
+                    }
+                }
+            }
+            return NoContent();
+        }
+
+        [HttpDelete("DeleteProperty/{id}")]
         public async Task<IActionResult> DeleteProperty(int id)
         {
             var property = await _propertyRepository.GetFirstOrDefault(x => x.Id == id);
@@ -262,7 +285,7 @@ namespace RealEstate.Services.PropertyService.Controllers
                 await DeleteBlob(containerClient, image.ImageUrl);
             }
             //make api call to delete transactions related to this property
-            await _httpClient.DeleteAsync($"{APIBaseUrls.TransactionAPIBaseUrl}api/transaction/deleteByPropertyId/{property.Id}");
+            await _httpClient.DeleteAsync($"{APIGatewayUrl.URL}api/transaction/DeleteTransactionByPropertyId/{property.Id}");
 
             return Ok("Property Deleted Successfully");
         }
@@ -278,6 +301,7 @@ namespace RealEstate.Services.PropertyService.Controllers
                 return NotFound();
             }
             _propertyRepository.UpdateStatus(property, status);
+            await _propertyRepository.SaveChanges();
             return Ok();
         }
 

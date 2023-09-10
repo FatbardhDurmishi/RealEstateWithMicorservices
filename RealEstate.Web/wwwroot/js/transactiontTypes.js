@@ -19,12 +19,12 @@ function loadDataTable() {
         //"filter": true,
         //"orderMulti": false,
         ajax: {
-            url: '/Admin/TransactionTypes/GetTransactionTypesJson',
+            url: '/TransactionTypes/GetTransactionTypesJson',
             dataSrc: ""
         },
         columns: [
             { data: "id", title: "Id" },
-            { data: "name", title: "Name"},
+            { data: "name", title: "Name" },
             {
                 data: "id",
                 render: function (data) {
@@ -35,14 +35,12 @@ function loadDataTable() {
                         </div>
                             `
                 },
-                width:"10%"
+                width: "10%"
             },
 
         ]
     });
-
 }
-
 
 function Delete(url) {
     Swal.fire({

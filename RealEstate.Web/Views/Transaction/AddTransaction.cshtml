@@ -33,17 +33,18 @@
             </ol>
             </div>*@
             <div class="col-2 text-end">
-                <a asp-area="Company" asp-controller="Properties" asp-action="Details" asp-route-propertyId="Property.Id" class="btn btn-primary ">Back to Property</a>
+                <a a asp-controller="Properties" asp-action="Details" asp-route-propertyId="@Model.Property.Id" class="btn btn-primary ">Back to Property</a>
             </div>
         </div>
-        <form asp-area="Company" asp-controller="Transaction" asp-action="AddTransaction" method="post">
+        <form asp-controller="Transaction" asp-action="AddTransaction" method="post">
             <input type="hidden" asp-for="Transaction.Id" />
             <input type="hidden" asp-for="Property.Id" />
             <input type="hidden" asp-for="Property.UserId" />
             <input type="hidden" asp-for="Property.TransactionType" />
             <input type="hidden" asp-for="Property.PropertyType" />
             <input type="hidden" asp-for="Property.Price" />
-            <input type="hidden" asp-for="Property.TransactionType" />
+            <input type="hidden" asp-for="Property.State" />
+            <input type="hidden" asp-for="Transaction.TransactionType" value="@Model.Property.TransactionType" />
             <div class="row">
                 <div class="form-floating mb-3 col-sm-6 ">
                     <input readonly asp-for="Property.Name" class="form-control" id="floatingInput">

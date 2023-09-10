@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using RealEstate.Web.Models.Dtos;
 
 namespace RealEstate.Web.Models
 {
@@ -42,6 +43,9 @@ namespace RealEstate.Web.Models
         [StringLength(450)]
         public string? UserId { get; set; }
 
+        [ValidateNever]
+        public UserDto User { get; set; } = null!;
+
         public int? PropertyTypeId { get; set; }
 
         public virtual PropertyType? PropertyType { get; set; }
@@ -55,6 +59,6 @@ namespace RealEstate.Web.Models
         [ValidateNever]
         public string CoverImageBlobUrl { get; set; }
 
-        public bool ShowButtons = false;
+        public bool ShowButtons { get; set; } = false;
     }
 }

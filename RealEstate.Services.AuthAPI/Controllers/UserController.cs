@@ -24,26 +24,27 @@ namespace RealEstate.Services.AuthAPI.Controllers
             _userManager = userManager;
         }
 
-        [HttpGet("GetUsers")]
-        public async Task<ActionResult<UserDto>> GetUsers(string? currentUserId)
+        [HttpGet("GetUsers/{currentUserId}/{currentUserRole}")]
+        public async Task<ActionResult<UserDto>> GetUsers(string currentUserId, string currentUserRole)
         {
-            if (currentUserId == null)
+            if (currentUserRole == RoleConstants.Role_User_Comp)
             {
-                var usersForAdmin = await _userRepository.GetAll();
-                return Ok(usersForAdmin);
+                var usersForCompany = await _userRepository.GetFirstOrDefault(x => x.Id == currentUserId);
+                return Ok(usersForCompany);
             }
-            var usersForCompany = await _userRepository.GetFirstOrDefault(x => x.Id == currentUserId);
-            return Ok(usersForCompany);
+
+            var usersForAdmin = await _userRepository.GetAll(x => x.Id != currentUserId);
+            return Ok(usersForAdmin);
         }
 
-        [HttpGet("{companyId}")]
+        [HttpGet("GetUsersByCompanyId/{companyId}")]
         public async Task<ActionResult<UserDto>> GetUsersByCompanyId(string companyId)
         {
             var users = await _userRepository.GetAll(x => x.CompanyId == companyId);
             return Ok(users);
         }
 
-        [HttpPost]
+        [HttpPost("CreateUser")]
         public async Task<ActionResult<RegisterDto>> CreateUser([FromBody] dynamic parameters)
         {
             if (parameters.User == null)
@@ -79,7 +80,7 @@ namespace RealEstate.Services.AuthAPI.Controllers
             return Ok(user);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("DeleteUser/{id}")]
         public async Task<ActionResult<UserDto>> DeleteUser(string id)
         {
             var user = await _userRepository.GetFirstOrDefault(x => x.Id == id);

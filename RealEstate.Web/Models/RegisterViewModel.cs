@@ -7,6 +7,7 @@ namespace RealEstate.Web.Models
 {
     public class RegisterViewModel
     {
+        [ValidateNever]
         public string Id { get; set; }
 
         [Required]

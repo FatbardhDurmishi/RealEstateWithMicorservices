@@ -1,0 +1,334 @@
+{
+  "Routes": [
+    {
+      "UpstreamPathTemplate": "/api/auth/Register",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7028
+        }
+      ],
+      "DownstreamPathTemplate": "/api/auth/Register"
+    },
+    {
+      "UpstreamPathTemplate": "/api/auth/login",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7028
+        }
+      ],
+      "DownstreamPathTemplate": "/api/auth/login"
+    },
+    {
+      "UpstreamPathTemplate": "/api/user/GetUsers/{currentUserId}/{currentUserRole}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7028
+        }
+      ],
+      "DownstreamPathTemplate": "/api/user/GetUsers/{currentUserId}/{currentUserRole}"
+    },
+    {
+      "UpstreamPathTemplate": "/api/user/GetUsersByCompanyId/{companyId}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7028
+        }
+      ],
+      "DownstreamPathTemplate": "/api/user/GetUsersByCompanyId/{companyId}"
+    },
+    {
+      "UpstreamPathTemplate": "/api/user/CreateUser",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7028
+        }
+      ],
+      "DownstreamPathTemplate": "/api/user/CreateUser"
+    },
+    {
+      "UpstreamPathTemplate": "/api/user/DeleteUser/{id}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7028
+        }
+      ],
+      "DownstreamPathTemplate": "/api/user/DeleteUser/{id}"
+    },
+    {
+      "UpstreamPathTemplate": "/api/user/GetUser/{id}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7028
+        }
+      ],
+      "DownstreamPathTemplate": "/api/user/GetUser/{id}"
+    },
+    {
+      "UpstreamPathTemplate": "/api/user/UpdateUser",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7028
+        }
+      ],
+      "DownstreamPathTemplate": "/api/user/UpdateUser"
+    },
+    {
+      "UpstreamPathTemplate": "/api/property/AddProperty",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7070
+        }
+      ],
+      "DownstreamPathTemplate": "/api/property/AddProperty"
+    },
+    {
+      "UpstreamPathTemplate": "/api/property/UploadImages/{propertyId}",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7070
+        }
+      ],
+      "DownstreamPathTemplate": "/api/property/UploadImages/{propertyId}"
+    },
+    {
+      "UpstreamPathTemplate": "/api/property/UpdateProperty",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7070
+        }
+      ],
+      "DownstreamPathTemplate": "/api/property/UpdateProperty"
+    },
+    {
+      "UpstreamPathTemplate": "/api/property/GetProperties/{currentUserId}/{currentUserRole}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7070
+        }
+      ],
+      "DownstreamPathTemplate": "/api/property/GetProperties/{currentUserId}/{currentUserRole}"
+    },
+    {
+      "UpstreamPathTemplate": "/api/property/GetProperty/{id}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7070
+        }
+      ],
+      "DownstreamPathTemplate": "/api/property/GetProperty/{id}"
+    },
+    {
+      "UpstreamPathTemplate": "/api/property/GetPropertiesForIndex/{currentUserId}/{currentUserRole}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7070
+        }
+      ],
+      "DownstreamPathTemplate": "/api/property/GetPropertiesForIndex/{currentUserId}/{currentUserRole}"
+    },
+    {
+      "UpstreamPathTemplate": "/api/property/DeleteProperty/{id}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7070
+        }
+      ],
+      "DownstreamPathTemplate": "/api/property/DeleteProperty/{id}"
+    },
+    {
+      "UpstreamPathTemplate": "/api/property/UpdatePropertyStatus",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7070
+        }
+      ],
+      "DownstreamPathTemplate": "/api/property/UpdatePropertyStatus"
+    },
+    {
+      "UpstreamPathTemplate": "/api/propertyTypes/GetPropertyTypes",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7070
+        }
+      ],
+      "DownstreamPathTemplate": "/api/propertyTypes/GetPropertyTypes"
+    },
+    {
+      "UpstreamPathTemplate": "/api/propertyTypes/AddPropertyType",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7070
+        }
+      ],
+      "DownstreamPathTemplate": "/api/propertyTypes/AddPropertyType"
+    },
+    {
+      "UpstreamPathTemplate": "/api/propertyTypes/UpdatePropertyType",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7070
+        }
+      ],
+      "DownstreamPathTemplate": "/api/propertyTypes/UpdatePropertyType"
+    },
+    {
+      "UpstreamPathTemplate": "/api/propertyTypes/GetPropertyType/{id}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7070
+        }
+      ],
+      "DownstreamPathTemplate": "/api/propertyTypes/GetPropertyType/{id}"
+    },
+    {
+      "UpstreamPathTemplate": "/api/propertyTypes/DeletePropertyType/{id}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7070
+        }
+      ],
+      "DownstreamPathTemplate": "/api/propertyTypes/DeletePropertyType/{id}"
+    },
+    {
+      "UpstreamPathTemplate": "/api/transaction/GetTransactions/{currentUserId}/{currentUserRole}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7145
+        }
+      ],
+      "DownstreamPathTemplate": "/api/transaction/GetTransactions/{currentUserId}/{currentUserRole}"
+    },
+    {
+      "UpstreamPathTemplate": "/api/transaction/GetTransaction/{id}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7145
+        }
+      ],
+      "DownstreamPathTemplate": "/api/transaction/GetTransaction/{id}"
+    },
+    {
+      "UpstreamPathTemplate": "/api/transaction/AddTransaction",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7145
+        }
+      ],
+      "DownstreamPathTemplate": "/api/transaction/AddTransaction"
+    },
+    {
+      "UpstreamPathTemplate": "/api/transaction/ApproveRequest/{id}",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7145
+        }
+      ],
+      "DownstreamPathTemplate": "/api/transaction/ApproveRequest/{id}"
+    },
+    {
+      "UpstreamPathTemplate": "/api/transaction/DenyRequest/{id}",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7145
+        }
+      ],
+      "DownstreamPathTemplate": "/api/transaction/DenyRequest/{id}"
+    },
+    {
+      "UpstreamPathTemplate": "/api/transaction/DeleteTransactionByPropertyId/{id}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7145
+        }
+      ],
+      "DownstreamPathTemplate": "/api/transaction/DeleteTransactionByPropertyId/{id}"
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "https://localhost:5050"
+  }
+}
+
+//uspstream is used for incoming request coming to the api gateway
+//downstream is the request that is going to the microservice

@@ -19,15 +19,15 @@ function loadDataTable() {
         //"filter": true,
         //"orderMulti": false,
         ajax: {
-            url: '/Company/Transaction/GetTransactions',
+            url: '/Transaction/GetTransactions',
             dataSrc: ""
         },
         columns: [
             { data: "id", title: "Id", "width": "5%" },
-            { data: "owner.name", title: "Seller" },
-            { data: "buyer.name", title: "Buyer", },
+            { data: "ownerName", title: "Seller" },
+            { data: "buyerName", title: "Buyer", },
             { data: "rentPrice", title: "Rent Price" },
-            { data: "property.name", title: "Property Name" },
+            { data: "propertyName", title: "Property Name" },
             { data: "transactionType", title: "Transaction Type", "width": "15%" },
             { data: "totalPrice", title: "Total Price" },
             { data: "status", title: "Status" },
@@ -47,7 +47,7 @@ function loadDataTable() {
                     else {
                         return `
                          <div class="w-50 btn-group align-items-center" role="group">
-                            <a href="/Company/Transaction/Details?id=${data.id}" class="btn btn-secondary mx-2"><i class="fa-solid fa-circle-info"></i></a>
+                            <a href="/Transaction/Details?id=${data.id}" class="btn btn-secondary mx-2"><i class="fa-solid fa-circle-info"></i></a>
                          </div>`;
                     }
                 }

@@ -26,10 +26,10 @@ namespace RealEstate.Web.Models
         public DateTime RentEndDate { get; set; } = DateTime.Now;
 
         [Column(TypeName = "decimal(18, 2)")]
-        public decimal? RentPrice { get; set; }
+        public decimal RentPrice { get; set; }
 
         [Column(TypeName = "decimal(18, 2)")]
-        public decimal? TotalPrice { get; set; }
+        public decimal TotalPrice { get; set; }
 
         [StringLength(50)]
         public string? Status { get; set; }

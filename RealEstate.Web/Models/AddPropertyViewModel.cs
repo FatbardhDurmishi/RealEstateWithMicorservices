@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RealEstate.Web.Models
 {
@@ -24,5 +25,9 @@ namespace RealEstate.Web.Models
         [ValidateNever]
         [DisplayName("Choose the Images of your Property")]
         public IFormFileCollection PropertyImages { get; set; }
+
+        [ValidateNever]
+        [NotMapped]
+        public int[] DeleteImageIdAdrr { get; set; } = new int[0];
     }
 }

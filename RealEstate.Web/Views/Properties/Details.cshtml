@@ -26,10 +26,14 @@
     {
         content = "Buy Property";
     }
-    if (userService.GetCurrentUser().Id == Model.Property.UserId || userService.GetCurrentUser().Id == Model.User.CompanyId || userService.GetCurrentUser().Role == RoleConstants.Role_User_Comp)
+    if (userService.GetCurrentUser() != null)
     {
-        showButton = "hidden";
+        if (userService.GetCurrentUser().Id == Model.Property.UserId || userService.GetCurrentUser().Id == Model.User.CompanyId || userService.GetCurrentUser().Role == RoleConstants.Role_User_Comp)
+        {
+            showButton = "hidden";
+        }
     }
+
 
 
 
@@ -77,7 +81,7 @@
         </ol>
         </div>*@
             <div class="text-start">
-                <a asp-controller="Properties" asp-action="Index" class="btn btn-primary ">Back to List</a>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-primary ">Back to List</a>
             </div>
         </div>
         <div class="container-fluid pt-4  col-12">
@@ -106,7 +110,7 @@
                             i++;
                             var active = i == 1 ? "active" : "";
                             <div class="carousel-item w-100 @active">
-                                <img src="@url" class="d-block w-100 img-fluid" style="width:100%;aspect-ratio:1;height:auto;" alt="...">
+                                <img src="@url" class="d-block w-100 img-fluid" style="object-fit:contain;" alt="...">
                             </div>
                         }
                     </div>
@@ -134,7 +138,7 @@
                                 <h1 class="text-white">@Model.Property.Price.ToString("c")</h1>
                             </div>
                             <div class="text-end col-lg-4 col-md-6 col-sm-1">
-                                <a  asp-action="AddTransaction" asp-controller="Transaction" asp-route-property="@Model.Property" class="btn btn-primary" style="visibility:@showButton;">&nbsp;@content</a>
+                                <a asp-action="AddTransaction" asp-controller="Transaction" asp-route-propertyId="@Model.Property.Id" class="btn btn-primary" style="visibility:@showButton;">&nbsp;@content</a>
                             </div>
                         </div>
 
@@ -211,7 +215,6 @@
 else
 {
     <div class="@open">
-        <partial name="_Navbar" />
 
         @*<div class="container-fluid pt-4 px-4 col-12">
     <input type="hidden" asp-for="Id" />

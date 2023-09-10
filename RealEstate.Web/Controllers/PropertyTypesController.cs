@@ -26,7 +26,7 @@ namespace RealEstate.Web.Controllers
                 var model = new PropertyType();
                 return View("AddUpdatePropertyType", model);
             }
-            var propertyTypeResponse = await _httpClient.GetAsync($"{APIBaseUrls.PropertyAPIBaseUrl}api/propertyTypes/GetPropertyType/{id}");
+            var propertyTypeResponse = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/propertyTypes/GetPropertyType/{id}");
             if (propertyTypeResponse.IsSuccessStatusCode)
             {
                 var propertyType = await propertyTypeResponse.Content.ReadFromJsonAsync<PropertyType>();
@@ -36,11 +36,12 @@ namespace RealEstate.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddPropertyType(PropertyType propertyType)
         {
             if (ModelState.IsValid)
             {
-                var response = await _httpClient.PostAsJsonAsync($"{APIBaseUrls.PropertyAPIBaseUrl}api/propertyTypes/AddPropertyType", propertyType);
+                var response = await _httpClient.PostAsJsonAsync($"{APIGatewayUrl.URL}api/propertyTypes/AddPropertyType", propertyType);
                 if (response.IsSuccessStatusCode)
                 {
                     return RedirectToAction("Index");
@@ -59,11 +60,12 @@ namespace RealEstate.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdatePropertyType(PropertyType propertyType)
         {
             if (ModelState.IsValid)
             {
-                var response = await _httpClient.PutAsJsonAsync($"{APIBaseUrls.PropertyAPIBaseUrl}api/propertyTypes/UpdatePropertyType", propertyType);
+                var response = await _httpClient.PutAsJsonAsync($"{APIGatewayUrl.URL}api/propertyTypes/UpdatePropertyType", propertyType);
                 if (response.IsSuccessStatusCode)
                 {
                     return RedirectToAction("Index");
@@ -84,7 +86,7 @@ namespace RealEstate.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
-            var response = await _httpClient.GetAsync($"{APIBaseUrls.PropertyAPIBaseUrl}api/propertyTypes/GetPropertyType/{id}");
+            var response = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/propertyTypes/GetPropertyType/{id}");
             if (response.IsSuccessStatusCode)
             {
                 var propertyType = await response.Content.ReadFromJsonAsync<PropertyType>();
@@ -99,7 +101,7 @@ namespace RealEstate.Web.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
-            var response = await _httpClient.DeleteAsync($"{APIBaseUrls.PropertyAPIBaseUrl}api/propertyTypes/DeletePropertyType/{id}");
+            var response = await _httpClient.DeleteAsync($"{APIGatewayUrl.URL}api/propertyTypes/DeletePropertyType/{id}");
             if (response.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");
@@ -110,9 +112,10 @@ namespace RealEstate.Web.Controllers
             }
         }
 
+        [HttpGet]
         public async Task<IActionResult> GetPropertyTypes()
         {
-            var response = await _httpClient.GetAsync($"{APIBaseUrls.PropertyAPIBaseUrl}api/propertyTypes/GetPropertyTypes");
+            var response = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/propertyTypes/GetPropertyTypes");
             if (response.IsSuccessStatusCode)
             {
                 var propertyTypes = await response.Content.ReadFromJsonAsync<List<PropertyType>>();

@@ -4,6 +4,8 @@ using RealEstate.Services.PropertyService.Repositories;
 using RealEstate.Services.PropertyService.Repositories.IRepositories;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Options;
+using Azure.Identity;
+using Azure.Storage.Blobs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +20,7 @@ builder.Services.AddHttpClient();
 builder.Services.AddControllers(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true).
     AddNewtonsoftJson(options =>
     {
-        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+        options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
         options.AllowInputFormatterExceptionMessages = false;
     }
 );
@@ -26,6 +28,10 @@ builder.Services.AddControllers(options => options.SuppressImplicitRequiredAttri
 builder.Services.AddTransient<IPropertyRepository, PropertyRepository>();
 builder.Services.AddTransient<IPropertyTypeRepository, PropertyTypeRepository>();
 builder.Services.AddTransient<IPropertyImageRepository, PropertyImageRepository>();
+//builder.Services.AddSingleton(x =>
+//    new BlobServiceClient(
+//        new Uri("https://riinvestdetyra.blob.core.windows.net"),
+//        new DefaultAzureCredential()));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

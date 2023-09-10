@@ -29,14 +29,18 @@ namespace RealEstate.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var response = await _httpClient.PostAsJsonAsync($"{APIBaseUrls.AuthAPIBaseUrl}api/auth/Login", model);
+                var response = await _httpClient.PostAsJsonAsync($"{APIGatewayUrl.URL}api/auth/login", model);
 
                 if (response.IsSuccessStatusCode)
                 {
                     var loginResponse = await response.Content.ReadFromJsonAsync<LoginResponseDto>();
                     _userService.SetCurrentUser(loginResponse.User);
 
-                    return RedirectToAction("Index", "Properties");
+                    if (loginResponse.User.Role == RoleConstants.Role_Admin)
+                    {
+                        return RedirectToAction("Index", "User");
+                    }
+                    return RedirectToAction("Dashboard", "Home");
                 }
             }
             else
@@ -60,7 +64,7 @@ namespace RealEstate.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var response = await _httpClient.PostAsJsonAsync($"{APIBaseUrls.AuthAPIBaseUrl}api/auth/Register", model);
+                var response = await _httpClient.PostAsJsonAsync($"{APIGatewayUrl.URL}api/auth/Register", model);
                 if (response.IsSuccessStatusCode)
                 {
                     return RedirectToAction(nameof(Login));

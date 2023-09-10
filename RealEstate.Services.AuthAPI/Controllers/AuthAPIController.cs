@@ -28,7 +28,7 @@ namespace RealEstate.Services.AuthAPI.Controllers
             _userRepository = userRepository;
         }
 
-        [HttpPost("register")]
+        [HttpPost("Register")]
         public async Task<IActionResult> Register(RegisterDto registerDto)
         {
             ApplicationUser user = new()

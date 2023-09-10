@@ -55,7 +55,7 @@ namespace RealEstate.Services.PropertyService.Controllers
             return Ok(propertyType);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("DeletePropertyType/{id}")]
         public async Task<IActionResult> DeletePropertyType(int id)
         {
             var propertyType = await _propertyTypeRepository.GetFirstOrDefault(x => x.Id == id);

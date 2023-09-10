@@ -52,7 +52,7 @@
                 @*col-12 col-sm-8 col-lg-5 col-xl-4*@
                 <div class=" col-md-7  ">
                     <div class="bg-light rounded p-4 p-sm-5 my-4 mx-3">
-                        <form asp-action="RegisterPost" method="post">
+                        <form asp-controller="Account" asp-action="Register" method="post">
                             <div class="d-flex align-items-center justify-content-between mb-3">
                                 <a href="index.html" class="">
                                     <h3 class="text-primary">Real Estate</h3>
@@ -118,7 +118,7 @@
                             <button type="submit" class="btn btn-primary py-3 w-100 mb-4"> Sign Up</button>
 
                         </form>
-                        <p class="text-center mb-0">Already have an Account? <a class="btn btn-secondary" asp-area="Individual" asp-action="Login" asp-controller="Account">Sign In</a></p>
+                        <p class="text-center mb-0">Already have an Account? <a class="btn btn-secondary"  asp-action="Login" asp-controller="Account">Sign In</a></p>
                     </div>
 
                 </div>

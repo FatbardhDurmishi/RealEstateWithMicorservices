@@ -30,7 +30,7 @@ namespace RealEstate.Web.Controllers
             {
                 return View("CreateUpdateUser");
             }
-            var response = await _httpClient.GetAsync($"{APIBaseUrls.AuthAPIBaseUrl}api/user/GetUser/{id}");
+            var response = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/user/GetUser/{id}");
             if (response.IsSuccessStatusCode)
             {
                 var user = await response.Content.ReadFromJsonAsync<RegisterViewModel>();
@@ -70,7 +70,7 @@ namespace RealEstate.Web.Controllers
                     CurrentUserId = currentUserId
                 };
 
-                var response = await _httpClient.PostAsJsonAsync($"{APIBaseUrls.AuthAPIBaseUrl}api/user/CreateUser", parameters);
+                var response = await _httpClient.PostAsJsonAsync($"{APIGatewayUrl.URL}api/user/CreateUser", parameters);
                 if (response.IsSuccessStatusCode)
                 {
                     return RedirectToAction(nameof(Index));
@@ -91,7 +91,7 @@ namespace RealEstate.Web.Controllers
             ModelState.Remove("ConfirmPassword");
             if (ModelState.IsValid)
             {
-                var response = await _httpClient.PutAsJsonAsync($"{APIBaseUrls.AuthAPIBaseUrl}api/user/UpdateUser", model);
+                var response = await _httpClient.PutAsJsonAsync($"{APIGatewayUrl.URL}api/user/UpdateUser", model);
                 if (response.IsSuccessStatusCode)
                 {
                     return RedirectToAction(nameof(Index));
@@ -115,7 +115,7 @@ namespace RealEstate.Web.Controllers
 
             if (currentUserRole == RoleConstants.Role_Admin)
             {
-                var response = await _httpClient.GetAsync($"{APIBaseUrls.AuthAPIBaseUrl}api/user/GetUsers");
+                var response = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/user/GetUsers/{currentUserId}/{currentUserRole}");
                 if (response.IsSuccessStatusCode)
                 {
                     var users = await response.Content.ReadFromJsonAsync<List<UserDto>>();
@@ -124,7 +124,7 @@ namespace RealEstate.Web.Controllers
             }
             else
             {
-                var response = await _httpClient.GetAsync($"{APIBaseUrls.AuthAPIBaseUrl}api/user/GetUsers/{currentUserId}");
+                var response = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/user/GetUsers/{currentUserId}");
                 if (response.IsSuccessStatusCode)
                 {
                     var users = await response.Content.ReadFromJsonAsync<List<UserDto>>();
@@ -132,6 +132,16 @@ namespace RealEstate.Web.Controllers
                 }
             }
             return new JsonResult(null);
+        }
+
+        public async Task<IActionResult> DeleteUser(string id)
+        {
+            var response = await _httpClient.DeleteAsync($"{APIGatewayUrl.URL}api/user/DeleteUser/{id}");
+            if (response.IsSuccessStatusCode)
+            {
+                return new JsonResult(new { message = "Delete Successful", success = true });
+            }
+            return new JsonResult(new { message = "Delete Not Successful", success = false });
         }
 
         #endregion API CALLS

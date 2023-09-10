@@ -43,7 +43,7 @@ function loadDataTable() {
                     return `
                           <div class=" btn-group align-items-center" role="group">
                             <a href="/User/CreateUser?id=${data}" class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i></a>
-                            <a onClick=Delete('/User/Delete/${data}') class="btn btn-danger mx-2"><i class="bi bi-trash-fill"></i></a>
+                            <a onClick=Delete('/User/DeleteUser/${data}') class="btn btn-danger mx-2"><i class="bi bi-trash-fill"></i></a>
                         </div>
                             `
                 }

@@ -1,10 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
-
-namespace RealEstate.Services.TransactionService.Models.Dtos
+﻿namespace RealEstate.Services.TransactionService.Models.Dtos
 {
     public class AddTransactionDto
     {
-        public Transaction Transaction { get; set; } = null!;
-        public Property Property { get; set; }  = null!;
+        public int PropertyId { get; set; }
+        public string BuyerId { get; set; }
+        public string OwnerId { get; set; }
+        public DateTime RentStartDate { get; set; }
+        public DateTime RentEndDate { get; set; }
+        public string TransactionType { get; set; }
+        public decimal PropertyPrice { get; set; }
     }
 }
