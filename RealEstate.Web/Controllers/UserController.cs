@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RealEstate.Web.Constants;
+using RealEstate.Web.CustomAttributes;
 using RealEstate.Web.Models;
 using RealEstate.Web.Models.Dtos;
 using RealEstate.Web.Services.IServices;
@@ -7,6 +9,7 @@ using System.IdentityModel.Tokens.Jwt;
 
 namespace RealEstate.Web.Controllers
 {
+    [AuthorizeUsers(RoleConstants.Role_Admin, RoleConstants.Role_User_Comp)]
     public class UserController : Controller
     {
         private readonly HttpClient _httpClient;
@@ -28,7 +31,8 @@ namespace RealEstate.Web.Controllers
         {
             if (id == null)
             {
-                return View("CreateUpdateUser");
+                RegisterViewModel model = new RegisterViewModel();
+                return View("CreateUpdateUser", model);
             }
             var response = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/user/GetUser/{id}");
             if (response.IsSuccessStatusCode)
@@ -63,14 +67,15 @@ namespace RealEstate.Web.Controllers
                 var currentUserRole = _userService.GetCurrentUser().Role;
                 var currentUserId = _userService.GetCurrentUser().Id;
 
-                var parameters = new
+                CreateUserDto user = new CreateUserDto()
                 {
                     User = model,
-                    CurrentUserRole = currentUserRole,
-                    CurrentUserId = currentUserId
+                    CurrentUserId = currentUserId,
+                    CurrentUserRole = currentUserRole
                 };
 
-                var response = await _httpClient.PostAsJsonAsync($"{APIGatewayUrl.URL}api/user/CreateUser", parameters);
+
+                var response = await _httpClient.PostAsJsonAsync($"{APIGatewayUrl.URL}api/user/CreateUser", user);
                 if (response.IsSuccessStatusCode)
                 {
                     return RedirectToAction(nameof(Index));

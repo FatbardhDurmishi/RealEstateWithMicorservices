@@ -28,14 +28,7 @@ function loadDataTable() {
             { data: "email", title: "Email" },
             { data: "role", title: "Role" },
             {
-                data: "emailConfirmed", title: "Email Confirmed", sClass: "text-center", render: function (a, b, data, d) {
-                    if (data.emailConfirmed == true) {
-                        return '<i class="fa fa-check text-success"></i>';
-                    }
-                    else {
-                        return '<i class="fa fa-check text-danger"></i>';
-                    }
-                }
+                data: "company", title: "Company"
             },
             {
                 data: "id",

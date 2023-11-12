@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RealEstate.Web.Constants;
+using RealEstate.Web.CustomAttributes;
 using RealEstate.Web.Models;
 
 namespace RealEstate.Web.Controllers
 {
+    [AuthorizeUsers(RoleConstants.Role_Admin)]
     public class PropertyTypesController : Controller
     {
         private readonly HttpClient _httpClient;

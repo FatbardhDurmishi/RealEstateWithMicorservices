@@ -26,8 +26,8 @@ namespace RealEstate.Web.Models
         [DisplayName("Choose the Images of your Property")]
         public IFormFileCollection PropertyImages { get; set; }
 
-        [ValidateNever]
-        [NotMapped]
-        public int[] DeleteImageIdAdrr { get; set; } = new int[0];
+        //[ValidateNever]
+        //[NotMapped]
+        //public int[] DeleteImageIdAdrr { get; set; } = new int[0];
     }
 }

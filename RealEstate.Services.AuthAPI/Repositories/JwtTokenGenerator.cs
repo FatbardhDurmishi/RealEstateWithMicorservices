@@ -19,8 +19,8 @@ namespace RealEstate.Services.AuthAPI.Repositories
         public string GenerateToken(ApplicationUser applicationUser)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            
-            var key  = Encoding.ASCII.GetBytes(_jwtOptions.Secret);
+
+            var key = Encoding.ASCII.GetBytes(_jwtOptions.Secret);
 
             var claimList = new List<Claim>
             {
@@ -36,7 +36,7 @@ namespace RealEstate.Services.AuthAPI.Repositories
                 Issuer = _jwtOptions.Issuer,
                 Subject = new ClaimsIdentity(claimList),
                 Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);

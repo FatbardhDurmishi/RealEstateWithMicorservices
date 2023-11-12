@@ -28,7 +28,7 @@
             @if (userService.GetCurrentUser().Role == RoleConstants.Role_User_Indi || "Roli userit" == RoleConstants.Role_User_Comp)
             {
                 <a asp-controller="Home" asp-action="Dashboard" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
-                <a  asp-controller="Properties" asp-action="Index" class="nav-item nav-link"><i class="bi bi-house me-2"></i>MyProperties</a>
+                <a  asp-controller="Properties" asp-action="Index" class="nav-item nav-link"><i class="bi bi-house me-2"></i>My Properties</a>
                 <a  asp-controller="Home" asp-action="Index" asp-route-loggedIn="true" class="nav-item nav-link"><i class="bi bi-house me-2" ></i>Properties</a>
                 <a asp-controller="Transaction" asp-action="Index" class="nav-item nav-link"><i class="fa-sharp fa-solid fa-euro-sign"></i>Transactions</a>
 

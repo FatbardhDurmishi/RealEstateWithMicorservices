@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealEstate.Web.Constants;
+using RealEstate.Web.CustomAttributes;
 using RealEstate.Web.Models;
 using RealEstate.Web.Models.Dtos;
 using RealEstate.Web.Services.IServices;
 
 namespace RealEstate.Web.Controllers
 {
+    [AuthorizeUsers(RoleConstants.Role_User_Indi, RoleConstants.Role_User_Comp)]
     public class TransactionController : Controller
     {
         private readonly HttpClient _httpClient;
@@ -83,10 +85,11 @@ namespace RealEstate.Web.Controllers
         {
             var currentUserId = _userService.GetCurrentUser().Id;
             var currentUserRole = _userService.GetCurrentUser().Role;
+            var transactiosList = new List<TransactionListViewModel>();
+
             var response = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/transaction/GetTransactions/{currentUserId}/{currentUserRole}");
             if (response.IsSuccessStatusCode)
             {
-                var transactiosList = new List<TransactionListViewModel>();
                 var transactions = await response.Content.ReadFromJsonAsync<List<TransactionViewModel>>();
                 foreach (var transaction in transactions)
                 {
@@ -136,7 +139,7 @@ namespace RealEstate.Web.Controllers
             }
             else
             {
-                return View();
+                return new JsonResult(transactiosList);
             }
         }
 

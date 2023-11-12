@@ -5,10 +5,17 @@ using RealEstate.Services.TransactionService.Repositories.IRepositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var mySqlConnectionString = builder.Configuration.GetConnectionString("MySqlConnection");
+
 // Add services to the container.
+//builder.Services.AddDbContext<AppDbContext>(options =>
+//{
+//    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+//});
+
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseMySql(mySqlConnectionString,ServerVersion.AutoDetect(mySqlConnectionString));
 });
 
 builder.Services.AddControllers();

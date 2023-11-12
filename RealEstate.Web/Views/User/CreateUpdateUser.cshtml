@@ -54,7 +54,7 @@ if (string.IsNullOrEmpty(Model.Id))
                         <div class="form-floating mb-3  ">
                             <input type="email" asp-for="Email" class="form-control help-sidebar" data-title="Email" data-description="Enter Email" id="floatingInput" placeholder="name@example.com">
                             <label for="floatingInput">Email address</label>
-                            <span asp-validation-for="@Model.Email" class="text-danger"></span>
+                            <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
                     </div>
 
@@ -64,53 +64,60 @@ if (string.IsNullOrEmpty(Model.Id))
                             <div class="form-floating mb-3 col-sm-6 ">
                                 <input type="password" asp-for="Password" class="form-control help-sidebar" data-title="Password" data-description="Enter Password. Password must contain at least 6 characters, one uppercase letter,lowercase letter, number and non alphanumeric character. " id="floatingPassword" placeholder="Password">
                                 <label for="floatingPassword">&nbsp; Password</label>
-                                <span asp-validation-for="@Model.Password" class="text-danger"></span>
+                                <span asp-validation-for="Password" class="text-danger"></span>
                             </div>
                             <div class="form-floating mb-3 col-sm-6 ">
                                 <input type="password" asp-for="ConfirmPassword" class="form-control help-sidebar" data-title="Confirm Password" data-description="Confirm password must be the same as password" id="floatingPassword" placeholder="Password">
                                 <label for="floatingPassword">&nbsp; Confirm Password</label>
-                                <span asp-validation-for="@Model.ConfirmPassword" class="text-danger"></span>
+                                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                             </div>
                         </div>
                     }
                     <div class="d-flex row">
 
                         <div class="form-floating mb-3  col-sm-6 ">
-                            <input type="text" asp-for="Name" class="form-control help-sidebar" data-title="Name" data-description="Enter Name" id="floatingText" placeholder="text">
+                            <input type="text" asp-for="Name" class="form-control help-sidebar" data-title="Name" data-description="Enter Name" id="floatingText" placeholder="Name">
                             <label for="floatingText">&nbsp; Full Name</label>
-                            <span asp-validation-for="@Model.Name" class="text-danger"></span>
+                            <span asp-validation-for="Name" class="text-danger"></span>
                         </div>
                         <div class="form-floating mb-3 col-sm-6">
-                            <input asp-for="State" class="form-control help-sidebar" data-title="State" data-description="Enter the State you live" id="floatingText" placeholder="Password">
+                            <input asp-for="State" class="form-control help-sidebar" data-title="State" data-description="Enter the State you live" id="floatingText" placeholder="State">
                             <label for="floatingText">&nbsp; State</label>
-                            <span asp-validation-for="@Model.State" class="text-danger"></span>
+                            <span asp-validation-for="State" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="row justify-content-between">
                         <div class="form-floating mb-3 col-sm-6">
-                            <input asp-for="City" class="form-control help-sidebar" data-title="City" data-description="Enter the City you live" id="floatingText" placeholder="Password">
+                            <input asp-for="City" class="form-control help-sidebar" data-title="City" data-description="Enter the City you live" id="floatingText" placeholder="City">
                             <label for="floatingText">&nbsp; City</label>
-                            <span asp-validation-for="@Model.City" class="text-danger"></span>
+                            <span asp-validation-for="City" class="text-danger"></span>
                         </div>
 
                         <div class="form-floating mb-3 col-sm-6">
-                            <input asp-for="PostalCode" class="form-control help-sidebar" data-title="PostalCode" data-description="Enter the Postal Code of your city" id="floatingText" placeholder="Password">
+                            <input asp-for="PostalCode" class="form-control help-sidebar" data-title="PostalCode" data-description="Enter the Postal Code of your city" id="floatingText" placeholder="PostalCode">
                             <label for="floatingText">&nbsp; Postal Code</label>
-                            <span asp-validation-for="@Model.PostalCode" class="text-danger"></span>
+                            <span asp-validation-for="PostalCode" class="text-danger"></span>
                         </div>
                     </div>
-                    <div class="form-floating mb-3">
-                        <input asp-for="StreetAddres" class="form-control help-sidebar" data-title="StreetAddress" data-description="Enter your Address" id="floatingText" placeholder="Password">
-                        <label for="floatingText">&nbsp; Street Address</label>
-                        <span asp-validation-for="@Model.StreetAddres" class="text-danger"></span>
-                    </div>
+                    <div class="row justify-content-between">
+                        <div class="form-floating mb-3 col-sm-6">
+                            <input asp-for="StreetAddres" class="form-control help-sidebar" data-title="StreetAddress" data-description="Enter your Address" id="floatingText" placeholder="StreetAddress">
+                            <label for="floatingText">&nbsp; Street Address</label>
+                            <span asp-validation-for="StreetAddres" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating mb-3 col-sm-6">
+                            <input asp-for="PhoneNumber" class="form-control help-sidebar" data-title="PhoneNumber" data-description="Enter your PhoneNumber" id="floatingText" placeholder="PhoneNumber">
+                            <label for="floatingText">&nbsp; Phone Number</label>
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </div>
+                    </div>  
 
                     @if (userService.GetCurrentUser().Role == RoleConstants.Role_Admin)
                     {
 
                         <div class="form-floating mb-3 col-sm-12">
 
-                            <select asp-for="@Model.Role" data-title="User Role" data-description="Choose the Role of the User" class="form-select help-sidebar">
+                            <select asp-for="Role" data-title="User Role" data-description="Choose the Role of the User" class="form-select help-sidebar">
                                 <option disabled selected>Choose User Role</option>
                                 <option value="@RoleConstants.Role_Admin">Admin</option>
                                 <option value="@RoleConstants.Role_User_Indi">Individual</option>

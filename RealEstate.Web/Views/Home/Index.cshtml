@@ -9,100 +9,110 @@
 
 @if (userService.GetCurrentUser()!=null)
 {
-    <div class="content">
+    <div class="content w-100 m-0">
 
         <partial name="_Navbar" />
         <div class="container-fluid pt-4 px-4 col-12">
+            <div class="d-flex text-center justify-content-center">
 
-            <form asp-controller="Home" asp-action="Index" method="post">
+                <form class="w-100" asp-controller="Home" asp-action="Index" method="post">
 
-                <select name="bedrooms" class="option-bar col-lg-3 col-form-label-sm cl-md-6 col-sm-12 mb-2" aria-label="Default select example">
-                    <option selected disabled>BedRooms</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
-                <select name="bathrooms" class="option-bar col-lg-3 col-form-label-sm cl-md-6 col-sm-12 mb-2 " aria-label="Default select example">
-                    <option selected>BathRooms</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
-                <select class="option-bar  col-lg-3 cl-md-6 col-sm-12 col-form-label-sm mb-2 " name="city">
-                    <option disabled selected>City</option>
-                    <option value="Prishtinë">Prishtinë</option>
-                    <option value="Gjilan">Gjilan</option>
-                    <option value="Prizren">Prizren</option>
-                    <option value="Pejë">Pejë</option>
-                    <option value="Ferizaj">Ferizaj</option>
-                    <option value="Mitrovice">Mitrovice</option>
-                    <option value="Gjakovë">Gjakovë</option>
-                    <option value="Malishevë">Malishevë</option>
-                    <option value="Podujevë">Podujevë</option>
-                    <option value="Vushtrri">Vushtrri</option>
-                    <option value="Skënderaj">Skënderaj</option>
-                    <option value="Viti">Viti</option>
-                    <option value="Suharekë">Suharekë</option>
-                </select>
-                <select class="option-bar col-lg-3 col-form-label-sm cl-md-6 col-sm-12 mb-2 " name="propertyType" asp-items="@ViewBag.PropertyTypes">
-                    <option disabled selected>PropertyType</option>
-                </select>
-                <select id="transactionType" class="option-bar large col-form-label-sm col-lg-3 cl-md-6 col-sm-12 mb-2 " name="transactionType">
-                    <option disabled selected>TransactionType</option>
-                </select>
-                <select id="minPrice" name="minPrice" class="option-bar large col-form-label-sm col-lg-3 cl-md-6 col-sm-12 mb-2">
-                    <option selected disabled>MinPrice</option>
-                </select>
-                <select id="maxPrice" name="maxPrice" class="option-bar large col-form-label-sm col-lg-3 cl-md-6 col-sm-12 mb-2">
-                    <option selected disabled>MaxPrice</option>
-                </select>
+                    <select name="bedrooms" class="option-bar col-lg-3 col-form-label-sm cl-md-6 col-sm-12 mb-2" aria-label="Default select example">
+                        <option selected disabled>BedRooms</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                    <select name="bathrooms" class="option-bar col-lg-3 col-form-label-sm cl-md-6 col-sm-12 mb-2 " aria-label="Default select example">
+                        <option selected>BathRooms</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                    <select class="option-bar  col-lg-3 cl-md-6 col-sm-12 col-form-label-sm mb-2 " name="city">
+                        <option disabled selected>City</option>
+                        <option value="Prishtinë">Prishtinë</option>
+                        <option value="Gjilan">Gjilan</option>
+                        <option value="Prizren">Prizren</option>
+                        <option value="Pejë">Pejë</option>
+                        <option value="Ferizaj">Ferizaj</option>
+                        <option value="Mitrovice">Mitrovice</option>
+                        <option value="Gjakovë">Gjakovë</option>
+                        <option value="Malishevë">Malishevë</option>
+                        <option value="Podujevë">Podujevë</option>
+                        <option value="Vushtrri">Vushtrri</option>
+                        <option value="Skënderaj">Skënderaj</option>
+                        <option value="Viti">Viti</option>
+                        <option value="Suharekë">Suharekë</option>
+                    </select>
+                    <select class="option-bar col-lg-3 col-form-label-sm cl-md-6 col-sm-12 mb-2 " name="propertyType" asp-items="@ViewBag.PropertyTypes">
+                        <option disabled selected>PropertyType</option>
+                    </select>
+                    <select id="transactionType" class="option-bar large col-form-label-sm col-lg-3 cl-md-6 col-sm-12 mb-2 " name="transactionType">
+                        <option disabled selected>TransactionType</option>
+                    </select>
+                    <select id="minPrice" name="minPrice" class="option-bar large col-form-label-sm col-lg-3 cl-md-6 col-sm-12 mb-2">
+                        <option selected disabled>MinPrice</option>
+                    </select>
+                    <select id="maxPrice" name="maxPrice" class="option-bar large col-form-label-sm col-lg-3 cl-md-6 col-sm-12 mb-2">
+                        <option selected disabled>MaxPrice</option>
+                    </select>
 
-                <button class="btn btn-primary col-form-label-sm col-lg-3 cl-md-6 col-sm-12" type="submit">Search</button>
-                <a  asp-controller="Home" asp action="Index" class="btn btn-secondary col-form-label-sm col-lg-3 cl-md-6 col-sm-12">Clear Filters</a>
-
-
-
-            </form>
+                    <button class="btn btn-primary col-form-label-sm col-lg-3 cl-md-6 col-sm-12" type="submit">Search</button>
+                    <a  asp-controller="Home" asp action="Index" class="btn btn-secondary col-form-label-sm col-lg-3 cl-md-6 col-sm-12">Clear Filters</a>
 
 
 
-            <div class="row pb-3 px-2 w-100">
-                @foreach (var property in Model)
+                </form>
+            </div>
+
+
+
+            <div class="row pb-3 px-2 d-flex w-75 text-center justify-content-center">
+                @if(Model != null)
                 {
+                    
+                    foreach (var property in Model)
+                    {
 
-                    <div class="col-lg-3 col-md-6">
-                        <div class="row p-2">
-                            <div class="col-12 p-1" style="border:1px solid #008cba; border-radius:5px;">
-                                <div class="card">
-                                    <img src="@property.CoverImageBlobUrl" class="card-img-top rounded" style="width:100%;object-fit:contain;" />
+                        <div class="col-lg-3 col-md-6">
+                            <div class="row p-2">
+                                <div class="col-12 p-1" style="border:1px solid #008cba; border-radius:5px;">
+                                    <div class="card">
+                                        <img src="@property.CoverImageBlobUrl" class="card-img-top rounded" style="width:100%;object-fit:contain;" />
 
-                                    <div class="card-body">
-                                        <div class="pl-1">
-                                            <p class="card-title h5 text-primary">@property.Name</p>
-                                            <p class="card-title text-info"><b>@property.Price.ToString("c")</b></p>
+                                        <div class="card-body">
+                                            <div class="pl-1">
+                                                <p class="card-title h5 text-primary">@property.Name</p>
+                                                <p class="card-title text-info"><b>@property.Price.ToString("c")</b></p>
+                                            </div>
+                                            <div class="pl-1">
+                                                <p>BedRooms: @property.BedRooms</p>
+                                            </div>
+                                            <div class="pl-1">
+                                                <p>BathRooms: @property.BathRooms<b></b></p>
+                                            </div>
+                                            <div class="pl-1">
+                                                <p>Area: @property.Area (In m&sup2;) <b></b></p>
+                                            </div>
                                         </div>
-                                        <div class="pl-1">
-                                            <p>BedRooms: @property.BedRooms</p>
-                                        </div>
-                                        <div class="pl-1">
-                                            <p>BathRooms: @property.BathRooms<b></b></p>
-                                        </div>
-                                        <div class="pl-1">
-                                            <p>Area: @property.Area (In"] m&sup2;) <b></b></p>
-                                        </div>
+
                                     </div>
-
-                                </div>
-                                <div class="card-footer">
-                                    <a asp-controller="Properties" asp-action="Details" class="btn btn-primary w-100" asp-route-propertyId="@property.Id">Details</a>
+                                    <div class="card-footer">
+                                        <a asp-controller="Properties" asp-action="Details" class="btn btn-primary w-100" asp-route-propertyId="@property.Id">Details</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    }
+                }
+                else
+                {
+                    <h1>No properties to show!</h1>
                 }
             </div>
         </div>
@@ -110,10 +120,11 @@
 }
 else
 {
-    <div class="content">
-
+    <div class="content w-100 m-0">
         <div class="container-fluid pt-4 px-4 col-12">
-            <form asp-controller="Home" asp-action="Index" method="post">
+            <div class="d-flex text-center justify-content-center">
+
+            <form class="w-100" asp-controller="Home" asp-action="Index" method="post">
 
                 <select name="bedrooms" class="option-bar col-lg-3 col-form-label-sm cl-md-6 col-sm-12 mb-2" aria-label="Default select example">
                     <option selected disabled>BedRooms</option>
@@ -152,6 +163,8 @@ else
                 </select>
                 <select id="transactionType" class="option-bar large col-form-label-sm col-lg-3 cl-md-6 col-sm-12 mb-2 " name="transactionType">
                     <option disabled selected>TransactionType</option>
+                    <option value="Sale">Sale</option>
+                    <option value="Rent">Rent</option>
                 </select>
                 <select id="minPrice" name="minPrice" class="option-bar large col-form-label-sm col-lg-3 cl-md-6 col-sm-12 mb-2">
                     <option selected disabled>MinPrice</option>
@@ -161,45 +174,56 @@ else
                 </select>
 
                 <button class="btn btn-primary col-form-label-sm col-lg-3 cl-md-6 col-sm-12" type="submit">Search</button>
-                <a asp-controller="Home" asp action="Index" class="btn btn-secondary col-form-label-sm col-lg-3 cl-md-6 col-sm-12">ClearFilters</a>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-secondary col-form-label-sm col-lg-3 cl-md-6 col-sm-12">ClearFilters</a>
 
 
 
             </form>
-            <div class="row pb-3 px-2 w-100">
-                @foreach (var property in Model)
+            </div>
+            <div class="row pb-3 px-2 d-flex w-75">
+                @if(Model != null)
                 {
+                    
+                    foreach (var property in Model)
+                    {
 
-                    <div class="col-lg-3 col-md-6">
-                        <div class="row p-2">
-                            <div class="col-12 p-1" style="border:1px solid #008cba; border-radius:5px;">
-                                <div class="card">
-                                    <img src="@property.CoverImageBlobUrl" class="card-img-top rounded" style="height:175px;" />
+                        <div class="col-lg-3 col-md-6">
+                            <div class="row p-2">
+                                <div class="col-12 p-1" style="border:1px solid #008cba; border-radius:5px;">
+                                    <div class="card">
+                                        <img src="@property.CoverImageBlobUrl" class="card-img-top rounded" style="height:175px;" />
 
-                                    <div class="card-body">
-                                        <div class="pl-1">
-                                            <p class="card-title h5 text-primary text-nowrap">@property.Name</p>
-                                            <p class="card-title text-info"><b>@property.Price.ToString("c")</b></p>
+                                        <div class="card-body">
+                                            <div class="pl-1">
+                                                <p class="card-title h5 text-primary text-nowrap">@property.Name</p>
+                                                <p class="card-title text-info"><b>@property.Price.ToString("c")</b></p>
+                                            </div>
+                                            <div class="pl-1">
+                                                <p>BedRooms: @property.BedRooms</p>
+                                            </div>
+                                            <div class="pl-1">
+                                                <p>BathRooms: @property.BathRooms<b></b></p>
+                                            </div>
+                                            <div class="pl-1">
+                                                <p>Area: @property.Area (In m&sup2;) <b></b></p>
+                                            </div>
                                         </div>
-                                        <div class="pl-1">
-                                            <p>BedRooms: @property.BedRooms</p>
-                                        </div>
-                                        <div class="pl-1">
-                                            <p>BathRooms: @property.BathRooms<b></b></p>
-                                        </div>
-                                        <div class="pl-1">
-                                            <p>Area: @property.Area (In) m&sup2;) <b></b></p>
-                                        </div>
+
                                     </div>
-
-                                </div>
-                                <div class="card-footer">
-                                    <a  asp-controller="Properties" asp-action="Details" class="btn btn-primary w-100" asp-route-propertyId="@property.Id">Details</a>
+                                    <div class="card-footer">
+                                        <a  asp-controller="Properties" asp-action="Details" class="btn btn-primary w-100" asp-route-propertyId="@property.Id">Details</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                
+                    }
                 }
+                else
+                {
+                    <h1>No properties to show!</h1>
+                }
+
             </div>
         </div>
     </div>
@@ -208,17 +232,17 @@ else
 
 @section Scripts{
     <script>
-        var saleMinPriceOptions = ['MinPrice"]', '10000', '20000', '25000', '30000', '50000', '100000', '150000', '200000'];
-        var saleMaxPriceOptions = ['MaxPrice"]', '10000', '20000', '25000', '30000', '50000', '100000', '150000', '200000'];
-        var rentMinPriceOptions = ['MinPrice"]', '200', '250', '300', '400', '500', '700'];
-        var rentMaxPriceOptions = ['MaxPrice"]ax Price', '200', '250', '300', '400', '500', '700'];
+        var saleMinPriceOptions = ['MinPrice', '10000', '20000', '25000', '30000', '50000', '100000', '150000', '200000'];
+        var saleMaxPriceOptions = ['MaxPrice', '10000', '20000', '25000', '30000', '50000', '100000', '150000', '200000'];
+        var rentMinPriceOptions = ['MinPrice', '200', '250', '300', '400', '500', '700'];
+        var rentMaxPriceOptions = ['MaxPrice', '200', '250', '300', '400', '500', '700'];
 
         $('#transactionType').change(function () {
             var option = $(this).val();
 
             $('#minPrice').empty();
             $('#maxPrice').empty();
-            if (option == '1') {
+            if (option == 'Sale') {
                 for (var i = 0; i < saleMinPriceOptions.length; i++) {
                     $('#minPrice').append($('<option>', {
                         value: saleMinPriceOptions[i],
@@ -233,7 +257,7 @@ else
 
                 }
             }
-            else if (option == '2') {
+            else if (option == 'Rent') {
                 for (var i = 0; i < rentMinPriceOptions.length; i++) {
                     $('#minPrice').append($('<option>', {
                         value: rentMinPriceOptions[i],

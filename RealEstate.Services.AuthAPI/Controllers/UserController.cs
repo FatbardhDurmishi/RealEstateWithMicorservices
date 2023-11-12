@@ -45,16 +45,17 @@ namespace RealEstate.Services.AuthAPI.Controllers
         }
 
         [HttpPost("CreateUser")]
-        public async Task<ActionResult<RegisterDto>> CreateUser([FromBody] dynamic parameters)
+        public async Task<ActionResult> CreateUser([FromBody] CreateUserDto parameters)
         {
-            if (parameters.User == null)
-            {
-                return BadRequest();
-            }
+            //if (parameters.user == null)
+            //{
+            //    return BadRequest();
+            //}
 
-            var user = new ApplicationUser
+            var user = new ApplicationUser()
             {
                 Name = parameters.User.Name,
+                UserName = parameters.User.Email,
                 Email = parameters.User.Email,
                 StreetAddres = parameters.User.StreetAddres,
                 City = parameters.User.City,
@@ -123,11 +124,16 @@ namespace RealEstate.Services.AuthAPI.Controllers
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)
             {
-                var roleResult = await _userManager.RemoveFromRoleAsync(user, registerDto.Role);
-                if (roleResult.Succeeded)
+                if (user.Role != registerDto.Role)
                 {
-                    await _userManager.AddToRoleAsync(user, user.Role);
+
+                    var roleResult = await _userManager.RemoveFromRoleAsync(user, registerDto.Role);
+                    if (roleResult.Succeeded)
+                    {
+                        await _userManager.AddToRoleAsync(user, user.Role);
+                    }
                 }
+
             }
             return Ok(user);
         }

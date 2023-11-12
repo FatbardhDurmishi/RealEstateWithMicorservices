@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "96tTQZMjflScmwa0kNBj8hie2BFR88+SkG7QaqQxOvsX+Jnxvz3cPOIUk6LmyaYAvfns32U5+r4CY2zWvAN2Sw==",
+  "dgSpecHash": "0J49+cfePz0SY1i1QlYfFiD7eYQJhQrFs6nOGHUdmS8pvXQUBYEntVbR/It9GR2CykHKymYwqqn4sz7qzkAV9A==",
   "success": true,
   "projectFilePath": "C:\\Riinvest\\VitiIII\\Semestri6\\TemaDiplomes\\RealEstateMicroservices\\RealEstateWithMicorservices\\RealEstate.Services.AuthAPI\\RealEstate.Services.AuthAPI.csproj",
   "expectedPackageFiles": [
@@ -41,7 +41,9 @@
     "C:\\Users\\fatba\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
     "C:\\Users\\fatba\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\fatba\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
+    "C:\\Users\\fatba\\.nuget\\packages\\mysqlconnector\\2.1.2\\mysqlconnector.2.1.2.nupkg.sha512",
     "C:\\Users\\fatba\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
+    "C:\\Users\\fatba\\.nuget\\packages\\pomelo.entityframeworkcore.mysql\\6.0.2\\pomelo.entityframeworkcore.mysql.6.0.2.nupkg.sha512",
     "C:\\Users\\fatba\\.nuget\\packages\\swashbuckle.aspnetcore\\6.5.0\\swashbuckle.aspnetcore.6.5.0.nupkg.sha512",
     "C:\\Users\\fatba\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.5.0\\swashbuckle.aspnetcore.swagger.6.5.0.nupkg.sha512",
     "C:\\Users\\fatba\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.5.0\\swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512",

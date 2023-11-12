@@ -1,5 +1,4 @@
-﻿using Azure.Identity;
-using Azure.Storage;
+﻿using Azure.Storage;
 using Azure.Storage.Blobs;
 using Azure.Storage.Sas;
 using Microsoft.AspNetCore.Mvc;
@@ -16,19 +15,20 @@ namespace RealEstate.Services.PropertyService.Controllers
     {
         private readonly BlobServiceClient blobServiceClient;
         private readonly BlobContainerClient containerClient;
-        private readonly string accoutName = "riinvestdetyra";
+        private readonly string accountName = "riinvestdetyra";
         private readonly string accountKey = "ar97PiHstwAOJfq9Op8Op7b1jrmVVniJc0xvUoGnfsQAK9dBBoWm5MnM2o8jRYSJQ7b//JC8oGFv+AStXgiw5A==";
         private readonly StorageSharedKeyCredential credential;
         private readonly IPropertyRepository _propertyRepository;
         private readonly HttpClient _httpClient;
         private readonly IPropertyImageRepository _propertyImageRepository;
+        private readonly IConfiguration _configuration;
 
-        public PropertiesController(IPropertyRepository propertyRepository, HttpClient httpClient, IPropertyImageRepository propertyImageRepository)
+        public PropertiesController(IPropertyRepository propertyRepository, HttpClient httpClient, IPropertyImageRepository propertyImageRepository, IConfiguration configuration)
         {
-            credential = new StorageSharedKeyCredential(accoutName, accountKey);
-            blobServiceClient = new BlobServiceClient(
-    new Uri("https://riinvestdetyra.blob.core.windows.net"), new DefaultAzureCredential());
+            _configuration = configuration;
 
+            credential = new StorageSharedKeyCredential(accountName, accountKey);
+            blobServiceClient = new BlobServiceClient(_configuration.GetConnectionString("AzureStorageConnection"));
             containerClient = blobServiceClient.GetBlobContainerClient("pictures");
             _propertyRepository = propertyRepository;
             _httpClient = httpClient;
@@ -80,9 +80,15 @@ namespace RealEstate.Services.PropertyService.Controllers
             }
             if (CoverImage != null)
             {
+                bool result = await UploadToBlob(containerClient, CoverImage);
+                if (!result)
+                {
+                    return BadRequest(result);
+                }
                 property.CoverImageUrl = CoverImage.FileName;
                 await _propertyRepository.Update(property);
-                await UploadToBlob(containerClient, CoverImage);
+
+
             }
             foreach (var image in PropertyImages)
             {
@@ -91,8 +97,17 @@ namespace RealEstate.Services.PropertyService.Controllers
                     ImageUrl = image.FileName,
                     PropertyId = propertyId
                 };
+                if (image.FileName != CoverImage.FileName)
+                {
+                    bool result = await UploadToBlob(containerClient, image);
+                    if (result)
+                    {
+                        await _propertyImageRepository.Add(Image);
+                    }
+                }
                 await _propertyImageRepository.Add(Image);
-                await UploadToBlob(containerClient, image);
+
+
             }
             return Ok();
         }
@@ -110,7 +125,7 @@ namespace RealEstate.Services.PropertyService.Controllers
             {
                 return NotFound();
             }
-            if (parameters.imagesToDelete != null)
+            if (parameters.imagesToDelete.Count() > 0)
             {
                 foreach (var imageId in parameters.imagesToDelete)
                 {
@@ -123,7 +138,6 @@ namespace RealEstate.Services.PropertyService.Controllers
                     }
                 }
             }
-            property.Name = parameters.addPropertyDto.name;
             property.Name = parameters.addPropertyDto.name;
             property.Description = parameters.addPropertyDto.description;
             property.City = parameters.addPropertyDto.city;
@@ -144,9 +158,12 @@ namespace RealEstate.Services.PropertyService.Controllers
                 property.CoverImageUrl = parameters.addPropertyDto.coverImageUrl;
             }
             property.TransactionType = parameters.addPropertyDto.transactionType;
-            property.UserId = parameters.addPropertyDto.userId;
+            if (parameters.addPropertyDto.userId != null)
+            {
+                property.UserId = parameters.addPropertyDto.userId;
+            }
             await _propertyRepository.Update(property);
-            return Ok();
+            return Ok(property);
         }
 
         [HttpGet("GetProperties/{currentUserId}/{currentUserRole}")]
@@ -200,9 +217,6 @@ namespace RealEstate.Services.PropertyService.Controllers
             }
             else
             {
-                //var response = await _httpClient.GetAsync($"{APIBaseUrls.AuthAPIBaseUrl}/api/user/GetUser/{currentUserId}");
-
-                //var users = response.Content.ReadFromJsonAsync<List<UserDto>>();
                 var properties = await _propertyRepository.GetAll(x => x.UserId == currentUserId, includeProperties: "PropertyType");
                 if (properties != null)
                 {
@@ -232,13 +246,15 @@ namespace RealEstate.Services.PropertyService.Controllers
         }
 
         [HttpGet("GetPropertiesForIndex/{currentUserId}/{currentUserRole}")]
-        public async Task<IActionResult> GetPropertiesForIndex(string currentUserId, string currentUserRole)
+        public async Task<IActionResult> GetPropertiesForIndex(string? currentUserId, string? currentUserRole)
         {
             //get the properties that dont beling to the current user
-
+            if (string.IsNullOrEmpty(currentUserId))
+            {
+            }
             if (currentUserRole == RoleConstants.Role_User_Indi)
             {
-                var properties = await _propertyRepository.GetAll(x => x.UserId != currentUserId, includeProperties: "PropertyImages,PropertyType");
+                var properties = await _propertyRepository.GetAll(x => x.UserId != currentUserId && x.Status == "Free", includeProperties: "PropertyImages,PropertyType");
                 foreach (var property in properties)
                 {
                     property.CoverImageBlobUrl = await GetBlobUrl(containerClient, property.CoverImageUrl);
@@ -254,7 +270,7 @@ namespace RealEstate.Services.PropertyService.Controllers
                 if (usersResponse.IsSuccessStatusCode)
                 {
                     var users = await usersResponse.Content.ReadFromJsonAsync<List<UserDto>>();
-                    var properties = await _propertyRepository.GetAll(x => users.Any(y => x.UserId == y.Id), includeProperties: "PropertyType");
+                    var properties = await _propertyRepository.GetAll(x => users.Any(y => x.UserId == y.Id) && x.Status == "Free", includeProperties: "PropertyType");
                     if (properties != null)
                     {
                         foreach (var property in properties)
@@ -264,6 +280,22 @@ namespace RealEstate.Services.PropertyService.Controllers
                         return Ok(properties);
                     }
                 }
+            }
+
+            return NoContent();
+        }
+
+        [HttpGet("GetPropertiesForIndex")]
+        public async Task<IActionResult> GetPropertiesForIndex()
+        {
+            var properties = await _propertyRepository.GetAll(includeProperties: "PropertyImages,PropertyType");
+            foreach (var property in properties)
+            {
+                property.CoverImageBlobUrl = await GetBlobUrl(containerClient, property.CoverImageUrl);
+            }
+            if (properties != null)
+            {
+                return Ok(properties);
             }
             return NoContent();
         }
@@ -306,13 +338,26 @@ namespace RealEstate.Services.PropertyService.Controllers
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
-        private static async Task UploadToBlob(BlobContainerClient containerClient, IFormFile file)
+        private async Task<bool> UploadToBlob(BlobContainerClient containerClient, IFormFile file)
         {
-            // Get a reference to a blob
-            BlobClient blobClient = containerClient.GetBlobClient(file.FileName);
-            // Open the file and upload its data
-            var InputStream = file.OpenReadStream();
-            await containerClient.UploadBlobAsync(file.FileName, InputStream);
+            try
+            {
+
+                // Get a reference to a blob
+                //BlobClient blobClient = containerClient.GetBlobClient(file.FileName);
+                //BlobClient blobClient = containerClient.GetBlobClient(file.FileName);
+
+                // Open the file and upload its data
+                var InputStream = file.OpenReadStream();
+                await containerClient.UploadBlobAsync(file.FileName, InputStream);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
@@ -324,28 +369,43 @@ namespace RealEstate.Services.PropertyService.Controllers
         [ApiExplorerSettings(IgnoreApi = true)]
         private static async Task<string> GetBlobUrl(BlobContainerClient containerClient, string blobName)
         {
-            string accountName = "riinvestdetyra";
-            string accountKey = "ar97PiHstwAOJfq9Op8Op7b1jrmVVniJc0xvUoGnfsQAK9dBBoWm5MnM2o8jRYSJQ7b//JC8oGFv+AStXgiw5A==";
-            StorageSharedKeyCredential credential = new StorageSharedKeyCredential(accountName, accountKey);
-            //UserDelegationKey key = await blobServiceClient.GetUserDelegationKeyAsync(DateTimeOffset.UtcNow, DateTimeOffset.UtcNow.AddDays(7),CancellationToken.None);
+            //string accountName = "riinvestdetyra";
+            //string accountKey = "ar97PiHstwAOJfq9Op8Op7b1jrmVVniJc0xvUoGnfsQAK9dBBoWm5MnM2o8jRYSJQ7b//JC8oGFv+AStXgiw5A==";
+            //StorageSharedKeyCredential credential = new StorageSharedKeyCredential(accountName, accountKey);
+            ////UserDelegationKey key = await blobServiceClient.GetUserDelegationKeyAsync(DateTimeOffset.UtcNow, DateTimeOffset.UtcNow.AddDays(7),CancellationToken.None);
+            //BlobClient blobClient = containerClient.GetBlobClient(blobName);
+            //// Create a SAS token that's valid for one hour.
+            //BlobSasBuilder sasBuilder = new BlobSasBuilder()
+            //{
+            //    BlobContainerName = containerClient.Name,
+            //    BlobName = blobName,
+            //    Resource = "b",
+            //    StartsOn = DateTimeOffset.UtcNow,
+            //    ExpiresOn = DateTimeOffset.UtcNow.AddHours(1)
+            //};
+            //sasBuilder.SetPermissions(BlobSasPermissions.Read | BlobSasPermissions.List);
+            //BlobUriBuilder blobUriBuilder = new BlobUriBuilder(blobClient.Uri)
+            //{
+            //    // Specify the user delegation key.
+            //    Sas = sasBuilder.ToSasQueryParameters(credential)
+            //};
+            ////blobUrl = containerClient.GenerateSasUri(sasBuilder).ToString();
+            //return blobUriBuilder.ToString();
+
             BlobClient blobClient = containerClient.GetBlobClient(blobName);
-            // Create a SAS token that's valid for one hour.
-            BlobSasBuilder sasBuilder = new BlobSasBuilder()
-            {
-                BlobContainerName = containerClient.Name,
-                BlobName = blobName,
-                Resource = "b",
-                StartsOn = DateTimeOffset.UtcNow,
-                ExpiresOn = DateTimeOffset.UtcNow.AddHours(1)
-            };
-            sasBuilder.SetPermissions(BlobSasPermissions.Read);
-            BlobUriBuilder blobUriBuilder = new BlobUriBuilder(blobClient.Uri)
-            {
-                // Specify the user delegation key.
-                Sas = sasBuilder.ToSasQueryParameters(credential)
-            };
-            //blobUrl = containerClient.GenerateSasUri(sasBuilder).ToString();
-            return blobUriBuilder.ToString();
+
+            // Set the desired start and expiration times
+            //DateTimeOffset startsOn = DateTimeOffset.UtcNow;
+            DateTimeOffset expiresOn = DateTimeOffset.UtcNow.AddHours(1);
+
+            // Generate a SAS token URI for the blob with specified permissions and times
+            //Uri blobSasUri = containerClient.GenerateSasUri(blobName, startsOn, expiresOn, BlobSasPermissions.Read);
+            //Uri blobSasUri = containerClient.GenerateSasUri(BlobContainerSasPermissions.Read, expiresOn);
+            Uri blobSasUri = blobClient.GenerateSasUri(BlobSasPermissions.Read, expiresOn);
+
+            // Now you can use the blobSasUri in your application
+            string blobUrl = blobSasUri.ToString();
+            return blobUrl;
         }
     }
 }

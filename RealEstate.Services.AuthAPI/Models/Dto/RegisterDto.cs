@@ -7,10 +7,10 @@ namespace RealEstate.Services.AuthAPI.Models.Dto
 {
     public class RegisterDto
     {
-        public string Id { get; set; }
+        public string? Id { get; set; }
         public string Email { get; set; }
-        public string Password { get; set; }
-        public string ConfirmPassword { get; set; }
+        public string? Password { get; set; }
+        public string? ConfirmPassword { get; set; }
         public string Name { get; set; }
         public string? StreetAddres { get; set; }
         public string? City { get; set; }

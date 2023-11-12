@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RealEstate.Web.Constants;
+using RealEstate.Web.CustomAttributes;
 using RealEstate.Web.Models;
 using RealEstate.Web.Models.Dtos;
 using RealEstate.Web.Services.IServices;
 
 namespace RealEstate.Web.Controllers
 {
+    [AuthorizeUsers(RoleConstants.Role_User_Indi, RoleConstants.Role_User_Comp)]
     public class PropertiesController : Controller
     {
         private readonly HttpClient _httpClient;
@@ -27,13 +30,15 @@ namespace RealEstate.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> AddProperty(int? id)
         {
+            string currentUserId = _userService.GetCurrentUser().Id;
+            string currentUserRole = _userService.GetCurrentUserRole();
             var model = new AddPropertyViewModel();
             if (id == null)
             {
                 model.Property = new PropertyViewModel();
-                if (_userService.GetCurrentUser().Role == RoleConstants.Role_User_Comp)
+                if (currentUserRole == RoleConstants.Role_User_Comp)
                 {
-                    var usersResponse = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/user/GetUsers/{_userService.GetCurrentUser().Id}");
+                    var usersResponse = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/user/GetUsers/{currentUserId}");
                     if (usersResponse.IsSuccessStatusCode)
                     {
                         var users = await usersResponse.Content.ReadFromJsonAsync<List<UserDto>>();
@@ -62,9 +67,9 @@ namespace RealEstate.Web.Controllers
                 {
                     var property = await response.Content.ReadFromJsonAsync<PropertyViewModel>();
                     model.Property = property;
-                    if (_userService.GetCurrentUser().Role == RoleConstants.Role_User_Comp)
+                    if (currentUserRole == RoleConstants.Role_User_Comp)
                     {
-                        var usersResponse = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/user/GetUsers/{_userService.GetCurrentUser().Id}");
+                        var usersResponse = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/user/GetUsers/{currentUserId}");
                         if (usersResponse.IsSuccessStatusCode)
                         {
                             var users = await usersResponse.Content.ReadFromJsonAsync<List<UserDto>>();
@@ -139,21 +144,21 @@ namespace RealEstate.Web.Controllers
                     else
                     {
                         TempData["error"] = "Something went wrong! Try Again";
-                        return View("AddUpdateProperty");
+                        return View("AddUpdateProperty", model);
                     }
                 }
                 else
                 {
                     TempData["error"] = "Something went wrong! Try Again";
                     ModelState.AddModelError("", "Invalid attempt");
-                    return RedirectToAction("AddProperty");
+                    return RedirectToAction("AddProperty", model);
                 }
             }
             else
             {
                 TempData["error"] = "Something went wrong! Try Again";
-                ModelState.AddModelError("", "Invalid attempt");
-                return RedirectToAction("AddProperty");
+                ModelState.AddModelError("Errors", "Invalid attempt");
+                return View("AddUpdateProperty", model);
             }
         }
 
@@ -201,6 +206,7 @@ namespace RealEstate.Web.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int propertyId)
         {
             PropertyDetailsViewModel propertyDetailsViewModel = new PropertyDetailsViewModel();
@@ -224,8 +230,9 @@ namespace RealEstate.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdateProperty(AddPropertyViewModel model)
+        public async Task<IActionResult> UpdateProperty(AddPropertyViewModel model, int[]? DeleteImageArr)
         {
+            ModelState.Remove("DeleteImageArr");
             if (ModelState.IsValid)
             {
                 var updatePropertyDto = new PropertyDto();
@@ -252,7 +259,7 @@ namespace RealEstate.Web.Controllers
                 var parameters = new
                 {
                     addPropertyDto = updatePropertyDto,
-                    imagesToDelete = model.DeleteImageIdAdrr
+                    imagesToDelete = DeleteImageArr
                 };
                 var response = await _httpClient.PutAsJsonAsync($"{APIGatewayUrl.URL}api/property/UpdateProperty", parameters);
                 if (response.IsSuccessStatusCode)

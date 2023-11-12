@@ -28,7 +28,7 @@ namespace RealEstate.Services.AuthAPI.Controllers
             _userRepository = userRepository;
         }
 
-        [HttpPost("Register")]
+        [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterDto registerDto)
         {
             ApplicationUser user = new()
@@ -51,50 +51,46 @@ namespace RealEstate.Services.AuthAPI.Controllers
                 user.Role = registerDto.Role;
             }
 
-            try
+            if (!_roleManager.RoleExistsAsync(RoleConstants.Role_Admin).GetAwaiter().GetResult())
             {
-                if (!_roleManager.RoleExistsAsync(RoleConstants.Role_Admin).GetAwaiter().GetResult())
-                {
-                    _roleManager.CreateAsync(new IdentityRole(RoleConstants.Role_Admin)).GetAwaiter().GetResult();
-                    _roleManager.CreateAsync(new IdentityRole(RoleConstants.Role_User_Indi)).GetAwaiter().GetResult();
-                    _roleManager.CreateAsync(new IdentityRole(RoleConstants.Role_User_Comp)).GetAwaiter().GetResult();
-                }
-                var result = await _userManager.CreateAsync(user, registerDto.Password);
+                _roleManager.CreateAsync(new IdentityRole(RoleConstants.Role_Admin)).GetAwaiter().GetResult();
+                _roleManager.CreateAsync(new IdentityRole(RoleConstants.Role_User_Indi)).GetAwaiter().GetResult();
+                _roleManager.CreateAsync(new IdentityRole(RoleConstants.Role_User_Comp)).GetAwaiter().GetResult();
+            }
+            var result = await _userManager.CreateAsync(user, registerDto.Password);
+            if (result.Succeeded)
+            {
                 await _userManager.AddToRoleAsync(user, user.Role);
-                if (result.Succeeded)
-                {
-                    var userToReturn = _context.ApplicationUsers.First(x => x.Email == registerDto.Email);
 
-                    UserDto userDto = new()
-                    {
-                        Name = userToReturn.Name,
-                        Email = userToReturn.Email,
-                        PhoneNumber = userToReturn.PhoneNumber,
-                        StreetAddres = userToReturn.StreetAddres,
-                        City = userToReturn.City,
-                        State = userToReturn.State,
-                        PostalCode = userToReturn.PostalCode,
-                        Role = userToReturn.Role,
-                    };
+                //var userToReturn = _context.ApplicationUsers.First(x => x.Email == registerDto.Email);
 
-                    return Ok(result);
-                }
-                else
-                {
-                    return BadRequest(result.Errors);
-                }
+                //UserDto userDto = new()
+                //{
+                //    Name = userToReturn.Name,
+                //    Email = userToReturn.Email,
+                //    PhoneNumber = userToReturn.PhoneNumber,
+                //    StreetAddres = userToReturn.StreetAddres,
+                //    City = userToReturn.City,
+                //    State = userToReturn.State,
+                //    PostalCode = userToReturn.PostalCode,
+                //    Role = userToReturn.Role,
+                //};
+
+                return Ok(result);
             }
-            catch (Exception ex)
+            else
             {
+                return BadRequest(result.Errors);
             }
-            return BadRequest();
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
-            var users = _context.ApplicationUsers.ToList();
-            if (users.Count() < 3)
+            //var users = _context.ApplicationUsers.ToList();
+            var admin =await  _userRepository.GetFirstOrDefault(x => x.Role == RoleConstants.Role_Admin);
+            //var userAdmin = _context.ApplicationUsers.Where();
+            if (admin == null)
             {
                 var adminUser = new ApplicationUser { UserName = "admin@gmail.com", Email = "admin@gmail.com", EmailConfirmed = true };
 
@@ -110,15 +106,19 @@ namespace RealEstate.Services.AuthAPI.Controllers
 
                 if (result.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(adminUser, RoleConstants.Role_Admin);
+                    await _userManager.AddToRoleAsync(adminUser, adminUser.Role);
                 }
             }
 
             var user = _context.ApplicationUsers.FirstOrDefault(x => x.Email.ToLower() == loginDto.Email.ToLower());
+            if (user == null)
+            {
+                return BadRequest();
+            }
 
             bool isValid = await _userManager.CheckPasswordAsync(user, loginDto.Password);
 
-            if (user == null || isValid == false)
+            if (isValid == false)
             {
                 return BadRequest();
             }

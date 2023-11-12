@@ -114,19 +114,23 @@
                             <th scope="col">TotalPrice</th>
                         </tr>
                     </thead>
-                    @foreach (var item in Model)
+                    @if(Model != null)
                     {
-                        <tbody>
-                            <tr>
-                                <th>@item.Date</th>
-                                <td>@item.OwnerName</td>
-                                <td>@item.BuyerName</td>
-                                <td>@item.PropertyName</td>
-                                <td>@item.TransactionType</td>
-                                <th>@item.RentPrice</th>
-                                <td>@item.TotalPrice</td>
-                            </tr>
-                        </tbody>
+                        
+                        foreach (var item in Model)
+                        {
+                            <tbody>
+                                <tr>
+                                    <th>@item.Date</th>
+                                    <td>@item.OwnerName</td>
+                                    <td>@item.BuyerName</td>
+                                    <td>@item.PropertyName</td>
+                                    <td>@item.TransactionType</td>
+                                    <th>@item.RentPrice</th>
+                                    <td>@item.TotalPrice</td>
+                                </tr>
+                            </tbody>
+                        }
                     }
                 </table>
             </div>

@@ -103,10 +103,17 @@
                                     <span asp-validation-for="@Model.PostalCode" class="text-danger"></span>
                                 </div>
                             </div>
-                            <div class="form-floating mb-3">
+                            <div class="d-flex row">
+                            <div class="form-floating mb-3 col-sm-6">
                                 <input asp-for="StreetAddres" class="form-control" id="floatingText" placeholder="Password">
                                 <label for="floatingText">Street Address</label>
                                 <span asp-validation-for="@Model.StreetAddres" class="text-danger"></span>
+                            </div>
+                                <div class="form-floating mb-3 col-sm-6">
+                                    <input asp-for="PhoneNumber" class="form-control" id="floatingText" placeholder="Phone Number">
+                                    <label for="floatingText">&nbsp; Phone Number</label>
+                                    <span asp-validation-for="@Model.PhoneNumber" class="text-danger"></span>
+                                </div>
                             </div>
 
                             <div class="form-check m-1 mb-3">

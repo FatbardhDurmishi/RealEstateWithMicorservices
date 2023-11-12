@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RealEstate.Web.Constants;
 using RealEstate.Web.Models;
@@ -7,6 +8,7 @@ using RealEstate.Web.Services.IServices;
 
 namespace RealEstate.Web.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         private readonly IUserService _userService;
@@ -182,6 +184,8 @@ namespace RealEstate.Web.Controllers
             }
         }
 
+        //I guess this works having two http verbs in the same method lol
+        [HttpPost]
         [HttpGet]
         public async Task<IActionResult> Index(string? city, int? bedrooms, int? bathrooms, decimal? minPrice, decimal? maxPrice, int? propertyType, string? transactionType, bool loggedIn)
         {
@@ -214,8 +218,6 @@ namespace RealEstate.Web.Controllers
                         filtered = transactionType != null ? filtered.Where(x => x.TransactionType == transactionType) : filtered;
 
                         return View(filtered);
-
-                        return View(properties);
                     }
                 }
                 else
@@ -238,7 +240,7 @@ namespace RealEstate.Web.Controllers
                 }
             }
 
-            var allProperties = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/property/GetProperties");
+            var allProperties = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/property/GetPropertiesForIndex");
             if (allProperties.IsSuccessStatusCode)
             {
                 var properties = await allProperties.Content.ReadFromJsonAsync<IEnumerable<PropertyViewModel>>();

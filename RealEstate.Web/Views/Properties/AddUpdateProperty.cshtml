@@ -72,7 +72,7 @@
                             <div class="form-floating mb-3  ">
                                 <select asp-for="Property.UserId" asp-items="@Model.UsersList" class="form-select help-sidebar" data-title="Agent" data-description="Select the agent you want to assign the property to" id="floatingInput"></select>
                                 <label for="floatingInput">User</label>
-                                <span asp-validation-for="@Model.Property.UserId" class="text-danger"></span>
+                                <span asp-validation-for="Property.UserId" class="text-danger"></span>
                             </div>
                         }
 
@@ -81,12 +81,12 @@
                         <div class="form-floating mb-3 col-sm-6 ">
                             <input asp-for="Property.BedRooms" class="form-control help-sidebar" data-title="BedRooms" data-description="Enter the number of bedrooms">
                             <label for="floatingPassword">&nbsp; BeddRooms</label>
-                            <span asp-validation-for="@Model.Property.BedRooms" class="text-danger"></span>
+                            <span asp-validation-for="Property.BedRooms" class="text-danger"></span>
                         </div>
                         <div class="form-floating mb-3 col-sm-6 ">
                             <input asp-for="Property.BathRooms" class="form-control help-sidebar" data-title="BathRooms" data-description="Enter the number of bathrooms">
                             <label for="floatingText">&nbsp; BathRooms</label>
-                            <span asp-validation-for="@Model.Property.BathRooms" class="text-danger"></span>
+                            <span asp-validation-for="Property.BathRooms" class="text-danger"></span>
                         </div>
                     </div>
 
@@ -95,32 +95,43 @@
                         <div class="form-floating mb-3  col-sm-6 ">
                             <input type="text" asp-for="Property.Area" class="form-control help-sidebar" data-title="Area" data-description="Enter the Area of the Property" id="floatingText" placeholder="text">
                             <label for="floatingText">&nbsp; Area(in m&sup2;)</label>
-                            <span asp-validation-for="@Model.Property.Area" class="text-danger"></span>
+                            <span asp-validation-for="Property.Area" class="text-danger"></span>
                         </div>
                         <div class="form-floating mb-3 col-sm-6">
                             <input asp-for="Property.Price" class="form-control help-sidebar" data-title="Price" data-description="Enter the Price of the property. If the Property is for sale enter the full price, if the property is for rent enter monthly price" id="floatingText">
                             <label for="floatingText">&nbsp; Price</label>
-                            <span asp-validation-for="@Model.Property.Price" class="text-danger"></span>
+                            <span asp-validation-for="Property.Price" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="row justify-content-between">
                         <div class="form-floating mb-3 col-sm-6">
                             <input asp-for="Property.State" class="form-control help-sidebar" data-title="State" data-description="Enter the State where the property is" id="floatingText">
                             <label for="floatingText">&nbsp; State</label>
-                            <span asp-validation-for="@Model.Property.State" class="text-danger"></span>
+                            <span asp-validation-for="Property.State" class="text-danger"></span>
                         </div>
 
                         <div class="form-floating mb-3 col-sm-6">
                             <select class="form-select help-sidebar" asp-for="Property.City" data-title="City" data-description="Enter the City where the property is" asp-items="@Model.Cities" id="floatingText"></select>
                             <label for="floatingText">&nbsp; City</label>
-                            <span asp-validation-for="@Model.Property.City" class="text-danger"></span>
+                            <span asp-validation-for="Property.City" class="text-danger"></span>
                         </div>
                     </div>
-                    <div class="form-floating mb-3">
-                        <input asp-for="Property.StreetAddress" class="form-control help-sidebar" data-title="StreetAddress" data-description="Enter the StreetAddress where the property is" id="floatingText">
-                        <label for="floatingText">&nbsp; Street Address</label>
-                        <span asp-validation-for="@Model.Property.StreetAddress" class="text-danger"></span>
-                    </div>
+                        <div class="row justify-content-between">
+                            <div class="form-floating mb-3 col-sm-6">
+                                <input asp-for="Property.StreetAddress" class="form-control help-sidebar" data-title="StreetAddress" data-description="Enter the StreetAddress where the property is" id="floatingText">
+                                <label for="floatingText">&nbsp; Street Address</label>
+                                <span asp-validation-for="Property.StreetAddress" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-floating mb-3 col-sm-6">
+                                <select class="form-select help-sidebar" asp-for="Property.Status" data-title="Status" data-description="Enter the Status of the of the property " id="floatingText">
+                                    <option value="Free">Free</option>
+                                    <option value="Not Free">Not Free</option>
+                                </select>
+                                <label for="floatingText">&nbsp; Status</label>
+                                <span asp-validation-for="Property.Status" class="text-danger"></span>
+                            </div>
+                        </div>
                     <div class="row justify-content-between">
                         <div class="form-floating mb-3 col-sm-6">
                             <select asp-for="Property.TransactionType"  class="form-select help-sidebar" data-title="Transaction Type" data-description="Select the transcation type of the property" id="floatingInput">
@@ -128,19 +139,19 @@
                                 <option value=@TransactionTypes.Rent>Rent</option>
                             </select>
                             <label for="floatingText">&nbsp; TransactionType</label>
-                            <span asp-validation-for="@Model.Property.TransactionType" class="text-danger"></span>
+                            <span asp-validation-for="Property.TransactionType" class="text-danger"></span>
                         </div>
 
                         <div class="form-floating mb-3 col-sm-6">
                             <select asp-for="Property.PropertyTypeId" asp-items="@Model.PropertyTypeList" class="form-select help-sidebar" data-title="Property Type" data-description="Select the Property type of the property" id="floatingInput"></select>
                             <label for="floatingText">&nbsp; Property Type</label>
-                            <span asp-validation-for="@Model.Property.PropertyType" class="text-danger"></span>
+                            <span asp-validation-for="Property.PropertyType" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-floating mb-3">
                         <textarea rows="3" asp-for="Property.Description" class="form-control help-sidebar" data-title="Description" data-description="Write a detailed descrption of the property" id="floatingInput"></textarea>
                         <label for="floatingText">&nbsp; Description</label>
-                        <span asp-validation-for="@Model.Property.Description" class="text-danger"></span>
+                        <span asp-validation-for="Property.Description" class="text-danger"></span>
                     </div>
 
                     <div class="mb-3">
@@ -161,7 +172,7 @@
                                     for (int i = k; i < Model.Property.PropertyImages.Count();)
                                     {
                                         <div id="thumb-input-24-init-0">
-                                            <input type="hidden" asp-for="@Model.Property.PropertyImages.ElementAt(i).Id" />
+                                            <input type="hidden" asp-for="Property.PropertyImages.ElementAt(i).Id" />
                                             <div id="@Model.Property.PropertyImages.ElementAt(i).Id" class="file-preview-frame krajee-default  file-preview-initial file-sortable kv-preview-thumb rotatable" data-fileindex="init-0" data-fileid="thumb-input-25-init-0" data-template="image">
                                                 <div class="kv-file-content">
                                                     <img src="@url" class="file-preview-image kv-preview-data" style="width: auto; height: auto; max-width: 100%; max-height: 100%;">
@@ -175,7 +186,7 @@
                                                     </div>
                                                     <div class="file-actions">
                                                         <div class="file-footer-buttons">
-                                                            <button data-imageId="@Model.Property.PropertyImages.ElementAt(i).Id" id="btnDelete" onclick="HideImage(@Model.Property.PropertyImages.ElementAt(i).Id)" type="button" class="kv-file-remove btn btn-sm btn-kv btn-default btn-outline-secondary" title="Remove file" data-url="" data-key="1"><i class="bi-trash"></i></button>
+                                                            <button data-imageId="Property.PropertyImages.ElementAt(i).Id" id="btnDelete" onclick="HideImage(@Model.Property.PropertyImages.ElementAt(i).Id)" type="button" class="kv-file-remove btn btn-sm btn-kv btn-default btn-outline-secondary" title="Remove file" data-url="" data-key="1"><i class="bi-trash"></i></button>
                                                         </div>
                                                     </div>
                                                     <span class="file-drag-handle drag-handle-init text-primary" title="Move / Rearrange"><i class="bi-arrows-move"></i></span>
@@ -191,7 +202,7 @@
                         </div>
 
                     }
-                    <input type="hidden" name="DeleteImageIdArr" id="DeleteImageIdArr" asp-for="DeleteImageIdAdrr" />
+                    <input type="hidden" name="DeleteImageArr" id="DeleteImageArr" />
 
                     @if (Model.Property.Id != 0)
                     {
@@ -219,23 +230,22 @@
         </div>
     </div>
 </div>
+<partial name="_ValidationScriptsPartial" />
 
 @section Scripts{
     @{
         // <partial name="_ValidationScriptsPartial" />
         <script src="https://cdn.tiny.cloud/1/8nmp0h00j9mvwkmze0o0mof0lkhqm77c6afbdp31ne2leuc4/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
     }
+
     <script>
         function HideImage(v) {
+            debugger;
             var img = document.getElementById(v)
             img.style.visibility = "hidden";
             var arr = [];
             arr.push(v);
-            $('#DeleteImageIdArr').val(arr);
-
-
-
-            console.log(v)
+                $('#DeleteImageArr').val(arr);
         }
 
     </script>

@@ -1,7 +1,7 @@
 {
   "Routes": [
     {
-      "UpstreamPathTemplate": "/api/auth/Register",
+      "UpstreamPathTemplate": "/api/auth/register",
       "UpstreamHttpMethod": [ "Post" ],
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -10,7 +10,7 @@
           "Port": 7028
         }
       ],
-      "DownstreamPathTemplate": "/api/auth/Register"
+      "DownstreamPathTemplate": "/api/auth/register"
     },
     {
       "UpstreamPathTemplate": "/api/auth/login",
@@ -155,6 +155,18 @@
         }
       ],
       "DownstreamPathTemplate": "/api/property/GetProperty/{id}"
+    },
+    {
+      "UpstreamPathTemplate": "/api/property/GetPropertiesForIndex",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7070
+        }
+      ],
+      "DownstreamPathTemplate": "/api/property/GetPropertiesForIndex"
     },
     {
       "UpstreamPathTemplate": "/api/property/GetPropertiesForIndex/{currentUserId}/{currentUserRole}",

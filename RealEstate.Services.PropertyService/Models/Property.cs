@@ -39,7 +39,7 @@ namespace RealEstate.Services.PropertyService.Models
 
         [StringLength(450)]
         public string? UserId { get; set; }
-
+        [NotMapped]
         public UserDto User { get; set; }
 
         public int? PropertyTypeId { get; set; }

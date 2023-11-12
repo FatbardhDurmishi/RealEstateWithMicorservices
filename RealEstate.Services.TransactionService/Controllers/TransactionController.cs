@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Routing;
 using RealEstate.Services.TransactionService.Constants;
 using RealEstate.Services.TransactionService.Models;
 using RealEstate.Services.TransactionService.Models.Dtos;
 using RealEstate.Services.TransactionService.Repositories.IRepositories;
+using RealEstate.Services.TransactionService.Services;
+using System;
 
 namespace RealEstate.Services.TransactionService.Controllers
 {
@@ -13,11 +14,13 @@ namespace RealEstate.Services.TransactionService.Controllers
     {
         private readonly ITransactionRepository _transactionRepository;
         private readonly HttpClient _httpClient;
+        private readonly EmailService _emailService;
 
-        public TransactionController(ITransactionRepository transactionRepository, HttpClient httpClient)
+        public TransactionController(ITransactionRepository transactionRepository, HttpClient httpClient, EmailService emailService)
         {
             _transactionRepository = transactionRepository;
             _httpClient = httpClient;
+            _emailService = emailService;
         }
 
         [HttpGet("GetTransactions/{currentUserId}/{currentUserRole}")]
@@ -35,7 +38,7 @@ namespace RealEstate.Services.TransactionService.Controllers
                 }
                 else
                 {
-                    return BadRequest();
+                    return BadRequest(response);
                 }
             }
             else if (currentUserRole == RoleConstants.Role_User_Indi)
@@ -96,6 +99,17 @@ namespace RealEstate.Services.TransactionService.Controllers
                 }
 
                 await _transactionRepository.Add(transactionToAdd);
+                var buyerResponse = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/user/GetUser/{transactionDto.BuyerId}");
+                if (buyerResponse.IsSuccessStatusCode)
+                {
+                    var buyer = await buyerResponse.Content.ReadFromJsonAsync<UserDto>();
+                    var ownerResponse = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/user/GetUser/{transactionDto.OwnerId}");
+                    if (ownerResponse.IsSuccessStatusCode)
+                    {
+                        var owner = await ownerResponse.Content.ReadFromJsonAsync<UserDto>();
+                        _emailService.SendEmail(owner.Email, "New Request", $"New Reuqest from: {buyer.Email} for property with ID: {transaction.PropertyId}");
+                    }
+                }
                 return Ok(transactionToAdd);
             }
             else
@@ -114,7 +128,15 @@ namespace RealEstate.Services.TransactionService.Controllers
         [HttpPost("ApproveRequest/{id}")]
         public async Task<ActionResult> ApproveRequest(int id)
         {
+            UserDto buyer = new();
             var transaction = await _transactionRepository.GetFirstOrDefault(x => x.Id == id);
+            var buyerResponse = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/user/GetUser/{transaction.BuyerId}");
+            if (buyerResponse.IsSuccessStatusCode)
+            {
+                var userDto = await buyerResponse.Content.ReadFromJsonAsync<UserDto>();
+                buyer = userDto;
+
+            }
             if (transaction == null)
             {
                 return NotFound("Transaction not found");
@@ -134,6 +156,9 @@ namespace RealEstate.Services.TransactionService.Controllers
                 {
                     return BadRequest();
                 }
+
+                _emailService.SendEmail(buyer.Email, "Request Approved for Rent", $"Your Rent Request for property with ID: {transaction.PropertyId} was approved");
+
                 return Ok();
             }
             else
@@ -153,6 +178,7 @@ namespace RealEstate.Services.TransactionService.Controllers
                 {
                     return BadRequest();
                 }
+                _emailService.SendEmail(buyer.Email, "Request Approved for Sale", $"Your request to property with ID: {transaction.PropertyId} was approved");
                 return Ok();
             }
         }
@@ -167,6 +193,12 @@ namespace RealEstate.Services.TransactionService.Controllers
             }
             _transactionRepository.UpdateStatus(transaction, TransactionStatus.Denied);
             await _transactionRepository.SaveChanges();
+            var buyerResponse = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/user/GetUser/{transaction.BuyerId}");
+            if (buyerResponse.IsSuccessStatusCode)
+            {
+                var buyer = await buyerResponse.Content.ReadFromJsonAsync<UserDto>();
+                _emailService.SendEmail(buyer.Email, "Request Denied", $"Your Request for property with ID: {transaction.PropertyId} was Denied");
+            }
             return Ok();
         }
 
