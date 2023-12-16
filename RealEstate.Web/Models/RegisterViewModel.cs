@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
 namespace RealEstate.Web.Models
@@ -25,12 +23,21 @@ namespace RealEstate.Web.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
-
+        [Required]
+        [DataType(DataType.Password)]
+        [Display(Name = "Old Password")]
+        public string? OldPassword { get; set; }
+        [Required]
         public string Name { get; set; }
+        [Required]
         public string? StreetAddres { get; set; }
+        [Required]
         public string? City { get; set; }
+        [Required]
         public string? State { get; set; }
+        [Required]
         public string? PostalCode { get; set; }
+        [Required]
         public string? PhoneNumber { get; set; }
         public string? Role { get; set; }
     }

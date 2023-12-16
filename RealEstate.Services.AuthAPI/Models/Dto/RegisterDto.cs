@@ -11,6 +11,7 @@ namespace RealEstate.Services.AuthAPI.Models.Dto
         public string Email { get; set; }
         public string? Password { get; set; }
         public string? ConfirmPassword { get; set; }
+        public string? OldPassword { get; set; }
         public string Name { get; set; }
         public string? StreetAddres { get; set; }
         public string? City { get; set; }

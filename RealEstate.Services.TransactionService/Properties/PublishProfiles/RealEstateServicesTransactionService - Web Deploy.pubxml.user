@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project>
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA+MX00Tl7mEOVpQhSWw9kVAAAAAACAAAAAAAQZgAAAAEAACAAAAAdCmaKQcTdN+dQ6j+lWNXw/DSUhf6WKBYBDuxjk/+vMAAAAAAOgAAAAAIAACAAAACcWKPdx76KmLuZN2hnJms1Xk57LCmtd5GP++GXIw7yMYAAAADnr1GbYX/xj8Yi6DNQ8hRWGU3NJ4QW4jVStSBa1bMsFlpeZZiIO54YLc4r2oauVhnRBXm7cL9ELmMq8pTWaE/EKVoKuLM1qvxgRdZVau7ZYjVAnYKuUZ9vprdrakt2w+F8kr37uXLDiqVDcn6wVtwhAMxRSRqUHODBPwDj/vvVEkAAAAC34knc1n9lj7m0V4onNDv5y1Fa3pRN96r2wyBp2wt4OQpOi4NX8i2MYEzuXVxzZPS34ZRjcjB3KOIxuipqSSEk</EncryptedPassword>
+    <History>True|2023-11-23T17:37:02.3428899Z;True|2023-11-23T18:14:24.0604847+01:00;True|2023-11-23T13:31:40.9868438+01:00;False|2023-11-23T13:29:14.3640056+01:00;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="DefaultConnection">
+      <Value>Server=tcp:estateville.database.windows.net,1433%3bInitial Catalog=realestatetransactions%3bPersist Security Info=False%3bUser ID=estateville%3bPassword=bardhi.123%3bMultipleActiveResultSets=False%3bEncrypt=True%3bTrustServerCertificate=False%3bConnection Timeout=30%3b</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+</Project>

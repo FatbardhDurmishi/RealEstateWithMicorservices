@@ -62,20 +62,6 @@ namespace RealEstate.Services.AuthAPI.Controllers
             {
                 await _userManager.AddToRoleAsync(user, user.Role);
 
-                //var userToReturn = _context.ApplicationUsers.First(x => x.Email == registerDto.Email);
-
-                //UserDto userDto = new()
-                //{
-                //    Name = userToReturn.Name,
-                //    Email = userToReturn.Email,
-                //    PhoneNumber = userToReturn.PhoneNumber,
-                //    StreetAddres = userToReturn.StreetAddres,
-                //    City = userToReturn.City,
-                //    State = userToReturn.State,
-                //    PostalCode = userToReturn.PostalCode,
-                //    Role = userToReturn.Role,
-                //};
-
                 return Ok(result);
             }
             else
@@ -88,7 +74,7 @@ namespace RealEstate.Services.AuthAPI.Controllers
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
             //var users = _context.ApplicationUsers.ToList();
-            var admin =await  _userRepository.GetFirstOrDefault(x => x.Role == RoleConstants.Role_Admin);
+            var admin = await _userRepository.GetFirstOrDefault(x => x.Role == RoleConstants.Role_Admin);
             //var userAdmin = _context.ApplicationUsers.Where();
             if (admin == null)
             {
@@ -145,6 +131,54 @@ namespace RealEstate.Services.AuthAPI.Controllers
             };
 
             return Ok(loginResponseDto);
+        }
+
+        [HttpPut("updateUserData")]
+        public async Task<IActionResult> UpdateUserData(RegisterDto registerDto)
+        {
+            if (registerDto == null)
+            {
+                return BadRequest();
+            }
+            var existingUser = await _userManager.FindByEmailAsync(registerDto.Email);
+
+            existingUser.Name = registerDto.Name;
+            existingUser.Email = registerDto.Email;
+            existingUser.UserName = registerDto.Email;
+            existingUser.PhoneNumber = registerDto.PhoneNumber;
+            existingUser.StreetAddres = registerDto.StreetAddres;
+            existingUser.City = registerDto.City;
+            existingUser.State = registerDto.State;
+            existingUser.PostalCode = registerDto.PostalCode;
+
+            var updateUserDataResult = await _userManager.UpdateAsync(existingUser);
+            if (updateUserDataResult.Succeeded)
+            {
+                return Ok();
+            }
+            return BadRequest();
+        }
+
+        [HttpPut("changePassword")]
+        public async Task<IActionResult> ChangePassword(RegisterDto registerDto)
+        {
+            if (registerDto == null)
+            {
+                return BadRequest();
+            }
+
+            var existingUser = await _userManager.FindByEmailAsync(registerDto.Email);
+            if (existingUser == null)
+            {
+                return BadRequest();
+            }
+            var isOldPassowrdCorrect = await _userManager.CheckPasswordAsync(existingUser, registerDto.OldPassword);
+            if (!isOldPassowrdCorrect)
+            {
+                return BadRequest("Old password is incorrect");
+            }
+            var changePasswordResult = await _userManager.ChangePasswordAsync(existingUser, registerDto.OldPassword, registerDto.Password);
+            return changePasswordResult.Succeeded ? Ok() : BadRequest();
         }
     }
 }

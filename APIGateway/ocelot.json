@@ -1,16 +1,41 @@
 {
   "Routes": [
+    //AuthService Routes
     {
       "UpstreamPathTemplate": "/api/auth/register",
       "UpstreamHttpMethod": [ "Post" ],
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7028
+          "Host": "realestateservicesauthapi.azurewebsites.net",
+          "Port": 443
         }
       ],
       "DownstreamPathTemplate": "/api/auth/register"
+    },
+    {
+      "UpstreamPathTemplate": "/api/auth/updateUserData",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "realestateservicesauthapi.azurewebsites.net",
+          "Port": 443
+        }
+      ],
+      "DownstreamPathTemplate": "/api/auth/updateUserData"
+    },
+    {
+      "UpstreamPathTemplate": "/api/auth/changePassword",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "realestateservicesauthapi.azurewebsites.net",
+          "Port": 443
+        }
+      ],
+      "DownstreamPathTemplate": "/api/auth/changePassword"
     },
     {
       "UpstreamPathTemplate": "/api/auth/login",
@@ -18,8 +43,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7028
+          "Host": "realestateservicesauthapi.azurewebsites.net",
+          "Port": 443
         }
       ],
       "DownstreamPathTemplate": "/api/auth/login"
@@ -30,8 +55,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7028
+          "Host": "realestateservicesauthapi.azurewebsites.net",
+          "Port": 443
         }
       ],
       "DownstreamPathTemplate": "/api/user/GetUsers/{currentUserId}/{currentUserRole}"
@@ -42,8 +67,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7028
+          "Host": "realestateservicesauthapi.azurewebsites.net",
+          "Port": 443
         }
       ],
       "DownstreamPathTemplate": "/api/user/GetUsersByCompanyId/{companyId}"
@@ -54,8 +79,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7028
+          "Host": "realestateservicesauthapi.azurewebsites.net",
+          "Port": 443
         }
       ],
       "DownstreamPathTemplate": "/api/user/CreateUser"
@@ -66,8 +91,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7028
+          "Host": "realestateservicesauthapi.azurewebsites.net",
+          "Port": 443
         }
       ],
       "DownstreamPathTemplate": "/api/user/DeleteUser/{id}"
@@ -78,8 +103,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7028
+          "Host": "realestateservicesauthapi.azurewebsites.net",
+          "Port": 443
         }
       ],
       "DownstreamPathTemplate": "/api/user/GetUser/{id}"
@@ -90,23 +115,25 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7028
+          "Host": "realestateservicesauthapi.azurewebsites.net",
+          "Port": 443
         }
       ],
       "DownstreamPathTemplate": "/api/user/UpdateUser"
     },
+
+    // PropertyService routes
     {
-      "UpstreamPathTemplate": "/api/property/AddProperty",
+      "UpstreamPathTemplate": "/api/property/addProperty",
       "UpstreamHttpMethod": [ "Post" ],
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7070
+          "Host": "realestateservicespropertyservice.azurewebsites.net",
+          "Port": 443
         }
       ],
-      "DownstreamPathTemplate": "/api/property/AddProperty"
+      "DownstreamPathTemplate": "/api/property/addProperty"
     },
     {
       "UpstreamPathTemplate": "/api/property/UploadImages/{propertyId}",
@@ -114,8 +141,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7070
+          "Host": "realestateservicespropertyservice.azurewebsites.net",
+          "Port": 443
         }
       ],
       "DownstreamPathTemplate": "/api/property/UploadImages/{propertyId}"
@@ -126,8 +153,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7070
+          "Host": "realestateservicespropertyservice.azurewebsites.net",
+          "Port": 443
         }
       ],
       "DownstreamPathTemplate": "/api/property/UpdateProperty"
@@ -138,8 +165,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7070
+          "Host": "realestateservicespropertyservice.azurewebsites.net",
+          "Port": 443
         }
       ],
       "DownstreamPathTemplate": "/api/property/GetProperties/{currentUserId}/{currentUserRole}"
@@ -150,8 +177,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7070
+          "Host": "realestateservicespropertyservice.azurewebsites.net",
+          "Port": 443
         }
       ],
       "DownstreamPathTemplate": "/api/property/GetProperty/{id}"
@@ -162,8 +189,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7070
+          "Host": "realestateservicespropertyservice.azurewebsites.net",
+          "Port": 443
         }
       ],
       "DownstreamPathTemplate": "/api/property/GetPropertiesForIndex"
@@ -174,8 +201,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7070
+          "Host": "realestateservicespropertyservice.azurewebsites.net",
+          "Port": 443
         }
       ],
       "DownstreamPathTemplate": "/api/property/GetPropertiesForIndex/{currentUserId}/{currentUserRole}"
@@ -186,8 +213,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7070
+          "Host": "realestateservicespropertyservice.azurewebsites.net",
+          "Port": 443
         }
       ],
       "DownstreamPathTemplate": "/api/property/DeleteProperty/{id}"
@@ -198,11 +225,35 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7070
+          "Host": "realestateservicespropertyservice.azurewebsites.net",
+          "Port": 443
         }
       ],
       "DownstreamPathTemplate": "/api/property/UpdatePropertyStatus"
+    },
+    {
+      "UpstreamPathTemplate": "/api/property/UpdatePropertyOwner",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "realestateservicespropertyservice.azurewebsites.net",
+          "Port": 443
+        }
+      ],
+      "DownstreamPathTemplate": "/api/property/UpdatePropertyOwner"
+    },
+    {
+      "UpstreamPathTemplate": "/api/property/DeletePropertiesByUserId/{userId}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "realestateservicespropertyservice.azurewebsites.net",
+          "Port": 443
+        }
+      ],
+      "DownstreamPathTemplate": "/api/property/DeletePropertiesByUserId/{userId}"
     },
     {
       "UpstreamPathTemplate": "/api/propertyTypes/GetPropertyTypes",
@@ -210,8 +261,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7070
+          "Host": "realestateservicespropertyservice.azurewebsites.net",
+          "Port": 443
         }
       ],
       "DownstreamPathTemplate": "/api/propertyTypes/GetPropertyTypes"
@@ -222,8 +273,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7070
+          "Host": "realestateservicespropertyservice.azurewebsites.net",
+          "Port": 443
         }
       ],
       "DownstreamPathTemplate": "/api/propertyTypes/AddPropertyType"
@@ -234,8 +285,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7070
+          "Host": "realestateservicespropertyservice.azurewebsites.net",
+          "Port": 443
         }
       ],
       "DownstreamPathTemplate": "/api/propertyTypes/UpdatePropertyType"
@@ -246,8 +297,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7070
+          "Host": "realestateservicespropertyservice.azurewebsites.net",
+          "Port": 443
         }
       ],
       "DownstreamPathTemplate": "/api/propertyTypes/GetPropertyType/{id}"
@@ -258,20 +309,21 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7070
+          "Host": "realestateservicespropertyservice.azurewebsites.net",
+          "Port": 443
         }
       ],
       "DownstreamPathTemplate": "/api/propertyTypes/DeletePropertyType/{id}"
     },
+    // TransactionService routes
     {
       "UpstreamPathTemplate": "/api/transaction/GetTransactions/{currentUserId}/{currentUserRole}",
       "UpstreamHttpMethod": [ "Get" ],
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7145
+          "Host": "realestateservicestransactionservice.azurewebsites.net",
+          "Port": 443
         }
       ],
       "DownstreamPathTemplate": "/api/transaction/GetTransactions/{currentUserId}/{currentUserRole}"
@@ -282,8 +334,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7145
+          "Host": "realestateservicestransactionservice.azurewebsites.net",
+          "Port": 443
         }
       ],
       "DownstreamPathTemplate": "/api/transaction/GetTransaction/{id}"
@@ -294,8 +346,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7145
+          "Host": "realestateservicestransactionservice.azurewebsites.net",
+          "Port": 443
         }
       ],
       "DownstreamPathTemplate": "/api/transaction/AddTransaction"
@@ -306,8 +358,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7145
+          "Host": "realestateservicestransactionservice.azurewebsites.net",
+          "Port": 443
         }
       ],
       "DownstreamPathTemplate": "/api/transaction/ApproveRequest/{id}"
@@ -318,8 +370,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7145
+          "Host": "realestateservicestransactionservice.azurewebsites.net",
+          "Port": 443
         }
       ],
       "DownstreamPathTemplate": "/api/transaction/DenyRequest/{id}"
@@ -330,15 +382,15 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7145
+          "Host": "realestateservicestransactionservice.azurewebsites.net",
+          "Port": 443
         }
       ],
       "DownstreamPathTemplate": "/api/transaction/DeleteTransactionByPropertyId/{id}"
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "https://localhost:5050"
+    "BaseUrl": "https://realestateapigateway.azurewebsites.net"
   }
 }
 

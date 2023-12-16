@@ -9,9 +9,12 @@
     var open = "";
     var content = "";
     var showButton = "";
+    bool isLoggedin = false;
     if (userService.GetCurrentUser()!=null)
     {
         open = "content";
+        isLoggedin = true;
+
     }
     else
     {
@@ -63,7 +66,6 @@
     </div>
     </div>
     </div>*@
-        <div class="row mb-3">
             @* <div class="col-10">
         <ol class="breadcrumb float-sm-right col-10 text-start">
         <li class="breadcrumb-item"><a href="#">Home</a></li>
@@ -80,10 +82,23 @@
         }
         </ol>
         </div>*@
-            <div class="text-start">
-                <a asp-controller="Home" asp-action="Index" class="btn btn-primary ">Back to List</a>
+        @if (userService.GetCurrentUser().Id == Model.Property.UserId)
+        {
+            <div class="row mb-3">
+                 <div class="text-end pt-2 px-2">
+                    <a asp-controller="Properties" asp-action="Index" class="btn btn-primary mx-2">Back to List</a>
+                 </div>
             </div>
-        </div>
+        }
+        else
+        {
+            <div class="row mb-3">
+                <div class="text-end pt-2 px-2">
+                    <a asp-controller="Home" asp-action="Index" asp-route-loggedIn="@isLoggedin" class="btn btn-primary mx-2">Back to Properties</a>
+                </div>
+            </div>
+        }
+
         <div class="container-fluid pt-4  col-12">
 
 

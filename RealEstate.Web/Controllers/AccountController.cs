@@ -39,7 +39,7 @@ namespace RealEstate.Web.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     var loginResponse = await response.Content.ReadFromJsonAsync<LoginResponseDto>();
-                    _userService.SetCurrentUser(loginResponse.User);
+                    _userService.SetCurrentUser(loginResponse!.User);
                     var claims = DecodeToken(loginResponse.Token);
 
                     var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -54,27 +54,34 @@ namespace RealEstate.Web.Controllers
                     return RedirectToAction("Dashboard", "Home");
                 }
             }
-            //else
-            //{
-            //    ModelState.AddModelError("", "Invalid login attempt");
-            //    TempData["error"] = "Login not successful";
-            //    return View(model);
-            //}
             ModelState.AddModelError("", "Invalid login attempt");
             TempData["error"] = "Login not successful";
             return View(model);
         }
 
         [HttpGet]
-        public IActionResult Register()
+        public async Task<IActionResult> Register(string? userId)
         {
-            return View();
+            if (userId == null)
+            {
+                RegisterViewModel model = new RegisterViewModel();
+                return View(model);
+            }
+            var userReponse = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/user/GetUser/{userId}");
+            if (userReponse.IsSuccessStatusCode)
+            {
+                var user = await userReponse.Content.ReadFromJsonAsync<RegisterViewModel>();
+                return View("Update", user);
+            }
+            TempData["error"] = "Something went wrong while trying to read data";
+            return RedirectToAction("Dashboard", "Home");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
+            ModelState.Remove("OldPassword");
             if (!ModelState.IsValid)
             {
                 ModelState.AddModelError("", "Invalid register attempt");
@@ -91,12 +98,58 @@ namespace RealEstate.Web.Controllers
 
         }
 
-        [HttpPost()]
+        [HttpPost]
         public IActionResult Logout()
         {
             HttpContext.SignOutAsync();
             _userService.RemoveCurrentUser();
             return RedirectToAction(nameof(Login));
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Update(RegisterViewModel model)
+        {
+            ModelState.Remove("Password");
+            ModelState.Remove("ConfirmPassword");
+            ModelState.Remove("OldPassword");
+            if (ModelState.IsValid)
+            {
+                var response = await _httpClient.PutAsJsonAsync($"{APIGatewayUrl.URL}api/auth/updateUserData", model);
+                if (response.IsSuccessStatusCode)
+                {
+                    TempData["success"] = "Successfully updated your info";
+                    return View("Update", model);
+                }
+            }
+            TempData["error"] = "Something went wrong! Try again";
+            return View("Register", model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ChangePassword(string userId)
+        {
+            var userReponse = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/user/GetUser/{userId}");
+            if (userReponse.IsSuccessStatusCode)
+            {
+                var user = await userReponse.Content.ReadFromJsonAsync<RegisterViewModel>();
+                return View("ChangePassword", user);
+            }
+            TempData["error"] = "Something went wrong! Try again";
+            return RedirectToAction("Dashboard", "Home");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(RegisterViewModel model)
+        {
+            var response = await _httpClient.PutAsJsonAsync($"{APIGatewayUrl.URL}api/auth/changePassword", model);
+            if (response.IsSuccessStatusCode)
+            {
+                TempData["success"] = "Successfully updated your info";
+                return RedirectToAction("Dashboard", "Home");
+            }
+            TempData["error"] = "Something went wrong! Try again";
+            return RedirectToAction("Dashboard", "Home");
         }
 
         [HttpGet]

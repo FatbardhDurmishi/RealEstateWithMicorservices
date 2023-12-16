@@ -35,56 +35,55 @@ namespace RealEstate.Web.Controllers
                 var propertyType = await propertyTypeResponse.Content.ReadFromJsonAsync<PropertyType>();
                 return View("AddUpdatePropertyType", propertyType);
             }
-            return View("AddUpdatePropertyType");
+            TempData["error"] = "Something went wrong while reading property type! Try again";
+            return View("Index");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddPropertyType(PropertyType propertyType)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var response = await _httpClient.PostAsJsonAsync($"{APIGatewayUrl.URL}api/propertyTypes/AddPropertyType", propertyType);
-                if (response.IsSuccessStatusCode)
-                {
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Something went wrong");
-                    return View("AddUpdatePropertyType", propertyType);
-                }
-            }
-            else
-            {
+                TempData["error"] = "Please fill all fields";
                 ModelState.AddModelError("", "Invalid property type");
                 return View("AddUpdatePropertyType", propertyType);
             }
+            var response = await _httpClient.PostAsJsonAsync($"{APIGatewayUrl.URL}api/propertyTypes/AddPropertyType", propertyType);
+            if (response.IsSuccessStatusCode)
+            {
+                TempData["success"] = "Property Type added succesfully";
+                return RedirectToAction("Index");
+            }
+            TempData["error"] = "Something went wrong! Try again";
+            ModelState.AddModelError("", "Something went wrong");
+            return View("AddUpdatePropertyType", propertyType);
+
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdatePropertyType(PropertyType propertyType)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var response = await _httpClient.PutAsJsonAsync($"{APIGatewayUrl.URL}api/propertyTypes/UpdatePropertyType", propertyType);
-                if (response.IsSuccessStatusCode)
-                {
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Something went wrong");
-                    return View("AddUpdatePropertyType", propertyType);
-                }
-            }
-            else
-            {
+                TempData["error"] = "Please fill all the fields";
                 ModelState.AddModelError("", "Invalid property type");
                 return View("AddUpdatePropertyType", propertyType);
             }
+            var response = await _httpClient.PutAsJsonAsync($"{APIGatewayUrl.URL}api/propertyTypes/UpdatePropertyType", propertyType);
+            if (response.IsSuccessStatusCode)
+            {
+                TempData["success"] = "Property type updated succesfully";
+                return RedirectToAction("Index");
+            }
+            TempData["error"] = "Something went wrong! Try again";
+            ModelState.AddModelError("", "Something went wrong");
+            return View("AddUpdatePropertyType", propertyType);
+
         }
+
 
         [HttpGet]
         public async Task<IActionResult> Details(int id)
@@ -95,10 +94,8 @@ namespace RealEstate.Web.Controllers
                 var propertyType = await response.Content.ReadFromJsonAsync<PropertyType>();
                 return View(propertyType);
             }
-            else
-            {
-                return RedirectToAction("Index");
-            }
+            TempData["error"] = "Something went wrong while reading property type data! Try again";
+            return RedirectToAction("Index");
         }
 
         [HttpDelete]
@@ -107,12 +104,11 @@ namespace RealEstate.Web.Controllers
             var response = await _httpClient.DeleteAsync($"{APIGatewayUrl.URL}api/propertyTypes/DeletePropertyType/{id}");
             if (response.IsSuccessStatusCode)
             {
+                TempData["success"] = "Property type deleted successfully";
                 return RedirectToAction("Index");
             }
-            else
-            {
-                return RedirectToAction("Index");
-            }
+            TempData["error"] = "Something went wrong! Try again";
+            return RedirectToAction("Index");
         }
 
         [HttpGet]

@@ -17,12 +17,12 @@ namespace RealEstate.Services.AuthAPI.Repositories
 
         public async Task Add(T entity)
         {
-           await dbSet.AddAsync(entity);
-           await _db.SaveChangesAsync();
+            await dbSet.AddAsync(entity);
+            await _db.SaveChangesAsync();
         }
 
         //includeProp - "Category, CoverType"
-        public async  Task<IEnumerable<T>> GetAll(Expression<Func<T, bool>>? filter = null, string? includeProperties = null)
+        public async Task<IEnumerable<T>> GetAll(Expression<Func<T, bool>>? filter = null, string? includeProperties = null)
         {
             IQueryable<T> query = dbSet;
             if (filter != null)
@@ -54,14 +54,13 @@ namespace RealEstate.Services.AuthAPI.Repositories
                     query = query.Include(property);
                 }
             }
-
             return await query.FirstOrDefaultAsync();
         }
 
         public async Task Remove(T entity)
         {
             dbSet.Remove(entity);
-           await _db.SaveChangesAsync();
+            await _db.SaveChangesAsync();
         }
 
         public async Task RemoveRange(IEnumerable<T> entities)
@@ -78,7 +77,6 @@ namespace RealEstate.Services.AuthAPI.Repositories
             }
             catch (Exception e)
             {
-
                 throw e;
             }
         }
@@ -92,7 +90,6 @@ namespace RealEstate.Services.AuthAPI.Repositories
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
@@ -106,7 +103,6 @@ namespace RealEstate.Services.AuthAPI.Repositories
             }
             catch (Exception)
             {
-
                 throw;
             }
         }

@@ -274,13 +274,14 @@ C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWit
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.PropertyService\obj\Debug\net6.0\RealEstate.Services.PropertyService.csproj.CoreCompileInputs.cache
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.PropertyService\obj\Debug\net6.0\RealEstate.Services.PropertyService.MvcApplicationPartsAssemblyInfo.cs
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.PropertyService\obj\Debug\net6.0\RealEstate.Services.PropertyService.MvcApplicationPartsAssemblyInfo.cache
+C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.PropertyService\obj\Debug\net6.0\RealEstate.Services.PropertyService.sourcelink.json
+C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.PropertyService\obj\Debug\net6.0\staticwebassets.build.json
+C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.PropertyService\obj\Debug\net6.0\staticwebassets.development.json
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.PropertyService\obj\Debug\net6.0\staticwebassets\msbuild.RealEstate.Services.PropertyService.Microsoft.AspNetCore.StaticWebAssets.props
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.PropertyService\obj\Debug\net6.0\staticwebassets\msbuild.build.RealEstate.Services.PropertyService.props
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.PropertyService\obj\Debug\net6.0\staticwebassets\msbuild.buildMultiTargeting.RealEstate.Services.PropertyService.props
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.PropertyService\obj\Debug\net6.0\staticwebassets\msbuild.buildTransitive.RealEstate.Services.PropertyService.props
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.PropertyService\obj\Debug\net6.0\staticwebassets.pack.json
-C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.PropertyService\obj\Debug\net6.0\staticwebassets.build.json
-C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.PropertyService\obj\Debug\net6.0\staticwebassets.development.json
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.PropertyService\obj\Debug\net6.0\scopedcss\bundle\RealEstate.Services.PropertyService.styles.css
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.PropertyService\obj\Debug\net6.0\RealEstate.Services.PropertyService.csproj.CopyComplete
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.PropertyService\obj\Debug\net6.0\RealEstate.Services.PropertyService.dll

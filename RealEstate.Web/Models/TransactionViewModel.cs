@@ -26,7 +26,7 @@ namespace RealEstate.Web.Models
         public DateTime RentEndDate { get; set; } = DateTime.Now;
 
         [Column(TypeName = "decimal(18, 2)")]
-        public decimal RentPrice { get; set; }
+        public decimal? RentPrice { get; set; }
 
         [Column(TypeName = "decimal(18, 2)")]
         public decimal TotalPrice { get; set; }
@@ -37,6 +37,6 @@ namespace RealEstate.Web.Models
         public string TransactionType { get; set; } = null!;
 
         [NotMapped]
-        public bool ShowButtons = false;
+        public bool ShowButtons { get; set; }
     }
 }

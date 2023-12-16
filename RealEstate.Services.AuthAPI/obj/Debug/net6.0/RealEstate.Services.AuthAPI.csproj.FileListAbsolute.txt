@@ -61,13 +61,14 @@ C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWit
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.AuthAPI\obj\Debug\net6.0\RealEstate.Services.AuthAPI.csproj.CoreCompileInputs.cache
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.AuthAPI\obj\Debug\net6.0\RealEstate.Services.AuthAPI.MvcApplicationPartsAssemblyInfo.cs
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.AuthAPI\obj\Debug\net6.0\RealEstate.Services.AuthAPI.MvcApplicationPartsAssemblyInfo.cache
+C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.AuthAPI\obj\Debug\net6.0\RealEstate.Services.AuthAPI.sourcelink.json
+C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.AuthAPI\obj\Debug\net6.0\staticwebassets.build.json
+C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.AuthAPI\obj\Debug\net6.0\staticwebassets.development.json
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.AuthAPI\obj\Debug\net6.0\staticwebassets\msbuild.RealEstate.Services.AuthAPI.Microsoft.AspNetCore.StaticWebAssets.props
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.AuthAPI\obj\Debug\net6.0\staticwebassets\msbuild.build.RealEstate.Services.AuthAPI.props
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.AuthAPI\obj\Debug\net6.0\staticwebassets\msbuild.buildMultiTargeting.RealEstate.Services.AuthAPI.props
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.AuthAPI\obj\Debug\net6.0\staticwebassets\msbuild.buildTransitive.RealEstate.Services.AuthAPI.props
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.AuthAPI\obj\Debug\net6.0\staticwebassets.pack.json
-C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.AuthAPI\obj\Debug\net6.0\staticwebassets.build.json
-C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.AuthAPI\obj\Debug\net6.0\staticwebassets.development.json
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.AuthAPI\obj\Debug\net6.0\scopedcss\bundle\RealEstate.Services.AuthAPI.styles.css
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.AuthAPI\obj\Debug\net6.0\RealEstate.Services.AuthAPI.csproj.CopyComplete
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.AuthAPI\obj\Debug\net6.0\RealEstate.Services.AuthAPI.dll

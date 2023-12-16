@@ -6,7 +6,7 @@
         <div class="row g-4">
             <div class="col-sm-6 col-xl-3">
                 <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                    <i class="fa fa-chart-line fa-3x text-primary"></i>
+                    <i class="fa-solid fa-euro-sign fa-lg" style="color: #28b715;"></i>
                     <div class="ms-3">
                         <p class="mb-2 text-wrap">TodaySale</p>
                         <h6 class="mb-0">@ViewBag.TodaySale</h6>
@@ -15,7 +15,7 @@
             </div>
             <div class="col-sm-6 col-xl-3">
                 <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                    <i class="fa fa-chart-bar fa-3x text-primary"></i>
+                    <i class="fa-solid fa-euro-sign fa-lg" style="color: #28b715;"></i>
                     <div class="ms-3">
                         <p class="mb-2 text-wrap">Total Sales</p>
                         <h6 class="mb-0">@ViewBag.TotalSales</h6>
@@ -24,7 +24,7 @@
             </div>
             <div class="col-sm-6 col-xl-3">
                 <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                    <i class="fa fa-chart-area fa-3x text-primary"></i>
+                    <i class="fa-solid fa-euro-sign fa-lg" style="color: #28b715;"></i>
                     <div class="ms-3">
                         <p class="mb-2 text-wrap">Profit From Rent This Month</p>
                         <h6 class="mb-0">@ViewBag.RentThisMonth</h6>
@@ -33,7 +33,7 @@
             </div>
             <div class="col-sm-6 col-xl-3">
                 <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                    <i class="fa fa-chart-pie fa-3x text-primary"></i>
+                    <i class="fa-solid fa-euro-sign fa-lg" style="color: #28b715;"></i>
                     <div class="ms-3">
                         <p class="mb-2 text-wrap">Expected Profit From Rent This Year</p>
                         <h6 class="mb-0">@ViewBag.TotalRent</h6>
@@ -42,7 +42,7 @@
             </div>
             <div class="col-sm-6 col-xl-3">
                 <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                    <i class="fa fa-chart-pie fa-3x text-primary"></i>
+                    <i class="fa-solid fa-euro-sign fa-lg" style="color: #b72615;"></i>
                     <div class="ms-3">
                         <p class="mb-2 text-wrap">Total Expenses</p>
                         <h6 class="mb-0">@ViewBag.Expenses</h6>
@@ -51,7 +51,7 @@
             </div>
             <div class="col-sm-6 col-xl-3">
                 <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                    <i class="fa fa-chart-pie fa-3x text-primary"></i>
+                    <i class="fa-solid fa-euro-sign fa-lg" style="color: #28b715;"></i>
                     <div class="ms-3">
                         <p class="mb-2 text-wrap">Best Sell This Year</p>
                         <h6 class="mb-0">@ViewBag.BestSellThisYear</h6>
@@ -60,10 +60,19 @@
             </div>
             <div class="col-sm-6 col-xl-3">
                 <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                    <i class="fa fa-chart-pie fa-3x text-primary"></i>
+                    <i class="fa-solid fa-euro-sign fa-lg" style="color: #28b715;"></i>
                     <div class="ms-3">
                         <p class="mb-2 text-wrap">Best Rent This Year</p>
                         <h6 class="mb-0">@ViewBag.BestRentThisYear</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                    <i class="fa-solid fa-euro-sign fa-lg" style="color: #28b715;"></i>
+                    <div class="ms-3">
+                        <p class="mb-2 text-wrap">Total Profit</p>
+                        <h6 class="mb-0">@ViewBag.TotalProfit</h6>
                     </div>
                 </div>
             </div>
@@ -110,7 +119,7 @@
                             <th scope="col">Buyer</th>
                             <th scope="col">PropertyName</th>
                             <th scope="col">TransactionType</th>
-                            <th scope="col">RentPrice</th>
+                            <th scope="col">Status</th>
                             <th scope="col">TotalPrice</th>
                         </tr>
                     </thead>
@@ -126,7 +135,7 @@
                                     <td>@item.BuyerName</td>
                                     <td>@item.PropertyName</td>
                                     <td>@item.TransactionType</td>
-                                    <th>@item.RentPrice</th>
+                                    <th>@item.Status</th>
                                     <td>@item.TotalPrice</td>
                                 </tr>
                             </tbody>

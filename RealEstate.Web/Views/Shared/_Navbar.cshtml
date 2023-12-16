@@ -4,7 +4,6 @@
 
 
 
-@* duhet me kshyr current user a osht nul qe me dit osht login a jo *@
 @if (userService.GetCurrentUser()!=null)
 {
     <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-2">
@@ -20,8 +19,9 @@
                 <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
                     <form asp-area="Individual" asp-action="Logout" asp-controller="Account" method="post">
                         <button type="submit" class="dropdown-item">Logout</button>
-
                     </form>
+                    <a class="dropdown-item" asp-controller="Account" asp-action="Register" asp-route-userId="@userService.GetCurrentUser().Id">Profile</a>
+                    <a class="dropdown-item" asp-controller="Account" asp-action="ChangePassword" asp-route-userId="@userService.GetCurrentUser().Id">Change Password</a>
                 </div>
             </div>
         </div>
@@ -29,16 +29,16 @@
 }
 else
 {
-    <nav class="navbar navbar-expand navbar-light sticky-top px-4 py-2 bg-dark">
+    <nav class="navbar navbar-expand navbar-light sticky-top px-4 py-2" style="background-color:#25ABFF;">
 
-        <a class="nav-link text-primary"  asp-controller="Home" asp-action="Index" asp-route-loggedIn="false">Properties</a>
+        <a class="nav-link" style="color:white;" asp-controller="Home" asp-action="Index" asp-route-loggedIn="false">Properties</a>
 
         <ul class="navbar-nav align-items-center ms-auto">
             <li class="nav-item">
-                <a class="nav-link text-primary"  asp-controller="Account" asp-action="Register">Register</a>
+                <a class="nav-link" style="color:white;"  asp-controller="Account" asp-action="Register">Register</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-primary"  asp-controller="Account" asp-action="Login">Login</a>
+                <a class="nav-link" style="color:white;" asp-controller="Account" asp-action="Login">Login</a>
             </li>
 
         </ul>

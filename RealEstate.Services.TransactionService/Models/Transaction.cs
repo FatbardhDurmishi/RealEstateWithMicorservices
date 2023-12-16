@@ -28,6 +28,6 @@ namespace RealEstate.Services.TransactionService.Models
         public string? Status { get; set; }
         public string TransactionType { get; set; } = null!;
         [NotMapped]
-        public bool ShowButtons = false;
+        public bool ShowButtons { get; set; }
     }
 }

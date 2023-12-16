@@ -46,6 +46,7 @@ namespace RealEstate.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddTransaction(AddTranscationViewModel model)
         {
+            var errorMessage = string.Empty;
             if (ModelState.IsValid)
             {
                 var transactionDto = new AddTransactionDto()
@@ -67,17 +68,18 @@ namespace RealEstate.Web.Controllers
                 var response = await _httpClient.PostAsJsonAsync($"{APIGatewayUrl.URL}api/transaction/AddTransaction", transactionDto);
                 if (response.IsSuccessStatusCode)
                 {
+                    TempData["success"] = "Requeist is made successfully";
                     return RedirectToAction("Index");
                 }
-                else
-                {
-                    return BadRequest();
-                }
+                var errorContent = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
+
+                // Assuming the error content has a "Message" property
+                errorMessage = errorContent["message"];
+
+
             }
-            else
-            {
-                return View(model);
-            }
+            TempData["error"] = errorMessage;
+            return View(model);
         }
 
         [HttpGet]
@@ -119,14 +121,6 @@ namespace RealEstate.Web.Controllers
                     {
                         var propertyDetails = await property.Content.ReadFromJsonAsync<PropertyViewModel>();
                         transactionToAdd.PropertyName = propertyDetails.Name;
-                        //if (transaction.Status == TransactionStatus.Rented)
-                        //{
-                        //    transactionToAdd.RentPrice = transaction.RentPrice;
-                        //}
-                        //else
-                        //{
-                        //    transactionToAdd.TotalPrice = transaction.TotalPrice;
-                        //}
                     }
                     if (transaction.OwnerId == currentUserId && transaction.Status != TransactionStatus.Sold && transaction.Status != TransactionStatus.Rented && transaction.Status != TransactionStatus.Denied && transaction.Status != TransactionStatus.Expired)
                     {
@@ -137,10 +131,7 @@ namespace RealEstate.Web.Controllers
                 }
                 return new JsonResult(transactiosList);
             }
-            else
-            {
-                return new JsonResult(transactiosList);
-            }
+            return new JsonResult(transactiosList);
         }
 
         [HttpGet]
@@ -184,12 +175,11 @@ namespace RealEstate.Web.Controllers
             var response = await _httpClient.PostAsync($"{APIGatewayUrl.URL}api/transaction/ApproveRequest/{id}", null);
             if (response.IsSuccessStatusCode)
             {
+                TempData["success"] = "Request is approved successfully";
                 return RedirectToAction("Index");
             }
-            else
-            {
-                return View(nameof(Index));
-            }
+            TempData["error"] = "Something went wrong!";
+            return View(nameof(Index));
         }
 
         public async Task<IActionResult> RejectRequest(int id)
@@ -197,12 +187,11 @@ namespace RealEstate.Web.Controllers
             var response = await _httpClient.PostAsync($"{APIGatewayUrl.URL}api/transaction/DenyRequest/{id}", null);
             if (response.IsSuccessStatusCode)
             {
+                TempData["success"] = "Request is denied successfully";
                 return RedirectToAction("Index");
             }
-            else
-            {
-                return View(nameof(Index));
-            }
+            TempData["error"] = "Something went wrong!";
+            return View(nameof(Index));
         }
 
         public async Task<IActionResult> Delete(int id)
@@ -210,12 +199,13 @@ namespace RealEstate.Web.Controllers
             var response = await _httpClient.DeleteAsync($"{APIGatewayUrl.URL}api/transaction/DeleteTransaction/{id}");
             if (response.IsSuccessStatusCode)
             {
+                TempData["success"] = "Transaction is Deleted successfully";
                 return RedirectToAction("Index");
+
             }
-            else
-            {
-                return View(nameof(Index));
-            }
+            TempData["error"] = "Something went wrong!";
+            return View(nameof(Index));
+
         }
     }
 }

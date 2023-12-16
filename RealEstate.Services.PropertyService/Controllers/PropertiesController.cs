@@ -105,7 +105,10 @@ namespace RealEstate.Services.PropertyService.Controllers
                         await _propertyImageRepository.Add(Image);
                     }
                 }
-                await _propertyImageRepository.Add(Image);
+                else
+                {
+                    await _propertyImageRepository.Add(Image);
+                }
 
 
             }
@@ -125,17 +128,14 @@ namespace RealEstate.Services.PropertyService.Controllers
             {
                 return NotFound();
             }
-            if (parameters.imagesToDelete.Count() > 0)
+            foreach (var imageId in parameters.imagesToDelete)
             {
-                foreach (var imageId in parameters.imagesToDelete)
+                int Id = imageId;
+                var image = await _propertyImageRepository.GetFirstOrDefault(x => x.Id == Id);
+                if (image != null)
                 {
-                    int Id = imageId;
-                    var image = await _propertyImageRepository.GetFirstOrDefault(x => x.Id == Id);
-                    if (image != null)
-                    {
-                        await _propertyImageRepository.Remove(image);
-                        await DeleteBlob(containerClient, image.ImageUrl);
-                    }
+                    await _propertyImageRepository.Remove(image);
+                    await DeleteBlob(containerClient, image.ImageUrl);
                 }
             }
             property.Name = parameters.addPropertyDto.name;
@@ -169,62 +169,84 @@ namespace RealEstate.Services.PropertyService.Controllers
         [HttpGet("GetProperties/{currentUserId}/{currentUserRole}")]
         public async Task<IActionResult> GetProperties(string currentUserId, string currentUserRole)
         {
+            var propertiesList = new List<Property>();
             if (string.IsNullOrEmpty(currentUserId))
             {
-                var properties = await _propertyRepository.GetAll(includeProperties: "PropertyImages,PropertyType");
-                foreach (var property in properties)
+                var properties = await _propertyRepository.GetAll(includeProperties: "PropertyType");
+                propertiesList = properties?.ToList();
+                if (propertiesList != null)
                 {
-                    property.CoverImageBlobUrl = await GetBlobUrl(containerClient, property.CoverImageUrl);
+                    foreach (var property in propertiesList)
+                    {
+                        property.CoverImageBlobUrl = await GetBlobUrl(containerClient, property.CoverImageUrl);
+                    }
+                    return Ok(propertiesList);
                 }
-                if (properties != null)
-                {
-                    return Ok(properties);
-                }
-                return NoContent();
+                return Ok(propertiesList);
             }
             if (currentUserRole == RoleConstants.Role_User_Comp)
             {
-                var response = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/user/GetUsersByCompanyId/{currentUserId}");
-                if (response.IsSuccessStatusCode)
+                var usersResponse = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/user/GetUsersByCompanyId/{currentUserId}");
+                if (usersResponse.IsSuccessStatusCode)
                 {
-                    var users = await response.Content.ReadFromJsonAsync<List<UserDto>>();
-                    var properties = await _propertyRepository.GetAll(x => users.Any(y => x.UserId == y.Id), includeProperties: "PropertyType");
-                    if (properties != null)
+                    var users = await usersResponse.Content.ReadFromJsonAsync<List<UserDto>>();
+                    if (users.Any())
                     {
-                        foreach (var property in properties)
+                        var properties = await _propertyRepository.GetAll(x => users.Any(y => x.UserId == y.Id), includeProperties: "PropertyType");
+                        propertiesList = properties?.ToList();
+                        if (propertiesList != null)
                         {
-                            if (property.Status != PropertyStatus.Rented)
+                            foreach (var property in propertiesList)
                             {
-                                property.ShowButtons = true;
+                                if (property.Status != PropertyStatus.Rented)
+                                {
+                                    property.ShowButtons = true;
+                                }
+                                property.CoverImageBlobUrl = await GetBlobUrl(containerClient, property.CoverImageUrl);
+                                foreach (var user in users)
+                                {
+                                    if (property.UserId == user.Id)
+                                    {
+                                        property.User = user;
+                                    }
+                                }
                             }
-                            property.CoverImageBlobUrl = await GetBlobUrl(containerClient, property.CoverImageUrl);
-                            foreach (var user in users)
+
+                            properties = await _propertyRepository.GetAll(x => x.UserId == currentUserId);
+                            propertiesList = properties?.ToList();
+                            //make api call to get the current user
+                            var userResponse = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/user/GetUser/{currentUserId}");
+                            if (userResponse.IsSuccessStatusCode && propertiesList != null)
                             {
-                                if (property.UserId == user.Id)
+                                var user = await userResponse.Content.ReadFromJsonAsync<UserDto>();
+                                foreach (var property in propertiesList)
                                 {
                                     property.User = user;
                                 }
                             }
+
+                            return Ok(propertiesList);
                         }
-                        return Ok(properties);
                     }
+
                     return NoContent();
                 }
                 else
                 {
-                    return BadRequest(response);
+                    return BadRequest();
                 }
             }
             else
             {
                 var properties = await _propertyRepository.GetAll(x => x.UserId == currentUserId, includeProperties: "PropertyType");
-                if (properties != null)
+                propertiesList = properties?.ToList();
+                if (propertiesList != null)
                 {
-                    foreach (var property in properties)
+                    foreach (var property in propertiesList)
                     {
                         property.CoverImageBlobUrl = await GetBlobUrl(containerClient, property.CoverImageUrl);
                     }
-                    return Ok(properties);
+                    return Ok(propertiesList);
                 }
                 return NoContent();
             }
@@ -240,29 +262,34 @@ namespace RealEstate.Services.PropertyService.Controllers
             }
             foreach (var image in property.PropertyImages)
             {
-                property.BlobUrls.Add(await GetBlobUrl(containerClient, image.ImageUrl));
+                string imageUrl = await GetBlobUrl(containerClient, image.ImageUrl);
+                if (!string.IsNullOrEmpty(imageUrl))
+                {
+                    property.BlobUrls.Add(imageUrl);
+
+                }
             }
             return Ok(property);
         }
 
-        [HttpGet("GetPropertiesForIndex/{currentUserId}/{currentUserRole}")]
+        [HttpGet("GetPropertiesForIndex/{currentUserId?}/{currentUserRole?}")]
         public async Task<IActionResult> GetPropertiesForIndex(string? currentUserId, string? currentUserRole)
         {
-            //get the properties that dont beling to the current user
-            if (string.IsNullOrEmpty(currentUserId))
-            {
-            }
+            var propertiesList = new List<Property>();
             if (currentUserRole == RoleConstants.Role_User_Indi)
             {
-                var properties = await _propertyRepository.GetAll(x => x.UserId != currentUserId && x.Status == "Free", includeProperties: "PropertyImages,PropertyType");
-                foreach (var property in properties)
+                var properties = await _propertyRepository.GetAll(x => x.UserId != currentUserId && x.Status == PropertyStatus.Free, includeProperties: "PropertyType");
+                propertiesList = properties.ToList();
+                if (propertiesList != null)
                 {
-                    property.CoverImageBlobUrl = await GetBlobUrl(containerClient, property.CoverImageUrl);
+                    foreach (var property in propertiesList)
+                    {
+                        property.CoverImageBlobUrl = await GetBlobUrl(containerClient, property.CoverImageUrl);
+                    }
+                    return Ok(propertiesList);
                 }
-                if (properties != null)
-                {
-                    return Ok(properties);
-                }
+
+
             }
             else
             {
@@ -270,32 +297,34 @@ namespace RealEstate.Services.PropertyService.Controllers
                 if (usersResponse.IsSuccessStatusCode)
                 {
                     var users = await usersResponse.Content.ReadFromJsonAsync<List<UserDto>>();
-                    var properties = await _propertyRepository.GetAll(x => users.Any(y => x.UserId == y.Id) && x.Status == "Free", includeProperties: "PropertyType");
-                    if (properties != null)
+                    var properties = await _propertyRepository.GetAll(x => x.Status == PropertyStatus.Free && x.UserId != currentUserId, includeProperties: "PropertyType");
+                    propertiesList = properties?.Where(x => users.Any(y => x.UserId != y.Id)).ToList();
+                    if (propertiesList != null)
                     {
-                        foreach (var property in properties)
+                        foreach (var property in propertiesList)
                         {
                             property.CoverImageBlobUrl = await GetBlobUrl(containerClient, property.CoverImageUrl);
                         }
-                        return Ok(properties);
+                        return Ok(propertiesList);
                     }
                 }
             }
 
-            return NoContent();
+            return Ok(propertiesList);
         }
 
         [HttpGet("GetPropertiesForIndex")]
         public async Task<IActionResult> GetPropertiesForIndex()
         {
-            var properties = await _propertyRepository.GetAll(includeProperties: "PropertyImages,PropertyType");
-            foreach (var property in properties)
-            {
-                property.CoverImageBlobUrl = await GetBlobUrl(containerClient, property.CoverImageUrl);
-            }
+            var properties = await _propertyRepository.GetAll(includeProperties: "PropertyType");
             if (properties != null)
             {
+                foreach (var property in properties)
+                {
+                    property.CoverImageBlobUrl = await GetBlobUrl(containerClient, property.CoverImageUrl);
+                }
                 return Ok(properties);
+
             }
             return NoContent();
         }
@@ -337,20 +366,66 @@ namespace RealEstate.Services.PropertyService.Controllers
             return Ok();
         }
 
+        [HttpPost("UpdatePropertyOwner")]
+        public async Task<IActionResult> UpdatePropertyOwner([FromBody] dynamic parameters)
+        {
+            int propertyId = parameters.propertyId;
+            string userId = parameters.userId;
+            var property = await _propertyRepository.GetFirstOrDefault(x => x.Id == propertyId);
+            if (property == null)
+            {
+                return NotFound();
+            }
+            _propertyRepository.UpdateOwner(property, userId);
+            await _propertyRepository.SaveChanges();
+            return Ok();
+        }
+
+        [HttpDelete("DeletePropertiesByUserId/{userId}")]
+        public async Task<IActionResult> DeletePropertiesByUserId(string userId)
+        {
+            if (userId == null)
+                return NotFound();
+            var properties = await _propertyRepository.GetAll(x => x.UserId == userId);
+
+            if (properties != null)
+            {
+                foreach (var property in properties)
+                {
+                    var propertyImages = await _propertyImageRepository.GetAll(x => x.PropertyId
+                    == property.Id);
+                    foreach (var image in propertyImages)
+                    {
+                        await DeleteBlob(containerClient, image.ImageUrl);
+                    }
+                    await _propertyImageRepository.RemoveRange(propertyImages);
+                }
+
+                await _propertyRepository.RemoveRange(properties);
+            }
+
+            return Ok();
+        }
+
+
+
         [ApiExplorerSettings(IgnoreApi = true)]
         private async Task<bool> UploadToBlob(BlobContainerClient containerClient, IFormFile file)
         {
             try
             {
+                var blobClient = containerClient.GetBlobClient(file.FileName);
+                var blobExists = await blobClient.ExistsAsync();
 
-                // Get a reference to a blob
-                //BlobClient blobClient = containerClient.GetBlobClient(file.FileName);
-                //BlobClient blobClient = containerClient.GetBlobClient(file.FileName);
+                if (blobExists)
+                {
+                    return true;
+                }
 
-                // Open the file and upload its data
-                var InputStream = file.OpenReadStream();
-                await containerClient.UploadBlobAsync(file.FileName, InputStream);
-
+                using (var inputStream = file.OpenReadStream())
+                {
+                    await containerClient.UploadBlobAsync(file.FileName, inputStream);
+                }
                 return true;
             }
             catch (Exception ex)
@@ -363,47 +438,27 @@ namespace RealEstate.Services.PropertyService.Controllers
         [ApiExplorerSettings(IgnoreApi = true)]
         private static async Task DeleteBlob(BlobContainerClient containerClient, string blobName)
         {
-            await containerClient.DeleteBlobAsync(blobName);
+            var blobClient = containerClient.GetBlobClient(blobName);
+            var blobExists = await blobClient.ExistsAsync();
+            if (blobExists)
+            {
+                await containerClient.DeleteBlobAsync(blobName);
+            }
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
         private static async Task<string> GetBlobUrl(BlobContainerClient containerClient, string blobName)
         {
-            //string accountName = "riinvestdetyra";
-            //string accountKey = "ar97PiHstwAOJfq9Op8Op7b1jrmVVniJc0xvUoGnfsQAK9dBBoWm5MnM2o8jRYSJQ7b//JC8oGFv+AStXgiw5A==";
-            //StorageSharedKeyCredential credential = new StorageSharedKeyCredential(accountName, accountKey);
-            ////UserDelegationKey key = await blobServiceClient.GetUserDelegationKeyAsync(DateTimeOffset.UtcNow, DateTimeOffset.UtcNow.AddDays(7),CancellationToken.None);
-            //BlobClient blobClient = containerClient.GetBlobClient(blobName);
-            //// Create a SAS token that's valid for one hour.
-            //BlobSasBuilder sasBuilder = new BlobSasBuilder()
-            //{
-            //    BlobContainerName = containerClient.Name,
-            //    BlobName = blobName,
-            //    Resource = "b",
-            //    StartsOn = DateTimeOffset.UtcNow,
-            //    ExpiresOn = DateTimeOffset.UtcNow.AddHours(1)
-            //};
-            //sasBuilder.SetPermissions(BlobSasPermissions.Read | BlobSasPermissions.List);
-            //BlobUriBuilder blobUriBuilder = new BlobUriBuilder(blobClient.Uri)
-            //{
-            //    // Specify the user delegation key.
-            //    Sas = sasBuilder.ToSasQueryParameters(credential)
-            //};
-            ////blobUrl = containerClient.GenerateSasUri(sasBuilder).ToString();
-            //return blobUriBuilder.ToString();
-
             BlobClient blobClient = containerClient.GetBlobClient(blobName);
-
-            // Set the desired start and expiration times
-            //DateTimeOffset startsOn = DateTimeOffset.UtcNow;
+            var blobExists = await blobClient.ExistsAsync();
+            if (!blobExists)
+            {
+                return string.Empty;
+            }
             DateTimeOffset expiresOn = DateTimeOffset.UtcNow.AddHours(1);
 
-            // Generate a SAS token URI for the blob with specified permissions and times
-            //Uri blobSasUri = containerClient.GenerateSasUri(blobName, startsOn, expiresOn, BlobSasPermissions.Read);
-            //Uri blobSasUri = containerClient.GenerateSasUri(BlobContainerSasPermissions.Read, expiresOn);
             Uri blobSasUri = blobClient.GenerateSasUri(BlobSasPermissions.Read, expiresOn);
 
-            // Now you can use the blobSasUri in your application
             string blobUrl = blobSasUri.ToString();
             return blobUrl;
         }

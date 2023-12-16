@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "z2kQpKcIN0ch5zrAJcxwwgTlCcm9tnH6GfHJUGPIv2s=",
+  "Source": "RealEstate.Services.AuthAPI",
+  "BasePath": "_content/RealEstate.Services.AuthAPI",
+  "Mode": "Default",
+  "ManifestType": "Publish",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

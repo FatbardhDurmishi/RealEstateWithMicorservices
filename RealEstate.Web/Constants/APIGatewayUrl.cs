@@ -2,6 +2,6 @@
 {
     public class APIGatewayUrl
     {
-        public const string URL = "https://localhost:5050/";
+        public const string URL = "https://realestateapigateway.azurewebsites.net/";
     }
 }

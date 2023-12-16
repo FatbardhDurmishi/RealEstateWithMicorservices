@@ -17,11 +17,13 @@ namespace RealEstate.Services.AuthAPI.Controllers
     {
         private readonly IUserRepository _userRepository;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly HttpClient _httpClient;
 
-        public UserController(IUserRepository userRepository, UserManager<ApplicationUser> userManager)
+        public UserController(IUserRepository userRepository, UserManager<ApplicationUser> userManager, HttpClient httpClient)
         {
             _userRepository = userRepository;
             _userManager = userManager;
+            _httpClient = httpClient;
         }
 
         [HttpGet("GetUsers/{currentUserId}/{currentUserRole}")]
@@ -89,8 +91,14 @@ namespace RealEstate.Services.AuthAPI.Controllers
             {
                 return NotFound();
             }
-            await _userRepository.Remove(user);
-            return Ok(user);
+            //make a call to propertyService to delete all of user properties
+            var deletePropertiesResponse = await _httpClient.DeleteAsync($"{APIGatewayUrl.URL}api/property/DeletePropertiesByUserId/{user.Id}");
+            if (deletePropertiesResponse.IsSuccessStatusCode)
+            {
+                await _userRepository.Remove(user);
+                return Ok();
+            }
+            return BadRequest();
         }
 
         [HttpGet("GetUser/{id}")]
@@ -133,7 +141,6 @@ namespace RealEstate.Services.AuthAPI.Controllers
                         await _userManager.AddToRoleAsync(user, user.Role);
                     }
                 }
-
             }
             return Ok(user);
         }

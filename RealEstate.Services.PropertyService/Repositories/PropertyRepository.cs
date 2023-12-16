@@ -13,9 +13,15 @@ namespace RealEstate.Services.PropertyService.Repositories
             _db = db;
         }
 
+        public bool UpdateOwner(Property property, string userId)
+        {
+            property.UserId = userId;
+            return true;
+        }
+
         public string UpdateStatus(Property property, string status)
         {
-            //property.Status = status;
+            property.Status = status;
             return status;
         }
     }

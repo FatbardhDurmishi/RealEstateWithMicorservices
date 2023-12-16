@@ -38,77 +38,63 @@ namespace RealEstate.Web.Controllers
             if (response.IsSuccessStatusCode)
             {
                 var user = await response.Content.ReadFromJsonAsync<RegisterViewModel>();
-                var model = new RegisterViewModel
-                {
-                    Id = user.Id,
-                    Name = user.Name,
-                    Email = user.Email,
-                    PhoneNumber = user.PhoneNumber,
-                    Role = user.Role,
-                    StreetAddres = user.StreetAddres,
-                    City = user.City,
-                    State = user.State,
-                    PostalCode = user.PostalCode
-                };
 
-                return View("CreateUpdateUser", model);
+                return View("CreateUpdateUser", user);
             }
-            else
-            {
-                return View("CreateUpdateUser");
-            }
+            TempData["error"] = "Something went wrong when reading user! Try again";
+            return View("CreateUpdateUser");
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateUser(RegisterViewModel model)
         {
-            if (ModelState.IsValid)
+            ModelState.Remove("OldPassword");
+            if (!ModelState.IsValid)
             {
-                var currentUserRole = _userService.GetCurrentUser().Role;
-                var currentUserId = _userService.GetCurrentUser().Id;
-
-                CreateUserDto user = new CreateUserDto()
-                {
-                    User = model,
-                    CurrentUserId = currentUserId,
-                    CurrentUserRole = currentUserRole
-                };
-
-
-                var response = await _httpClient.PostAsJsonAsync($"{APIGatewayUrl.URL}api/user/CreateUser", user);
-                if (response.IsSuccessStatusCode)
-                {
-                    return RedirectToAction(nameof(Index));
-                }
-            }
-            else
-            {
-                ModelState.AddModelError("", "Invalid login attempt");
+                TempData["error"] = "Please fill all the fields";
                 return View("CreateUpdateUser", model);
+            }
+            var currentUserRole = _userService.GetCurrentUser().Role;
+            var currentUserId = _userService.GetCurrentUser().Id;
+
+            CreateUserDto user = new CreateUserDto()
+            {
+                User = model,
+                CurrentUserId = currentUserId,
+                CurrentUserRole = currentUserRole
+            };
+
+
+            var response = await _httpClient.PostAsJsonAsync($"{APIGatewayUrl.URL}api/user/CreateUser", user);
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction(nameof(Index));
             }
             return View("CreateUpdateUser", model);
         }
+
 
         [HttpPost]
         public async Task<IActionResult> UpdateUser(RegisterViewModel model)
         {
             ModelState.Remove("Password");
             ModelState.Remove("ConfirmPassword");
-            if (ModelState.IsValid)
+            ModelState.Remove("OldPassword");
+            if (!ModelState.IsValid)
             {
-                var response = await _httpClient.PutAsJsonAsync($"{APIGatewayUrl.URL}api/user/UpdateUser", model);
-                if (response.IsSuccessStatusCode)
-                {
-                    return RedirectToAction(nameof(Index));
-                }
-            }
-            else
-            {
-                ModelState.AddModelError("", "Invalid attempt");
+                TempData["error"] = "Please fill all the fields";
                 return View("CreateUpdateUser", model);
             }
+            var response = await _httpClient.PutAsJsonAsync($"{APIGatewayUrl.URL}api/user/UpdateUser", model);
+            if (response.IsSuccessStatusCode)
+            {
+                TempData["success"] = "User updated succesfully";
+                return RedirectToAction(nameof(Index));
+            }
+            TempData["error"] = "Something went wrong! Try again";
             return View("CreateUpdateUser", model);
         }
+
 
         #region API CALLS
 
@@ -117,26 +103,24 @@ namespace RealEstate.Web.Controllers
         {
             var currentUserRole = _userService.GetCurrentUser().Role;
             var currentUserId = _userService.GetCurrentUser().Id;
+            var users = new List<UserDto>();
 
             if (currentUserRole == RoleConstants.Role_Admin)
             {
-                var response = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/user/GetUsers/{currentUserId}/{currentUserRole}");
-                if (response.IsSuccessStatusCode)
+                var usersResponse = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/user/GetUsers/{currentUserId}/{currentUserRole}");
+                if (usersResponse.IsSuccessStatusCode)
                 {
-                    var users = await response.Content.ReadFromJsonAsync<List<UserDto>>();
+                    users = await usersResponse.Content.ReadFromJsonAsync<List<UserDto>>();
                     return new JsonResult(users);
                 }
             }
-            else
+            var companyUsersResponse = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/user/GetUsersByCompanyId/{currentUserId}");
+            if (companyUsersResponse.IsSuccessStatusCode)
             {
-                var response = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/user/GetUsers/{currentUserId}");
-                if (response.IsSuccessStatusCode)
-                {
-                    var users = await response.Content.ReadFromJsonAsync<List<UserDto>>();
-                    return new JsonResult(users);
-                }
+                users = await companyUsersResponse.Content.ReadFromJsonAsync<List<UserDto>>();
+                return new JsonResult(users);
             }
-            return new JsonResult(null);
+            return new JsonResult(users);
         }
 
         public async Task<IActionResult> DeleteUser(string id)

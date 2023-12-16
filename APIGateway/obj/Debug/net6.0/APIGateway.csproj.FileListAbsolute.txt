@@ -23,13 +23,14 @@ C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWit
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\APIGateway\obj\Debug\net6.0\APIGateway.csproj.CoreCompileInputs.cache
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\APIGateway\obj\Debug\net6.0\APIGateway.MvcApplicationPartsAssemblyInfo.cs
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\APIGateway\obj\Debug\net6.0\APIGateway.MvcApplicationPartsAssemblyInfo.cache
+C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\APIGateway\obj\Debug\net6.0\APIGateway.sourcelink.json
+C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\APIGateway\obj\Debug\net6.0\staticwebassets.build.json
+C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\APIGateway\obj\Debug\net6.0\staticwebassets.development.json
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\APIGateway\obj\Debug\net6.0\staticwebassets\msbuild.APIGateway.Microsoft.AspNetCore.StaticWebAssets.props
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\APIGateway\obj\Debug\net6.0\staticwebassets\msbuild.build.APIGateway.props
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\APIGateway\obj\Debug\net6.0\staticwebassets\msbuild.buildMultiTargeting.APIGateway.props
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\APIGateway\obj\Debug\net6.0\staticwebassets\msbuild.buildTransitive.APIGateway.props
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\APIGateway\obj\Debug\net6.0\staticwebassets.pack.json
-C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\APIGateway\obj\Debug\net6.0\staticwebassets.build.json
-C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\APIGateway\obj\Debug\net6.0\staticwebassets.development.json
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\APIGateway\obj\Debug\net6.0\scopedcss\bundle\APIGateway.styles.css
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\APIGateway\obj\Debug\net6.0\APIGateway.csproj.CopyComplete
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\APIGateway\obj\Debug\net6.0\APIGateway.dll

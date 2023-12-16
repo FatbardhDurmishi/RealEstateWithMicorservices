@@ -18,38 +18,6 @@ builder.Services.AddAuthentication(options =>
     options.AccessDeniedPath = "/Account/AccessDenied";
 });
 
-//builder.Services.AddAuthorization(options =>
-//{
-//    options.AddPolicy("AdminPolicy", policy =>
-//    {
-//        policy.RequireClaim(ClaimTypes.Role, RoleConstants.Role_Admin);
-//    });
-//    options.AddPolicy("CompanyOrAdminPolicy", policy =>
-//    {
-//        policy.RequireAssertion(context =>
-//        {
-//            return context.User.HasClaim(c =>
-//                (c.Type == ClaimTypes.Role && c.Value == RoleConstants.Role_User_Indi) ||
-//                (c.Type == ClaimTypes.Role && c.Value == RoleConstants.Role_Admin));
-//        });
-//    });
-
-//    options.AddPolicy("CompanyOrIndividualPolicy", policy =>
-//    {
-//        policy.RequireAssertion(context =>
-//        {
-//            return context.User.HasClaim(c =>
-//                (c.Type == ClaimTypes.Role && c.Value == RoleConstants.Role_User_Indi) ||
-//                (c.Type == ClaimTypes.Role && c.Value == RoleConstants.Role_User_Comp));
-//        });
-//    });
-
-//    options.AddPolicy("CompanyPolicy", policy =>
-//    {
-//        policy.RequireClaim(ClaimTypes.Role,RoleConstants.Role_User_Comp);
-//    });
-//});
-
 builder.Services.Configure<FormOptions>(options =>
 {
     options.MultipartBodyLengthLimit = long.MaxValue;
@@ -63,7 +31,7 @@ builder.WebHost.UseKestrel(options =>
     options.Limits.KeepAliveTimeout = TimeSpan.FromMinutes(10);
 });
 
-builder.Services.AddHttpClient("httpClient", options =>
+builder.Services.AddHttpClient("HttpClient", options =>
 {
     options.MaxResponseContentBufferSize = long.MaxValue;
 });
@@ -97,12 +65,8 @@ app.UseEndpoints(endpoints =>
 
     endpoints.MapControllerRoute(
         name: "default",
-        pattern: "{controller=Account}/{action=Login}"
+        pattern: "{controller=Home}/{action=Index}"
         );
 });
-
-//app.MapControllerRoute(
-//    name: "default",
-//    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

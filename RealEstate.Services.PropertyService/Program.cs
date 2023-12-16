@@ -3,24 +3,21 @@ using RealEstate.Services.PropertyService.Data;
 using RealEstate.Services.PropertyService.Repositories;
 using RealEstate.Services.PropertyService.Repositories.IRepositories;
 using Newtonsoft.Json;
-using Microsoft.Extensions.Options;
-using Azure.Identity;
-using Azure.Storage.Blobs;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var mySqlConnectionString = builder.Configuration.GetConnectionString("MySqlConnection");
+//var mySqlConnectionString = builder.Configuration.GetConnectionString("MySqlConnection");
 
 // Add services to the container.
-//builder.Services.AddDbContext<AppDbContext>(options =>
-//{
-//    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-//});
-
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    options.UseMySql(mySqlConnectionString,ServerVersion.AutoDetect(mySqlConnectionString));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+//builder.Services.AddDbContext<AppDbContext>(options =>
+//{
+//    options.UseMySql(mySqlConnectionString, ServerVersion.AutoDetect(mySqlConnectionString));
+//});
 
 builder.Services.AddHttpClient();
 
