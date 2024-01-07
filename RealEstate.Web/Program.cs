@@ -18,23 +18,7 @@ builder.Services.AddAuthentication(options =>
     options.AccessDeniedPath = "/Account/AccessDenied";
 });
 
-builder.Services.Configure<FormOptions>(options =>
-{
-    options.MultipartBodyLengthLimit = long.MaxValue;
-});
-
-builder.WebHost.UseKestrel(options =>
-{
-    options.Limits.MaxRequestBodySize = long.MaxValue;
-    options.Limits.MaxRequestBufferSize = long.MaxValue;
-    options.Limits.MaxResponseBufferSize = long.MaxValue;
-    options.Limits.KeepAliveTimeout = TimeSpan.FromMinutes(10);
-});
-
-builder.Services.AddHttpClient("HttpClient", options =>
-{
-    options.MaxResponseContentBufferSize = long.MaxValue;
-});
+builder.Services.AddHttpClient();
 
 var app = builder.Build();
 
