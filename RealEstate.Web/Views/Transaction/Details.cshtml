@@ -29,22 +29,6 @@
     <partial name="_Navbar" />
     <div class="container-fluid pt-4 px-4 col-12 justify-content-between">
         <div class="row mb-3">
-            @* <div class="col-10">
-            <ol class="breadcrumb float-sm-right col-10 text-start">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item"><a href="#">Users</a></li>
-            @if (string.IsNullOrEmpty(Model.Id))
-            {
-            <li class="breadcrumb-item active">Add</li>
-            }
-            else
-            {
-            <li class="breadcrumb-item">Edit</li>
-            <li class="breadcrumb-item active">Id</li>
-
-            }
-            </ol>
-            </div>*@
             <div class="text-start">
                 <a asp-area="Company" asp-controller="Transaction" asp-action="Index" class="btn btn-primary ">Back to List</a>
             </div>
@@ -116,7 +100,7 @@
             </div>
             <div class="row">
                 <div class="form-floating mb-3 col-sm-6">
-                    <input disabled asp-for="Property.PropertyType.Name" class="form-control" id="floatingText" placeholder="Password">
+                    <input disabled asp-for="Property.PropertyType!.Name" class="form-control" id="floatingText" placeholder="Password">
                     <label for="floatingText">&nbsp; Property Type</label>
                 </div>
                 <div class="form-floating mb-3 col-sm-6">
@@ -128,11 +112,11 @@
             {
                 <div class="row">
                     <div class="form-floating mb-3 col-sm-6">
-                        <input disabled disabled type="date" asp-for="Transaction.RentStartDate" class="form-control" id="floatingText" placeholder="Password">
+                        <input disabled  type="date" asp-for="Transaction.RentStartDate" class="form-control" id="floatingText" placeholder="Password">
                         <label for="floatingText">&nbsp; Rent Start Date</label>
                     </div>
                     <div class="form-floating mb-3 col-sm-6">
-                        <input disabled disabled type="date" asp-for="Transaction.RentEndDate" class="form-control" id="floatingText" placeholder="Password">
+                        <input disabled  type="date" asp-for="Transaction.RentEndDate" class="form-control" id="floatingText" placeholder="Password">
                         <label for="floatingText">&nbsp; Rent End Date </label>
 
                     </div>

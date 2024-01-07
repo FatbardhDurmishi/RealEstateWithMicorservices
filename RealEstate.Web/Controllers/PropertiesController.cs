@@ -42,14 +42,14 @@ namespace RealEstate.Web.Controllers
                     if (usersResponse.IsSuccessStatusCode)
                     {
                         var users = await usersResponse.Content.ReadFromJsonAsync<List<UserDto>>();
-                        model.UsersList = users.Select(x => new SelectListItem { Text = x.Name, Value = x.Id });
+                        model.UsersList = users!.Select(x => new SelectListItem { Text = x.Name, Value = x.Id });
                     }
                 }
                 var propertyTypesResponse = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/propertyTypes/GetPropertyTypes");
                 if (propertyTypesResponse.IsSuccessStatusCode)
                 {
                     var propertyTypes = await propertyTypesResponse.Content.ReadFromJsonAsync<List<PropertyType>>();
-                    model.PropertyTypeList = propertyTypes.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() });
+                    model.PropertyTypeList = propertyTypes!.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() });
                 }
                 model.Cities = CityConstants._cities.Select(x => new SelectListItem
                 {
@@ -62,21 +62,21 @@ namespace RealEstate.Web.Controllers
             if (response.IsSuccessStatusCode)
             {
                 var property = await response.Content.ReadFromJsonAsync<PropertyViewModel>();
-                model.Property = property;
+                model.Property = property!;
                 if (currentUserRole == RoleConstants.Role_User_Comp)
                 {
                     var usersResponse = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/user/GetUsers/{currentUserId}");
                     if (usersResponse.IsSuccessStatusCode)
                     {
                         var users = await usersResponse.Content.ReadFromJsonAsync<List<UserDto>>();
-                        model.UsersList = users.Select(x => new SelectListItem { Text = x.Name, Value = x.Id });
+                        model.UsersList = users!.Select(x => new SelectListItem { Text = x.Name, Value = x.Id });
                     }
                 }
                 var propertyTypesResponse = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/propertyTypes/GetPropertyTypes");
                 if (propertyTypesResponse.IsSuccessStatusCode)
                 {
                     var propertyTypes = await propertyTypesResponse.Content.ReadFromJsonAsync<List<PropertyType>>();
-                    model.PropertyTypeList = propertyTypes.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() });
+                    model.PropertyTypeList = propertyTypes!.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() });
                 }
                 model.Cities = CityConstants._cities.Select(x => new SelectListItem
                 {
@@ -117,7 +117,7 @@ namespace RealEstate.Web.Controllers
                 UserId = model.Property.UserId,
                 PropertyTypeId = model.Property.PropertyTypeId,
                 CurrentUserId = currentUser.Id,
-                CurrentUserRole = currentUser.Role,
+                CurrentUserRole = currentUser.Role!,
             };
 
             var response = await _httpClient.PostAsJsonAsync($"{APIGatewayUrl.URL}api/property/AddProperty", propertyDto);
@@ -132,7 +132,7 @@ namespace RealEstate.Web.Controllers
                 {
                     content.Add(new StreamContent(image.OpenReadStream()), "PropertyImages", image.FileName);
                 }
-                var uploadImagesResponse = await _httpClient.PostAsync($"{APIGatewayUrl.URL}api/property/UploadImages/{property.Id}", content);
+                var uploadImagesResponse = await _httpClient.PostAsync($"{APIGatewayUrl.URL}api/property/UploadImages/{property!.Id}", content);
                 if (uploadImagesResponse.IsSuccessStatusCode)
                 {
                     TempData["success"] = "Property added succesfully";
@@ -161,8 +161,8 @@ namespace RealEstate.Web.Controllers
             if (response.IsSuccessStatusCode && response.StatusCode != System.Net.HttpStatusCode.NoContent)
             {
                 properties = await response.Content.ReadFromJsonAsync<List<PropertyViewModel>>();
-                //get the user name for each property
-                foreach (var property in properties)
+
+                foreach (var property in properties!)
                 {
                     if (property.Status != PropertyStatus.Rented)
                     {
@@ -174,7 +174,7 @@ namespace RealEstate.Web.Controllers
                         var user = await userResponse.Content.ReadFromJsonAsync<UserDto>();
                         property.User = new UserDto()
                         {
-                            Name = user.Name
+                            Name = user!.Name
                         };
                     }
                 }
@@ -204,14 +204,14 @@ namespace RealEstate.Web.Controllers
             {
                 propertyDetailsViewModel.Property = await response.Content.ReadFromJsonAsync<PropertyViewModel>();
 
-                var user = await GetUser(propertyDetailsViewModel.Property.UserId);
+                var user = await GetUser(propertyDetailsViewModel.Property!.UserId!);
                 if (user != null)
                 {
                     propertyDetailsViewModel.User = user;
                     return View(propertyDetailsViewModel);
                 }
                 TempData["error"] = "Something went wrong when trying to read user data! Try again";
-                if (!HttpContext.User.Identity.IsAuthenticated)
+                if (!HttpContext.User!.Identity!.IsAuthenticated)
                 {
                     return RedirectToAction("Index", "Home");
                 }
@@ -274,7 +274,7 @@ namespace RealEstate.Web.Controllers
                 }
                 if (content.Any())
                 {
-                    var uploadImagesResponse = await _httpClient.PostAsync($"{APIGatewayUrl.URL}api/property/UploadImages/{property.Id}", content);
+                    var uploadImagesResponse = await _httpClient.PostAsync($"{APIGatewayUrl.URL}api/property/UploadImages/{property!.Id}", content);
                     if (uploadImagesResponse.IsSuccessStatusCode)
                     {
                         return RedirectToAction("Index");
@@ -297,9 +297,9 @@ namespace RealEstate.Web.Controllers
             if (response.IsSuccessStatusCode)
             {
                 var user = await response.Content.ReadFromJsonAsync<UserDto>();
-                return user;
+                return user!;
             }
-            return null;
+            return null!;
         }
 
     }

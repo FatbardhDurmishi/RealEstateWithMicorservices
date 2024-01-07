@@ -6,7 +6,10 @@ namespace RealEstate.Web.Models
     public class RegisterViewModel
     {
         [ValidateNever]
-        public string Id { get; set; }
+        public string Id
+        {
+            get; set;
+        }
 
         [Required]
         [EmailAddress]
@@ -17,28 +20,58 @@ namespace RealEstate.Web.Models
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
-        public string Password { get; set; }
+        public string Password
+        {
+            get; set;
+        }
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
-        public string ConfirmPassword { get; set; }
+        public string ConfirmPassword
+        {
+            get; set;
+        }
         [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Old Password")]
-        public string? OldPassword { get; set; }
+        public string? OldPassword
+        {
+            get; set;
+        }
         [Required]
-        public string Name { get; set; }
+        public string Name
+        {
+            get; set;
+        }
         [Required]
-        public string? StreetAddres { get; set; }
+        public string? StreetAddres
+        {
+            get; set;
+        }
         [Required]
-        public string? City { get; set; }
+        public string? City
+        {
+            get; set;
+        }
         [Required]
-        public string? State { get; set; }
+        public string? State
+        {
+            get; set;
+        }
         [Required]
-        public string? PostalCode { get; set; }
+        public string? PostalCode
+        {
+            get; set;
+        }
         [Required]
-        public string? PhoneNumber { get; set; }
-        public string? Role { get; set; }
+        public string? PhoneNumber
+        {
+            get; set;
+        }
+        public string? Role
+        {
+            get; set;
+        }
     }
 }

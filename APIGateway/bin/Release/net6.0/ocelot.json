@@ -124,7 +124,7 @@
 
     // PropertyService routes
     {
-      "UpstreamPathTemplate": "/api/property/AddProperty",
+      "UpstreamPathTemplate": "/api/property/addProperty",
       "UpstreamHttpMethod": [ "Post" ],
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -133,7 +133,7 @@
           "Port": 443
         }
       ],
-      "DownstreamPathTemplate": "/api/property/AddProperty"
+      "DownstreamPathTemplate": "/api/property/addProperty"
     },
     {
       "UpstreamPathTemplate": "/api/property/UploadImages/{propertyId}",

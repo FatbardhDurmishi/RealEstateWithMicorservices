@@ -36,11 +36,11 @@ namespace RealEstate.Services.AuthAPI.Controllers
                 Name = registerDto.Name,
                 Email = registerDto.Email,
                 UserName = registerDto.Email,
-                PhoneNumber = registerDto.PhoneNumber,
-                StreetAddres = registerDto.StreetAddres,
-                City = registerDto.City,
-                State = registerDto.State,
-                PostalCode = registerDto.PostalCode,
+                PhoneNumber = registerDto.PhoneNumber!,
+                StreetAddres = registerDto.StreetAddres!,
+                City = registerDto.City!,
+                State = registerDto.State!,
+                PostalCode = registerDto.PostalCode!,
             };
             if (registerDto.Role == "false")
             {
@@ -48,7 +48,7 @@ namespace RealEstate.Services.AuthAPI.Controllers
             }
             else
             {
-                user.Role = registerDto.Role;
+                user.Role = registerDto.Role!;
             }
 
             if (!_roleManager.RoleExistsAsync(RoleConstants.Role_Admin).GetAwaiter().GetResult())
@@ -145,11 +145,11 @@ namespace RealEstate.Services.AuthAPI.Controllers
             existingUser.Name = registerDto.Name;
             existingUser.Email = registerDto.Email;
             existingUser.UserName = registerDto.Email;
-            existingUser.PhoneNumber = registerDto.PhoneNumber;
-            existingUser.StreetAddres = registerDto.StreetAddres;
-            existingUser.City = registerDto.City;
-            existingUser.State = registerDto.State;
-            existingUser.PostalCode = registerDto.PostalCode;
+            existingUser.PhoneNumber = registerDto.PhoneNumber!;
+            existingUser.StreetAddres = registerDto.StreetAddres!;
+            existingUser.City = registerDto.City!;
+            existingUser.State = registerDto.State!;
+            existingUser.PostalCode = registerDto.PostalCode!;
 
             var updateUserDataResult = await _userManager.UpdateAsync(existingUser);
             if (updateUserDataResult.Succeeded)

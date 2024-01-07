@@ -3,6 +3,7 @@ using Azure.Storage.Blobs;
 using Azure.Storage.Sas;
 using Microsoft.AspNetCore.Mvc;
 using RealEstate.Services.PropertyService.Constants;
+using RealEstate.Services.PropertyService.Helpers;
 using RealEstate.Services.PropertyService.Models;
 using RealEstate.Services.PropertyService.Models.Dtos;
 using RealEstate.Services.PropertyService.Repositories.IRepositories;
@@ -80,7 +81,7 @@ namespace RealEstate.Services.PropertyService.Controllers
             }
             if (CoverImage != null)
             {
-                bool result = await UploadToBlob(containerClient, CoverImage);
+                bool result = await AzureBlobActions.UploadToBlob(containerClient, CoverImage);
                 if (!result)
                 {
                     return BadRequest(result);
@@ -97,9 +98,9 @@ namespace RealEstate.Services.PropertyService.Controllers
                     ImageUrl = image.FileName,
                     PropertyId = propertyId
                 };
-                if (image.FileName != CoverImage.FileName)
+                if (image.FileName != CoverImage!.FileName)
                 {
-                    bool result = await UploadToBlob(containerClient, image);
+                    bool result = await AzureBlobActions.UploadToBlob(containerClient, image);
                     if (result)
                     {
                         await _propertyImageRepository.Add(Image);
@@ -135,7 +136,7 @@ namespace RealEstate.Services.PropertyService.Controllers
                 if (image != null)
                 {
                     await _propertyImageRepository.Remove(image);
-                    await DeleteBlob(containerClient, image.ImageUrl);
+                    await AzureBlobActions.DeleteBlob(containerClient, image.ImageUrl);
                 }
             }
             property.Name = parameters.addPropertyDto.name;
@@ -154,7 +155,7 @@ namespace RealEstate.Services.PropertyService.Controllers
             }
             if (parameters.addPropertyDto.coverImageUrl != null)
             {
-                await DeleteBlob(containerClient, property.CoverImageUrl);
+                await AzureBlobActions.DeleteBlob(containerClient, property.CoverImageUrl);
                 property.CoverImageUrl = parameters.addPropertyDto.coverImageUrl;
             }
             property.TransactionType = parameters.addPropertyDto.transactionType;
@@ -178,7 +179,7 @@ namespace RealEstate.Services.PropertyService.Controllers
                 {
                     foreach (var property in propertiesList)
                     {
-                        property.CoverImageBlobUrl = await GetBlobUrl(containerClient, property.CoverImageUrl);
+                        property.CoverImageBlobUrl = await AzureBlobActions.GetBlobUrl(containerClient, property.CoverImageUrl);
                     }
                     return Ok(propertiesList);
                 }
@@ -190,9 +191,9 @@ namespace RealEstate.Services.PropertyService.Controllers
                 if (usersResponse.IsSuccessStatusCode)
                 {
                     var users = await usersResponse.Content.ReadFromJsonAsync<List<UserDto>>();
-                    if (users.Any())
+                    if (users!.Any())
                     {
-                        var properties = await _propertyRepository.GetAll(x => users.Any(y => x.UserId == y.Id), includeProperties: "PropertyType");
+                        var properties = await _propertyRepository.GetAll(x => users!.Any(y => x.UserId == y.Id), includeProperties: "PropertyType");
                         propertiesList = properties?.ToList();
                         if (propertiesList != null)
                         {
@@ -202,8 +203,8 @@ namespace RealEstate.Services.PropertyService.Controllers
                                 {
                                     property.ShowButtons = true;
                                 }
-                                property.CoverImageBlobUrl = await GetBlobUrl(containerClient, property.CoverImageUrl);
-                                foreach (var user in users)
+                                property.CoverImageBlobUrl = await AzureBlobActions.GetBlobUrl(containerClient, property.CoverImageUrl);
+                                foreach (var user in users!)
                                 {
                                     if (property.UserId == user.Id)
                                     {
@@ -221,7 +222,7 @@ namespace RealEstate.Services.PropertyService.Controllers
                                 var user = await userResponse.Content.ReadFromJsonAsync<UserDto>();
                                 foreach (var property in propertiesList)
                                 {
-                                    property.User = user;
+                                    property.User = user!;
                                 }
                             }
 
@@ -244,7 +245,7 @@ namespace RealEstate.Services.PropertyService.Controllers
                 {
                     foreach (var property in propertiesList)
                     {
-                        property.CoverImageBlobUrl = await GetBlobUrl(containerClient, property.CoverImageUrl);
+                        property.CoverImageBlobUrl = await AzureBlobActions.GetBlobUrl(containerClient, property.CoverImageUrl);
                     }
                     return Ok(propertiesList);
                 }
@@ -262,7 +263,7 @@ namespace RealEstate.Services.PropertyService.Controllers
             }
             foreach (var image in property.PropertyImages)
             {
-                string imageUrl = await GetBlobUrl(containerClient, image.ImageUrl);
+                string imageUrl = await AzureBlobActions.GetBlobUrl(containerClient, image.ImageUrl);
                 if (!string.IsNullOrEmpty(imageUrl))
                 {
                     property.BlobUrls.Add(imageUrl);
@@ -284,7 +285,7 @@ namespace RealEstate.Services.PropertyService.Controllers
                 {
                     foreach (var property in propertiesList)
                     {
-                        property.CoverImageBlobUrl = await GetBlobUrl(containerClient, property.CoverImageUrl);
+                        property.CoverImageBlobUrl = await AzureBlobActions.GetBlobUrl(containerClient, property.CoverImageUrl);
                     }
                     return Ok(propertiesList);
                 }
@@ -298,12 +299,12 @@ namespace RealEstate.Services.PropertyService.Controllers
                 {
                     var users = await usersResponse.Content.ReadFromJsonAsync<List<UserDto>>();
                     var properties = await _propertyRepository.GetAll(x => x.Status == PropertyStatus.Free && x.UserId != currentUserId, includeProperties: "PropertyType");
-                    propertiesList = properties?.Where(x => users.Any(y => x.UserId != y.Id)).ToList();
+                    propertiesList = properties?.Where(x => users!.Any(y => x.UserId != y.Id)).ToList();
                     if (propertiesList != null)
                     {
                         foreach (var property in propertiesList)
                         {
-                            property.CoverImageBlobUrl = await GetBlobUrl(containerClient, property.CoverImageUrl);
+                            property.CoverImageBlobUrl = await AzureBlobActions.GetBlobUrl(containerClient, property.CoverImageUrl);
                         }
                         return Ok(propertiesList);
                     }
@@ -321,7 +322,7 @@ namespace RealEstate.Services.PropertyService.Controllers
             {
                 foreach (var property in properties)
                 {
-                    property.CoverImageBlobUrl = await GetBlobUrl(containerClient, property.CoverImageUrl);
+                    property.CoverImageBlobUrl = await AzureBlobActions.GetBlobUrl(containerClient, property.CoverImageUrl);
                 }
                 return Ok(properties);
 
@@ -339,11 +340,11 @@ namespace RealEstate.Services.PropertyService.Controllers
             }
             var propertyImages = await _propertyImageRepository.GetAll(x => x.PropertyId == id);
             await _propertyRepository.Remove(property);
-            await DeleteBlob(containerClient, property.CoverImageUrl);
+            await AzureBlobActions.DeleteBlob(containerClient, property.CoverImageUrl);
             await _propertyImageRepository.RemoveRange(propertyImages);
             foreach (var image in propertyImages)
             {
-                await DeleteBlob(containerClient, image.ImageUrl);
+                await AzureBlobActions.DeleteBlob(containerClient, image.ImageUrl);
             }
             //make api call to delete transactions related to this property
             await _httpClient.DeleteAsync($"{APIGatewayUrl.URL}api/transaction/DeleteTransactionByPropertyId/{property.Id}");
@@ -396,7 +397,7 @@ namespace RealEstate.Services.PropertyService.Controllers
                     == property.Id);
                     foreach (var image in propertyImages)
                     {
-                        await DeleteBlob(containerClient, image.ImageUrl);
+                        await AzureBlobActions.DeleteBlob(containerClient, image.ImageUrl);
                     }
                     await _propertyImageRepository.RemoveRange(propertyImages);
                 }
@@ -405,62 +406,6 @@ namespace RealEstate.Services.PropertyService.Controllers
             }
 
             return Ok();
-        }
-
-
-
-        [ApiExplorerSettings(IgnoreApi = true)]
-        private async Task<bool> UploadToBlob(BlobContainerClient containerClient, IFormFile file)
-        {
-            try
-            {
-                var blobClient = containerClient.GetBlobClient(file.FileName);
-                var blobExists = await blobClient.ExistsAsync();
-
-                if (blobExists)
-                {
-                    return true;
-                }
-
-                using (var inputStream = file.OpenReadStream())
-                {
-                    await containerClient.UploadBlobAsync(file.FileName, inputStream);
-                }
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return false;
-            }
-        }
-
-        [ApiExplorerSettings(IgnoreApi = true)]
-        private static async Task DeleteBlob(BlobContainerClient containerClient, string blobName)
-        {
-            var blobClient = containerClient.GetBlobClient(blobName);
-            var blobExists = await blobClient.ExistsAsync();
-            if (blobExists)
-            {
-                await containerClient.DeleteBlobAsync(blobName);
-            }
-        }
-
-        [ApiExplorerSettings(IgnoreApi = true)]
-        private static async Task<string> GetBlobUrl(BlobContainerClient containerClient, string blobName)
-        {
-            BlobClient blobClient = containerClient.GetBlobClient(blobName);
-            var blobExists = await blobClient.ExistsAsync();
-            if (!blobExists)
-            {
-                return string.Empty;
-            }
-            DateTimeOffset expiresOn = DateTimeOffset.UtcNow.AddHours(1);
-
-            Uri blobSasUri = blobClient.GenerateSasUri(BlobSasPermissions.Read, expiresOn);
-
-            string blobUrl = blobSasUri.ToString();
-            return blobUrl;
         }
     }
 }

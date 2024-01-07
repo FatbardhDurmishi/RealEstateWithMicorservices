@@ -10,13 +10,16 @@ namespace RealEstate.Web.Services
         {
         }
 
-        private UserDto? CurrentUser { get; set; }
+        private UserDto? CurrentUser
+        {
+            get; set;
+        }
 
         public UserDto GetCurrentUser()
         {
             if (CurrentUser == null)
             {
-                return null;
+                return null!;
             }
             return CurrentUser;
         }
@@ -27,7 +30,7 @@ namespace RealEstate.Web.Services
             {
                 return " ";
             }
-            return CurrentUser.Role;
+            return CurrentUser.Role!;
         }
 
         public void RemoveCurrentUser()

@@ -28,9 +28,6 @@ function loadDataTable() {
             { data: "email", title: "Email" },
             { data: "role", title: "Role" },
             {
-                data: "company", title: "Company"
-            },
-            {
                 data: "id",
                 render: function (data) {
                     return `
