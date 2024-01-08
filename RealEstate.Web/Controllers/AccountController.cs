@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealEstate.Web.Constants;
+using RealEstate.Web.CustomAttributes;
 using RealEstate.Web.Models;
 using RealEstate.Web.Services.IServices;
 using System.IdentityModel.Tokens.Jwt;
@@ -45,18 +46,20 @@ namespace RealEstate.Web.Controllers
                     var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     var principal = new ClaimsPrincipal(identity);
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
+                    TempData["success"] = "Login successful";
                     if (loginResponse.User.Role == RoleConstants.Role_Admin)
                     {
-                        TempData["success"] = "Login successful";
                         return RedirectToAction("Index", "User");
                     }
-                    TempData["success"] = "Login successful";
                     return RedirectToAction("Dashboard", "Home");
                 }
             }
+
             ModelState.AddModelError("", "Invalid login attempt");
             TempData["error"] = "Login not successful";
             return View(model);
+
         }
 
         [HttpGet]
@@ -73,7 +76,7 @@ namespace RealEstate.Web.Controllers
                 var user = await userReponse.Content.ReadFromJsonAsync<RegisterViewModel>();
                 return View("Update", user);
             }
-            TempData["error"] = "Something went wrong while trying to read data";
+            TempData["error"] = "Something went wrong!";
             return RedirectToAction("Dashboard", "Home");
         }
 
@@ -108,6 +111,7 @@ namespace RealEstate.Web.Controllers
 
 
         [HttpPost]
+        [AuthorizeUsers(RoleConstants.Role_User_Indi, RoleConstants.Role_User_Comp, RoleConstants.Role_Admin)]
         public async Task<IActionResult> Update(RegisterViewModel model)
         {
             ModelState.Remove("Password");
@@ -127,6 +131,7 @@ namespace RealEstate.Web.Controllers
         }
 
         [HttpGet]
+        [AuthorizeUsers(RoleConstants.Role_User_Indi, RoleConstants.Role_User_Comp, RoleConstants.Role_Admin)]
         public async Task<IActionResult> ChangePassword(string userId)
         {
             var userReponse = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/user/GetUser/{userId}");
@@ -140,6 +145,7 @@ namespace RealEstate.Web.Controllers
         }
 
         [HttpPost]
+        [AuthorizeUsers(RoleConstants.Role_User_Indi, RoleConstants.Role_User_Comp, RoleConstants.Role_Admin)]
         public async Task<IActionResult> ChangePassword(RegisterViewModel model)
         {
             var response = await _httpClient.PutAsJsonAsync($"{APIGatewayUrl.URL}api/auth/changePassword", model);

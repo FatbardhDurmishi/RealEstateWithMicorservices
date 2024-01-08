@@ -317,7 +317,7 @@ namespace RealEstate.Services.PropertyService.Controllers
         [HttpGet("GetPropertiesForIndex")]
         public async Task<IActionResult> GetPropertiesForIndex()
         {
-            var properties = await _propertyRepository.GetAll(includeProperties: "PropertyType");
+            var properties = await _propertyRepository.GetAll(x => x.Status == PropertyStatus.Free, includeProperties: "PropertyType");
             if (properties != null)
             {
                 foreach (var property in properties)

@@ -125,6 +125,7 @@
 
                             <div class="form-floating mb-3 col-sm-6">
                                 <select class="form-select help-sidebar" asp-for="Property.Status" data-title="Status" data-description="Enter the Status of the of the property " id="floatingText">
+                                    <option value="@Model.Property.Status">@Model.Property.Status</option>
                                     <option value="Free">Free</option>
                                     <option value="Not Free">Not Free</option>
                                 </select>

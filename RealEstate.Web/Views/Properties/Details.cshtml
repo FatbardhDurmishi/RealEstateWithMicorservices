@@ -10,7 +10,7 @@
     var content = "";
     var showButton = "";
     bool isLoggedin = false;
-    if (userService.GetCurrentUser()!=null)
+    if (userService.GetCurrentUser() != null)
     {
         open = "content";
         isLoggedin = true;
@@ -41,53 +41,17 @@
 
 
 }
-@if (userService.GetCurrentUser()!=null)
+@if (userService.GetCurrentUser() != null)
 {
     <div class="@open">
         <partial name="_Navbar" />
 
-        @*<div class="container-fluid pt-4 px-4 col-12">
-    <input type="hidden" asp-for="Id" />
-    <!-- Content Header (Page header) -->
-    <div class="row">
-    @* <div class="col-sm-6 col-xl-3 ">
-    @*<h1>Users</h1>
-    </div>*@
-        @*  <div class="col-6">
-    <ol class="breadcrumb float-sm-right col-6 text-start ">
-    <li class="breadcrumb-item"><a href="#">Home</a></li>
-    <li class="breadcrumb-item"><a href="#">Properties</a></li>
-    <li class="breadcrumb-item active">Details</li>
-    <li class="breadcrumb-item active">@Model.Id</li>
-    </ol>
-    </div>
-    <div class="col-6 text-end">
-    <a asp-area="Company" asp-action="Index" asp-controller="Properties" class="btn btn-secondary">Back to list</a>
-    </div>
-    </div>
-    </div>*@
-            @* <div class="col-10">
-        <ol class="breadcrumb float-sm-right col-10 text-start">
-        <li class="breadcrumb-item"><a href="#">Home</a></li>
-        <li class="breadcrumb-item"><a href="#">Users</a></li>
-        @if (string.IsNullOrEmpty(Model.Id))
-        {
-        <li class="breadcrumb-item active">Add</li>
-        }
-        else
-        {
-        <li class="breadcrumb-item">Edit</li>
-        <li class="breadcrumb-item active">Id</li>
-
-        }
-        </ol>
-        </div>*@
         @if (userService.GetCurrentUser().Id == Model.Property.UserId)
         {
             <div class="row mb-3">
-                 <div class="text-end pt-2 px-2">
+                <div class="text-end pt-2 px-2">
                     <a asp-controller="Properties" asp-action="Index" class="btn btn-primary mx-2">Back to List</a>
-                 </div>
+                </div>
             </div>
         }
         else
@@ -100,21 +64,8 @@
         }
 
         <div class="container-fluid pt-4  col-12">
-
-
-
-            @* <div class="row mb-2">
-        <div class="col-6 col-sm-3 text start">
-        <a asp-area="Company" asp-action="RequestProperty" asp-controller="Transaction" class="btn btn-primary">&nbsp;@content</a>
-        </div>
-        <div class="col-6 col-sm-3 text-end">
-        <a asp-area="Company" asp-action="RequestProperty" asp-controller="Transaction" class="btn btn-primary">&nbsp;@content</a>
-
-        </div>
-
-        </div>*@
             <div class="d-flex justify-content-center align-items-center">
-                <div id="carouselExampleIndicators" style="width:500px" class="carousel slide mb-4 " data-bs-ride="true">
+                <div id="carouselExampleIndicators" class="carousel slide mb-4 " data-bs-ride="true">
 
                     <div class="carousel-inner">
                         @{
@@ -125,7 +76,7 @@
                             i++;
                             var active = i == 1 ? "active" : "";
                             <div class="carousel-item w-100 @active">
-                                <img src="@url" class="d-block w-100 img-fluid" style="object-fit:contain;" alt="...">
+                                <img src="@url" alt="...">
                             </div>
                         }
                     </div>
@@ -230,31 +181,9 @@
 else
 {
     <div class="@open">
-
-        @*<div class="container-fluid pt-4 px-4 col-12">
-    <input type="hidden" asp-for="Id" />
-    <!-- Content Header (Page header) -->
-    <div class="row">
-    @* <div class="col-sm-6 col-xl-3 ">
-    @*<h1>Users</h1>
-    </div>*@
-        @*  <div class="col-6">
-    <ol class="breadcrumb float-sm-right col-6 text-start ">
-    <li class="breadcrumb-item"><a href="#">Home</a></li>
-    <li class="breadcrumb-item"><a href="#">Properties</a></li>
-    <li class="breadcrumb-item active">Details</li>
-    <li class="breadcrumb-item active">@Model.Id</li>
-    </ol>
-    </div>
-    <div class="col-6 text-end">
-    <a asp-area="Company" asp-action="Index" asp-controller="Properties" class="btn btn-secondary">Back to list</a>
-    </div>
-    </div>
-    </div>*@
-
         <div class="container-fluid pt-4  col-12">
             <div class="d-flex justify-content-center align-items-center">
-                <div id="carouselExampleIndicators" style="width:500px" class="carousel slide mb-4 " data-bs-ride="true">
+                <div id="carouselExampleIndicators" class="carousel slide mb-4 " data-bs-ride="true">
 
                     <div class="carousel-inner">
                         @{
@@ -265,7 +194,7 @@ else
                             i++;
                             var active = i == 1 ? "active" : "";
                             <div class="carousel-item w-100 @active">
-                                <img src="@url" class="d-block w-100 img-fluid" style="width:100%;aspect-ratio:1;height:auto;" alt="...">
+                                <img src="@url" alt="...">
                             </div>
                         }
                     </div>
@@ -360,4 +289,23 @@ else
             </div>
         </div>
     </div>
+}
+
+@section Styles {
+    <style>
+        img {
+            object-fit: contain;
+            width: 100%;
+            height: 400px;
+        }
+
+        /* Media query for mobile devices */
+        @@media (max-width: 768px) {
+            img {
+                object-fit: contain;
+                width: 100%;
+                height: 200px; /* Maintain aspect ratio */
+            }
+        }
+    </style>
 }

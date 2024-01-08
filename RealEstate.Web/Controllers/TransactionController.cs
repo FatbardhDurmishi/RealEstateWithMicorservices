@@ -34,7 +34,7 @@ namespace RealEstate.Web.Controllers
                 var property = await response.Content.ReadFromJsonAsync<PropertyViewModel>();
                 AddTranscationViewModel transaction = new()
                 {
-                    Property = property,
+                    Property = property!,
                     Transaction = new()
                 };
                 return View(transaction);
@@ -53,11 +53,11 @@ namespace RealEstate.Web.Controllers
                 {
                     PropertyId = model.Property.Id,
                     BuyerId = _userService.GetCurrentUser().Id,
-                    OwnerId = model.Property.UserId,
+                    OwnerId = model.Property.UserId!,
                     RentStartDate = model.Transaction.RentStartDate,
                     RentEndDate = model.Transaction.RentEndDate,
                     TransactionType = model.Transaction.TransactionType,
-                    PropertyPrice = model.Property.Price
+                    PropertyPrice = model.Property.Price,
                 };
                 //var parameters = new
                 //{
@@ -142,24 +142,24 @@ namespace RealEstate.Web.Controllers
             if (response.IsSuccessStatusCode)
             {
                 var transaction = await response.Content.ReadFromJsonAsync<TransactionViewModel>();
-                transactionDetails.Transaction = transaction;
+                transactionDetails.Transaction = transaction!;
                 var property = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/property/GetProperty/{transaction.PropertyId}");
                 if (property.IsSuccessStatusCode)
                 {
                     var propertyDetails = await property.Content.ReadFromJsonAsync<PropertyViewModel>();
-                    transactionDetails.Property = propertyDetails;
+                    transactionDetails.Property = propertyDetails!;
                 }
                 var buyer = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/user/GetUser/{transaction.BuyerId}");
                 if (buyer.IsSuccessStatusCode)
                 {
                     var buyerDetails = await buyer.Content.ReadFromJsonAsync<UserDto>();
-                    transactionDetails.Buyer = buyerDetails;
+                    transactionDetails.Buyer = buyerDetails!;
                 }
                 var owner = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/user/GetUser/{transaction.OwnerId}");
                 if (owner.IsSuccessStatusCode)
                 {
                     var ownerDetails = await owner.Content.ReadFromJsonAsync<UserDto>();
-                    transactionDetails.Owner = ownerDetails;
+                    transactionDetails.Owner = ownerDetails!;
                 }
 
                 return View(transactionDetails);

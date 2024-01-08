@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RealEstate.Web.Constants;
+using RealEstate.Web.CustomAttributes;
 using RealEstate.Web.Models;
 using RealEstate.Web.Models.Dtos;
 using RealEstate.Web.Services.IServices;
@@ -21,6 +22,7 @@ namespace RealEstate.Web.Controllers
         }
 
         [HttpGet]
+        [AuthorizeUsers(RoleConstants.Role_User_Indi, RoleConstants.Role_User_Comp)]
         public async Task<IActionResult> Dashboard()
         {
             var userId = _userService.GetCurrentUser().Id;
