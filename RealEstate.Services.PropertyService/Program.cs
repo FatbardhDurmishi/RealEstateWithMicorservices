@@ -7,18 +7,11 @@ using Microsoft.Extensions.Azure;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//var mySqlConnectionString = builder.Configuration.GetConnectionString("MySqlConnection");
-
 // Add services to the container.
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
-
-//builder.Services.AddDbContext<AppDbContext>(options =>
-//{
-//    options.UseMySql(mySqlConnectionString, ServerVersion.AutoDetect(mySqlConnectionString));
-//});
 
 builder.Services.AddHttpClient();
 
@@ -33,10 +26,7 @@ builder.Services.AddControllers(options => options.SuppressImplicitRequiredAttri
 builder.Services.AddTransient<IPropertyRepository, PropertyRepository>();
 builder.Services.AddTransient<IPropertyTypeRepository, PropertyTypeRepository>();
 builder.Services.AddTransient<IPropertyImageRepository, PropertyImageRepository>();
-//builder.Services.AddSingleton(x =>
-//    new BlobServiceClient(
-//        new Uri("https://riinvestdetyra.blob.core.windows.net"),
-//        new DefaultAzureCredential()));
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

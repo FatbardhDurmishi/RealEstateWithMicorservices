@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\RealEstate.Services.PropertyService.props" />
+</Project>

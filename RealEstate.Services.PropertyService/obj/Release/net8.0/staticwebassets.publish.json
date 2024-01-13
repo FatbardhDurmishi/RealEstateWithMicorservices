@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "lqdySAJToRmPzav2jC2SuoUuBwIwMzGUGGLZczDNdWE=",
+  "Source": "RealEstate.Services.PropertyService",
+  "BasePath": "_content/RealEstate.Services.PropertyService",
+  "Mode": "Default",
+  "ManifestType": "Publish",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

@@ -12,13 +12,10 @@ namespace RealEstate.Web.Models
         [StringLength(50)]
         public string Name { get; set; } = null!;
         [Required]
-
         public string Description { get; set; } = null!;
         [Required]
-
         public int? BedRooms { get; set; }
         [Required]
-
         public int? BathRooms { get; set; }
 
         [Column(TypeName = "decimal(18, 2)")]
@@ -31,11 +28,8 @@ namespace RealEstate.Web.Models
 
         [StringLength(50)]
         [ValidateNever]
-
         public string Status { get; set; } = null!;
         [Required]
-
-
         [StringLength(50)]
         public string State { get; set; } = null!;
 

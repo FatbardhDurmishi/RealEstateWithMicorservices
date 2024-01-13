@@ -230,26 +230,24 @@ namespace RealEstate.Web.Controllers
                 ModelState.AddModelError("", "Invalid attempt");
                 return View("AddUpdateProperty", model);
             }
-            var updatePropertyDto = new PropertyDto();
-
-            updatePropertyDto.Id = model.Property.Id;
-            updatePropertyDto.Name = model.Property.Name;
-            updatePropertyDto.Description = model.Property.Description;
-            updatePropertyDto.BathRooms = model.Property.BathRooms;
-            updatePropertyDto.BedRooms = model.Property.BedRooms;
-            updatePropertyDto.Area = model.Property.Area;
-            updatePropertyDto.Price = model.Property.Price;
-            updatePropertyDto.Status = model.Property.Status;
-            updatePropertyDto.State = model.Property.State;
-            updatePropertyDto.City = model.Property.City;
-            updatePropertyDto.StreetAddress = model.Property.StreetAddress;
-            if (model.CoverImage != null)
+            var updatePropertyDto = new PropertyDto
             {
-                updatePropertyDto.CoverImageUrl = model.CoverImage.FileName;
-            }
-            updatePropertyDto.TransactionType = model.Property.TransactionType;
-            updatePropertyDto.UserId = model.Property.UserId;
-            updatePropertyDto.PropertyTypeId = model.Property.PropertyTypeId;
+                Id = model.Property.Id,
+                Name = model.Property.Name,
+                Description = model.Property.Description,
+                BathRooms = model.Property.BathRooms,
+                BedRooms = model.Property.BedRooms,
+                Area = model.Property.Area,
+                Price = model.Property.Price,
+                Status = model.Property.Status,
+                State = model.Property.State,
+                City = model.Property.City,
+                StreetAddress = model.Property.StreetAddress,
+                CoverImageUrl = model.CoverImage?.FileName,
+                TransactionType = model.Property.TransactionType,
+                UserId = model.Property.UserId,
+                PropertyTypeId = model.Property.PropertyTypeId
+            };
 
             var parameters = new
             {
@@ -275,12 +273,11 @@ namespace RealEstate.Web.Controllers
                 if (content.Any())
                 {
                     var uploadImagesResponse = await _httpClient.PostAsync($"{APIGatewayUrl.URL}api/property/UploadImages/{property!.Id}", content);
-                    if (uploadImagesResponse.IsSuccessStatusCode)
+                    if (!uploadImagesResponse.IsSuccessStatusCode)
                     {
-                        return RedirectToAction("Index");
+                        TempData["error"] = "Something went wrong while uploading new images! Try again";
+                        return View("Index");
                     }
-                    TempData["error"] = "Something went wrong while uploading new images! Try again";
-                    return View("Index");
                 }
                 TempData["success"] = "Property updated succesfully";
                 return View("Index");

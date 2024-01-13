@@ -15,10 +15,10 @@
         <div class="container-fluid pt-4 px-4 col-12">
             <div class="d-flex text-center justify-content-center">
 
-                <form class="w-100" asp-controller="Home" asp-action="Index" method="post">
+                <form class="w-100" asp-controller="Home" asp-action="Index" asp-route-loggedIn="true" method="post">
 
                     <select name="bedrooms" class="option-bar col-lg-3 col-form-label-sm cl-md-6 col-sm-12 mb-2" aria-label="Default select example">
-                        <option selected disabled>BedRooms</option>
+                        <option selected value="">BedRooms</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -26,7 +26,7 @@
                         <option value="5">5</option>
                     </select>
                     <select name="bathrooms" class="option-bar col-lg-3 col-form-label-sm cl-md-6 col-sm-12 mb-2 " aria-label="Default select example">
-                        <option selected>BathRooms</option>
+                        <option selected value="">BathRooms</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -34,7 +34,7 @@
                         <option value="5">5</option>
                     </select>
                     <select class="option-bar  col-lg-3 cl-md-6 col-sm-12 col-form-label-sm mb-2 " name="city">
-                        <option selected>City</option>
+                        <option selected value="">City</option>
                         <option value="Prishtinë">Prishtinë</option>
                         <option value="Gjilan">Gjilan</option>
                         <option value="Prizren">Prizren</option>
@@ -50,18 +50,18 @@
                         <option value="Suharekë">Suharekë</option>
                     </select>
                     <select class="option-bar col-lg-3 col-form-label-sm cl-md-6 col-sm-12 mb-2 " name="propertyType" asp-items="@ViewBag.PropertyTypes">
-                        <option selected>PropertyType</option>
+                        <option selected value="">PropertyType</option>
                     </select>
                     <select id="transactionType" class="option-bar large col-form-label-sm col-lg-3 cl-md-6 col-sm-12 mb-2 " name="transactionType">
-                        <option selected>TransactionType</option>
+                        <option selected value="">Transaction Type</option>
                         <option value="Rent">Rent</option>
                         <option value="Sale">Sale</option>
                     </select>
                     <select id="minPrice" name="minPrice" class="option-bar large col-form-label-sm col-lg-3 cl-md-6 col-sm-12 mb-2">
-                        <option selected>MinPrice</option>
+                        <option selected value="">MinPrice</option>
                     </select>
                     <select id="maxPrice" name="maxPrice" class="option-bar large col-form-label-sm col-lg-3 cl-md-6 col-sm-12 mb-2">
-                        <option selected>MaxPrice</option>
+                        <option selected value="">MaxPrice</option>
                     </select>
 
                     <button class="btn btn-primary col-form-label-sm col-lg-3 cl-md-6 col-sm-12" type="submit">Search</button>
@@ -128,7 +128,7 @@ else
                 <form class="w-100" asp-controller="Home" asp-action="Index" method="post">
 
                     <select name="bedrooms" class="option-bar col-lg-3 col-form-label-sm cl-md-6 col-sm-12 mb-2" aria-label="Default select example">
-                        <option selected>BedRooms</option>
+                        <option selected value="">BedRooms</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -136,15 +136,15 @@ else
                         <option value="5">5</option>
                     </select>
                     <select name="bathrooms" class="option-bar col-lg-3 col-form-label-sm cl-md-6 col-sm-12 mb-2 " aria-label="Default select example">
-                        <option selected>BathRooms</option>
+                        <option selected value="">BathRooms</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
                         <option value="4">4</option>
                         <option value="5">5</option>
                     </select>
-                    <select class="option-bar  col-lg-3 cl-md-6 col-sm-12 col-form-label-sm mb-2 " name="city">
-                        <option selected>City</option>
+                    <select class="option-bar  col-lg-3 cl-md-6 col-sm-12 col-form-label-sm mb-2" name="city">
+                        <option selected value="">City</option>
                         <option value="Prishtinë">Prishtinë</option>
                         <option value="Gjilan">Gjilan</option>
                         <option value="Prizren">Prizren</option>
@@ -160,18 +160,18 @@ else
                         <option value="Suharekë">Suharekë</option>
                     </select>
                     <select class="option-bar col-lg-3 col-form-label-sm cl-md-6 col-sm-12 mb-2 " name="propertyType" asp-items="@ViewBag.PropertyTypes">
-                        <option selected>PropertyType</option>
+                        <option selected value="">PropertyType</option>
                     </select>
                     <select id="transactionType" class="option-bar large col-form-label-sm col-lg-3 cl-md-6 col-sm-12 mb-2 " name="transactionType">
-                        <option selected>TransactionType</option>
+                        <option selected value="">Transaction Type</option>
                         <option value="Sale">Sale</option>
                         <option value="Rent">Rent</option>
                     </select>
                     <select id="minPrice" name="minPrice" class="option-bar large col-form-label-sm col-lg-3 cl-md-6 col-sm-12 mb-2">
-                        <option selected>MinPrice</option>
+                        <option selected value="">MinPrice</option>
                     </select>
                     <select id="maxPrice" name="maxPrice" class="option-bar large col-form-label-sm col-lg-3 cl-md-6 col-sm-12 mb-2">
-                        <option selected>MaxPrice</option>
+                        <option selected value="">MaxPrice</option>
                     </select>
 
                     <button class="btn btn-primary col-form-label-sm col-lg-3 cl-md-6 col-sm-12" type="submit">Search</button>

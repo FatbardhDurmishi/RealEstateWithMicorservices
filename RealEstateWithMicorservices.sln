@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34009.444
@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealEstate.Services.Propert
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealEstate.Services.TransactionService", "RealEstate.Services.TransactionService\RealEstate.Services.TransactionService.csproj", "{3FED86A6-77B6-48CE-A35F-C56F9084487F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIGateway", "APIGateway\APIGateway.csproj", "{CB33F5D8-FCFF-42C7-B2A0-FD18AA29B259}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APIGateway", "APIGateway\APIGateway.csproj", "{CB33F5D8-FCFF-42C7-B2A0-FD18AA29B259}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

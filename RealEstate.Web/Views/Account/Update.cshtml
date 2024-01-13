@@ -118,7 +118,6 @@
 
             //Function that fill help right side bar
             function HelpSideBar(title, description) {
-                //debugger;
                 $("#title").text(title);
                 $("#description").text(description);
             }
@@ -146,7 +145,6 @@
                 localStorage.isHelpVisible = false;
             }
             function Close() {
-                //debugger;
                 $("#left-side-bar").removeClass("col-md-12");
                 $("#left-side-bar").addClass("col-md-9");
                 var option = { direction: 'right' };

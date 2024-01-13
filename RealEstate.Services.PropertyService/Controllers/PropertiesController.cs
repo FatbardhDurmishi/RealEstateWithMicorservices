@@ -74,7 +74,7 @@ namespace RealEstate.Services.PropertyService.Controllers
         [HttpPost("UploadImages/{propertyId}")]
         public async Task<IActionResult> UploadImages([FromForm(Name = "CoverImage")] IFormFile CoverImage, [FromForm(Name = "PropertyImages")] IFormFileCollection PropertyImages, int propertyId)
         {
-            var property = await _propertyRepository.GetFirstOrDefault(x => x.Id == propertyId);
+            var property = await _propertyRepository.GetFirstOrDefault(x => x.Id == propertyId).;
             if (property == null)
             {
                 return BadRequest();
@@ -98,19 +98,11 @@ namespace RealEstate.Services.PropertyService.Controllers
                     ImageUrl = image.FileName,
                     PropertyId = propertyId
                 };
-                if (image.FileName != CoverImage!.FileName)
-                {
-                    bool result = await AzureBlobActions.UploadToBlob(containerClient, image);
-                    if (result)
-                    {
-                        await _propertyImageRepository.Add(Image);
-                    }
-                }
-                else
+                bool result = await AzureBlobActions.UploadToBlob(containerClient, image);
+                if (result)
                 {
                     await _propertyImageRepository.Add(Image);
                 }
-
 
             }
             return Ok();
@@ -289,8 +281,6 @@ namespace RealEstate.Services.PropertyService.Controllers
                     }
                     return Ok(propertiesList);
                 }
-
-
             }
             else
             {
@@ -310,7 +300,6 @@ namespace RealEstate.Services.PropertyService.Controllers
                     }
                 }
             }
-
             return Ok(propertiesList);
         }
 

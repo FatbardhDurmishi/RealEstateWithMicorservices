@@ -49,21 +49,16 @@ namespace RealEstate.Services.AuthAPI.Controllers
         [HttpPost("CreateUser")]
         public async Task<ActionResult> CreateUser([FromBody] CreateUserDto parameters)
         {
-            //if (parameters.user == null)
-            //{
-            //    return BadRequest();
-            //}
-
             var user = new ApplicationUser()
             {
                 Name = parameters.User.Name,
                 UserName = parameters.User.Email,
                 Email = parameters.User.Email,
-                StreetAddres = parameters.User.StreetAddres,
-                City = parameters.User.City,
-                State = parameters.User.State,
-                PostalCode = parameters.User.PostalCode,
-                PhoneNumber = parameters.User.PhoneNumber,
+                StreetAddres = parameters.User.StreetAddres!,
+                City = parameters.User.City!,
+                State = parameters.User.State!,
+                PostalCode = parameters.User.PostalCode!,
+                PhoneNumber = parameters.User.PhoneNumber!,
             };
             if (parameters.CurrentUserRole == RoleConstants.Role_User_Comp)
             {
@@ -72,7 +67,7 @@ namespace RealEstate.Services.AuthAPI.Controllers
             }
             else
             {
-                user.Role = parameters.User.Role;
+                user.Role = parameters.User.Role!;
             }
             var result = await _userManager.CreateAsync(user, parameters.User.Password);
             if (!result.Succeeded)
@@ -123,12 +118,12 @@ namespace RealEstate.Services.AuthAPI.Controllers
 
             user.Name = registerDto.Name;
             user.Email = registerDto.Email;
-            user.StreetAddres = registerDto.StreetAddres;
-            user.City = registerDto.City;
-            user.State = registerDto.State;
-            user.PostalCode = registerDto.PostalCode;
-            user.PhoneNumber = registerDto.PhoneNumber;
-            user.Role = registerDto.Role;
+            user.StreetAddres = registerDto.StreetAddres!;
+            user.City = registerDto.City!;
+            user.State = registerDto.State!;
+            user.PostalCode = registerDto.PostalCode!;
+            user.PhoneNumber = registerDto.PhoneNumber!;
+            user.Role = registerDto.Role!;
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)
             {

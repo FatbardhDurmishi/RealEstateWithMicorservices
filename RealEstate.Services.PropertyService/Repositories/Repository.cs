@@ -8,7 +8,10 @@ namespace RealEstate.Services.PropertyService.Repositories
     public class Repository<T> : IRepository<T> where T : class
     {
         private readonly AppDbContext _db;
-        internal DbSet<T> dbSet { get; set; }
+        internal DbSet<T> dbSet
+        {
+            get; set;
+        }
 
         public Repository(AppDbContext db)
         {

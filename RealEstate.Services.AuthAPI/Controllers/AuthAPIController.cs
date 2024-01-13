@@ -73,28 +73,6 @@ namespace RealEstate.Services.AuthAPI.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
-            //var users = _context.ApplicationUsers.ToList();
-            var admin = await _userRepository.GetFirstOrDefault(x => x.Role == RoleConstants.Role_Admin);
-            //var userAdmin = _context.ApplicationUsers.Where();
-            if (admin == null)
-            {
-                var adminUser = new ApplicationUser { UserName = "admin@gmail.com", Email = "admin@gmail.com", EmailConfirmed = true };
-
-                adminUser.StreetAddres = "Admin";
-                adminUser.City = "Admin";
-                adminUser.State = "Admin";
-                adminUser.PostalCode = "Admin";
-                adminUser.Name = "Admin";
-                adminUser.PhoneNumber = "Admin";
-                adminUser.Role = "Admin";
-
-                var result = await _userManager.CreateAsync(adminUser, "Admin.123");
-
-                if (result.Succeeded)
-                {
-                    await _userManager.AddToRoleAsync(adminUser, adminUser.Role);
-                }
-            }
 
             var user = _context.ApplicationUsers.FirstOrDefault(x => x.Email.ToLower() == loginDto.Email.ToLower());
             if (user == null)
