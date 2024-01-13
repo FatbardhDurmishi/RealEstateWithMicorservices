@@ -31,18 +31,21 @@ namespace RealEstate.Services.AuthAPI.Controllers
         {
             if (currentUserRole == RoleConstants.Role_User_Comp)
             {
-                var usersForCompany = await _userRepository.GetFirstOrDefault(x => x.Id == currentUserId);
+                var usersForCompany = await _userRepository.GetFirstOrDefaultAsync(x => x.Id == currentUserId);
+                _userRepository.Dispose();
                 return Ok(usersForCompany);
             }
 
-            var usersForAdmin = await _userRepository.GetAll(x => x.Id != currentUserId);
+            var usersForAdmin = await _userRepository.GetAllAsync(x => x.Id != currentUserId);
+            _userRepository.Dispose();
             return Ok(usersForAdmin);
         }
 
         [HttpGet("GetUsersByCompanyId/{companyId}")]
         public async Task<ActionResult<UserDto>> GetUsersByCompanyId(string companyId)
         {
-            var users = await _userRepository.GetAll(x => x.CompanyId == companyId);
+            var users = await _userRepository.GetAllAsync(x => x.CompanyId == companyId);
+            _userRepository.Dispose();
             return Ok(users);
         }
 
@@ -81,7 +84,7 @@ namespace RealEstate.Services.AuthAPI.Controllers
         [HttpDelete("DeleteUser/{id}")]
         public async Task<ActionResult<UserDto>> DeleteUser(string id)
         {
-            var user = await _userRepository.GetFirstOrDefault(x => x.Id == id);
+            var user = await _userRepository.GetFirstOrDefaultAsync(x => x.Id == id);
             if (user == null)
             {
                 return NotFound();
@@ -90,7 +93,9 @@ namespace RealEstate.Services.AuthAPI.Controllers
             var deletePropertiesResponse = await _httpClient.DeleteAsync($"{APIGatewayUrl.URL}api/property/DeletePropertiesByUserId/{user.Id}");
             if (deletePropertiesResponse.IsSuccessStatusCode)
             {
-                await _userRepository.Remove(user);
+                _userRepository.Remove(user);
+                await _userRepository.SaveChangesAsync();
+                _userRepository.Dispose();
                 return Ok();
             }
             return BadRequest();
@@ -99,18 +104,19 @@ namespace RealEstate.Services.AuthAPI.Controllers
         [HttpGet("GetUser/{id}")]
         public async Task<ActionResult<UserDto>> GetUser(string id)
         {
-            var user = await _userRepository.GetFirstOrDefault(x => x.Id == id);
+            var user = await _userRepository.GetFirstOrDefaultAsync(x => x.Id == id);
             if (user == null)
             {
                 return NotFound();
             }
+            _userRepository.Dispose();
             return Ok(user);
         }
 
         [HttpPut("UpdateUser")]
         public async Task<ActionResult<RegisterDto>> UpdateUser(RegisterDto registerDto)
         {
-            var user = await _userRepository.GetFirstOrDefault(x => x.Id == registerDto.Id);
+            var user = await _userRepository.GetFirstOrDefaultAsync(x => x.Id == registerDto.Id);
             if (user == null)
             {
                 return NotFound();
@@ -125,19 +131,24 @@ namespace RealEstate.Services.AuthAPI.Controllers
             user.PhoneNumber = registerDto.PhoneNumber!;
             user.Role = registerDto.Role!;
             var result = await _userManager.UpdateAsync(user);
+
             if (result.Succeeded)
             {
                 if (user.Role != registerDto.Role)
                 {
 
-                    var roleResult = await _userManager.RemoveFromRoleAsync(user, registerDto.Role);
+                    var roleResult = await _userManager.RemoveFromRoleAsync(user, registerDto.Role!);
                     if (roleResult.Succeeded)
                     {
                         await _userManager.AddToRoleAsync(user, user.Role);
                     }
                 }
+                await _userRepository.SaveChangesAsync();
+                _userRepository.Dispose();
+                return Ok(user);
             }
-            return Ok(user);
+            return BadRequest();
+
         }
     }
 }

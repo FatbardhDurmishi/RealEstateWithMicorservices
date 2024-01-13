@@ -18,7 +18,7 @@ namespace RealEstate.Services.PropertyService.Controllers
         [HttpGet("GetPropertyTypes")]
         public async Task<IActionResult> GetPropertyTypes()
         {
-            var propertyTypes = await _propertyTypeRepository.GetAll();
+            var propertyTypes = await _propertyTypeRepository.GetAllAsync();
             return Ok(propertyTypes);
         }
 
@@ -29,7 +29,9 @@ namespace RealEstate.Services.PropertyService.Controllers
             {
                 return BadRequest();
             }
-            await _propertyTypeRepository.Add(propertyType);
+            await _propertyTypeRepository.AddAsync(propertyType);
+            await _propertyTypeRepository.SaveChangesAsync();
+            _propertyTypeRepository.Dispose();
             return Ok();
         }
 
@@ -40,14 +42,16 @@ namespace RealEstate.Services.PropertyService.Controllers
             {
                 return BadRequest();
             }
-            await _propertyTypeRepository.Update(propertyType);
+            _propertyTypeRepository.Update(propertyType);
+            await _propertyTypeRepository.SaveChangesAsync();
+            _propertyTypeRepository.Dispose();
             return Ok();
         }
 
         [HttpGet("GetPropertyType/{id}")]
         public async Task<IActionResult> GetPropertyType(int id)
         {
-            var propertyType = await _propertyTypeRepository.GetFirstOrDefault(x => x.Id == id);
+            var propertyType = await _propertyTypeRepository.GetFirstOrDefaultAsync(x => x.Id == id);
             if (propertyType == null)
             {
                 return NotFound();
@@ -58,12 +62,14 @@ namespace RealEstate.Services.PropertyService.Controllers
         [HttpDelete("DeletePropertyType/{id}")]
         public async Task<IActionResult> DeletePropertyType(int id)
         {
-            var propertyType = await _propertyTypeRepository.GetFirstOrDefault(x => x.Id == id);
+            var propertyType = await _propertyTypeRepository.GetFirstOrDefaultAsync(x => x.Id == id);
             if (propertyType == null)
             {
                 return NotFound();
             }
-            await _propertyTypeRepository.Remove(propertyType);
+            _propertyTypeRepository.Remove(propertyType);
+            await _propertyTypeRepository.SaveChangesAsync();
+            _propertyTypeRepository.Dispose();
             return Ok();
         }
     }

@@ -8,23 +8,25 @@ namespace RealEstate.Services.AuthAPI.Repositories
     public class Repository<T> : IRepository<T> where T : class
     {
         private readonly AppDbContext _db;
-        internal DbSet<T> dbSet { get; set; }
+        internal DbSet<T> DbSet
+        {
+            get; set;
+        }
         public Repository(AppDbContext db)
         {
-            _db = db;
-            this.dbSet = _db.Set<T>();
+            _db = db ?? throw new ArgumentNullException(nameof(db));
+            this.DbSet = _db.Set<T>();
         }
 
-        public async Task Add(T entity)
+        public async Task AddAsync(T entity)
         {
-            await dbSet.AddAsync(entity);
-            await _db.SaveChangesAsync();
+            await DbSet.AddAsync(entity).ConfigureAwait(false);
         }
 
         //includeProp - "Category, CoverType"
-        public async Task<IEnumerable<T>> GetAll(Expression<Func<T, bool>>? filter = null, string? includeProperties = null)
+        public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, string? includeProperties = null)
         {
-            IQueryable<T> query = dbSet;
+            IQueryable<T> query = DbSet;
             if (filter != null)
             {
                 query = query.Where(filter);
@@ -37,14 +39,14 @@ namespace RealEstate.Services.AuthAPI.Repositories
                     query = query.Include(property);
                 }
             }
-            return await query.ToListAsync();
+            return await query.AsNoTracking().ToListAsync().ConfigureAwait(false);
         }
 
-        public async Task<T> GetFirstOrDefault(Expression<Func<T, bool>> filter, string? includeProperties = null)
+        public async Task<T> GetFirstOrDefaultAsync(Expression<Func<T, bool>> filter, string? includeProperties = null)
         {
             IQueryable<T> query;
 
-            query = dbSet;
+            query = DbSet;
 
             query = query.Where(filter);
             if (includeProperties != null)
@@ -54,26 +56,24 @@ namespace RealEstate.Services.AuthAPI.Repositories
                     query = query.Include(property);
                 }
             }
-            return await query.FirstOrDefaultAsync();
+            return await query.AsNoTracking().FirstOrDefaultAsync().ConfigureAwait(false);
         }
 
-        public async Task Remove(T entity)
+        public void Remove(T entity)
         {
-            dbSet.Remove(entity);
-            await _db.SaveChangesAsync();
+            DbSet.Remove(entity);
         }
 
-        public async Task RemoveRange(IEnumerable<T> entities)
+        public void RemoveRange(IEnumerable<T> entities)
         {
-            dbSet.RemoveRange(entities);
-            await _db.SaveChangesAsync();
+            DbSet.RemoveRange(entities);
         }
 
-        public async Task<int> SaveChanges()
+        public async Task<int> SaveChangesAsync()
         {
             try
             {
-                return await _db.SaveChangesAsync();
+                return await _db.SaveChangesAsync().ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -81,12 +81,23 @@ namespace RealEstate.Services.AuthAPI.Repositories
             }
         }
 
-        public async Task Update(T entity)
+        public void Update(T entity)
         {
             try
             {
-                _db.Set<T>().Update(entity);
-                await _db.SaveChangesAsync();
+                DbSet.Update(entity);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public void UpdateRange(IEnumerable<T> entity)
+        {
+            try
+            {
+                DbSet.UpdateRange(entity);
             }
             catch (Exception)
             {
@@ -94,17 +105,9 @@ namespace RealEstate.Services.AuthAPI.Repositories
             }
         }
 
-        public async Task UpdateRange(IEnumerable<T> entity)
+        public void Dispose()
         {
-            try
-            {
-                _db.Set<T>().UpdateRange(entity);
-                await _db.SaveChangesAsync();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            _db.Dispose();
         }
     }
 }

@@ -74,7 +74,7 @@ namespace RealEstate.Services.AuthAPI.Controllers
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
 
-            var user = _context.ApplicationUsers.FirstOrDefault(x => x.Email.ToLower() == loginDto.Email.ToLower());
+            var user = _context.ApplicationUsers.FirstOrDefault(x => x.Email!.ToLower() == loginDto.Email.ToLower());
             if (user == null)
             {
                 return BadRequest();
@@ -93,7 +93,7 @@ namespace RealEstate.Services.AuthAPI.Controllers
             {
                 Id = user.Id,
                 Name = user.Name,
-                Email = user.Email,
+                Email = user.Email!,
                 PhoneNumber = user.PhoneNumber,
                 StreetAddres = user.StreetAddres,
                 City = user.City,

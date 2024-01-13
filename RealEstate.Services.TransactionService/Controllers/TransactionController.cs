@@ -35,8 +35,9 @@ namespace RealEstate.Services.TransactionService.Controllers
                     var users = await usersResponse.Content.ReadFromJsonAsync<List<UserDto>>();
                     if (users.Count() > 0)
                     {
-                        var transactions = await _transactionRepository.GetAll();
+                        var transactions = await _transactionRepository.GetAllAsync();
                         transactionsList = transactions?.Where(x => users.Any(y => x.OwnerId == y.Id || x.BuyerId == y.Id)).ToList();
+                        _transactionRepository.Dispose();
                         return Ok(transactionsList);
                     }
                     return Ok(transactionsList);
@@ -49,8 +50,9 @@ namespace RealEstate.Services.TransactionService.Controllers
             }
             else if (currentUserRole == RoleConstants.Role_User_Indi)
             {
-                var transactions = await _transactionRepository.GetAll(x => x.OwnerId == currentUserId || x.BuyerId == currentUserId);
+                var transactions = await _transactionRepository.GetAllAsync(x => x.OwnerId == currentUserId || x.BuyerId == currentUserId);
                 transactionsList = transactions.ToList();
+                _transactionRepository.Dispose();
                 foreach (var transaction in transactionsList)
                 {
                     if (transaction.OwnerId == currentUserId && transaction.Status != TransactionStatus.Sold && transaction.Status != TransactionStatus.Rented && transaction.Status != TransactionStatus.Denied && transaction.Status != TransactionStatus.Expired)
@@ -62,8 +64,9 @@ namespace RealEstate.Services.TransactionService.Controllers
             }
             else
             {
-                var transactions = await _transactionRepository.GetAll();
+                var transactions = await _transactionRepository.GetAllAsync();
                 transactionsList = transactions.ToList();
+                _transactionRepository.Dispose();
                 return Ok(transactionsList);
             }
         }
@@ -71,18 +74,19 @@ namespace RealEstate.Services.TransactionService.Controllers
         [HttpGet("GetTransaction/{id}")]
         public async Task<ActionResult> GetTransaction(int id)
         {
-            var transaction = await _transactionRepository.GetFirstOrDefault(x => x.Id == id);
+            var transaction = await _transactionRepository.GetFirstOrDefaultAsync(x => x.Id == id);
             if (transaction == null)
             {
                 return NotFound();
             }
+            _transactionRepository.Dispose();
             return Ok(transaction);
         }
 
         [HttpPost("AddTransaction")]
         public async Task<ActionResult> AddTransaction(AddTransactionDto transactionDto)
         {
-            var transaction = _transactionRepository.GetAll(x => x.BuyerId == transactionDto.BuyerId && x.PropertyId == transactionDto.PropertyId).Result.OrderByDescending(x => x.Date).FirstOrDefault();
+            var transaction = _transactionRepository.GetAllAsync(x => x.BuyerId == transactionDto.BuyerId && x.PropertyId == transactionDto.PropertyId).Result.OrderByDescending(x => x.Date).FirstOrDefault();
             if (transaction == null || transaction.Status == TransactionStatus.Denied || transaction.Status == TransactionStatus.Sold)
             {
                 var transactionToAdd = new Transaction
@@ -106,7 +110,9 @@ namespace RealEstate.Services.TransactionService.Controllers
                     transactionToAdd.TotalPrice = transactionDto.PropertyPrice;
                 }
 
-                await _transactionRepository.Add(transactionToAdd);
+                await _transactionRepository.AddAsync(transactionToAdd);
+                await _transactionRepository.SaveChangesAsync();
+                _transactionRepository.Dispose();
                 var buyer = await GetUser(transactionDto.BuyerId);
                 if (buyer != null)
                 {
@@ -134,7 +140,7 @@ namespace RealEstate.Services.TransactionService.Controllers
         [HttpPost("ApproveRequest/{id}")]
         public async Task<ActionResult> ApproveRequest(int id)
         {
-            var transaction = await _transactionRepository.GetFirstOrDefault(x => x.Id == id);
+            var transaction = await _transactionRepository.GetFirstOrDefaultAsync(x => x.Id == id);
             var buyer = await GetUser(transaction.BuyerId!);
             if (transaction == null)
             {
@@ -143,8 +149,9 @@ namespace RealEstate.Services.TransactionService.Controllers
             if (transaction.TransactionType == TransactionTypes.Rent)
             {
                 _transactionRepository.UpdateStatus(transaction, TransactionStatus.Rented);
-                await _transactionRepository.SaveChanges();
-                //me shtu ni api call te property service per me ndryshu statusin e property
+                await _transactionRepository.SaveChangesAsync();
+                _transactionRepository.Dispose();
+
                 var parameters = new
                 {
                     propertyId = transaction.PropertyId,
@@ -188,7 +195,9 @@ namespace RealEstate.Services.TransactionService.Controllers
                 }
 
                 _transactionRepository.UpdateStatus(transaction, TransactionStatus.Sold);
-                await _transactionRepository.SaveChanges();
+                await _transactionRepository.SaveChangesAsync();
+                _transactionRepository.Dispose();
+
                 _emailService.SendEmail(buyer.Email, "Request Approved for Sale", $"Your request to property with ID: {transaction.PropertyId} was approved");
                 return Ok();
             }
@@ -197,14 +206,15 @@ namespace RealEstate.Services.TransactionService.Controllers
         [HttpPost("DenyRequest/{id}")]
         public async Task<ActionResult> DenyRequest(int id)
         {
-            var transaction = await _transactionRepository.GetFirstOrDefault(x => x.Id == id);
+            var transaction = await _transactionRepository.GetFirstOrDefaultAsync(x => x.Id == id);
             if (transaction == null)
             {
                 return NotFound("Transaction not found");
             }
             _transactionRepository.UpdateStatus(transaction, TransactionStatus.Denied);
-            await _transactionRepository.SaveChanges();
-            var buyer = await GetUser(transaction.BuyerId);
+            await _transactionRepository.SaveChangesAsync();
+            _transactionRepository.Dispose();
+            var buyer = await GetUser(transaction.BuyerId!);
             if (buyer != null)
             {
                 _emailService.SendEmail(buyer.Email, "Request Denied", $"Your Request for property with ID: {transaction.PropertyId} was Denied");
@@ -216,27 +226,31 @@ namespace RealEstate.Services.TransactionService.Controllers
         [HttpDelete("DeleteTransaction/{id}")]
         public async Task<ActionResult> DeleteTransaction(int id)
         {
-            var transaction = await _transactionRepository.GetFirstOrDefault(x => x.Id == id);
+            var transaction = await _transactionRepository.GetFirstOrDefaultAsync(x => x.Id == id);
             if (transaction == null)
             {
                 return NotFound("Transaction not found");
             }
-            await _transactionRepository.Remove(transaction);
+            _transactionRepository.Remove(transaction);
+            await _transactionRepository.SaveChangesAsync();
+            _transactionRepository.Dispose();
             return Ok();
         }
 
         [HttpDelete("DeleteTransactionByPropertyId/{id}")]
         public async Task<ActionResult> DeleteTransactionByPropertyId(int id)
         {
-            var transactions = await _transactionRepository.GetAll(x => x.PropertyId == id);
+            var transactions = await _transactionRepository.GetAllAsync(x => x.PropertyId == id);
             if (transactions == null)
             {
                 return NotFound("Transaction not found");
             }
             foreach (var transaction in transactions)
             {
-                await _transactionRepository.Remove(transaction);
+                _transactionRepository.Remove(transaction);
             }
+            await _transactionRepository.SaveChangesAsync();
+            _transactionRepository.Dispose();
             return Ok();
         }
 

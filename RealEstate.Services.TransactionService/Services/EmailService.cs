@@ -1,5 +1,6 @@
 ﻿using System.Net.Mail;
 using System.Net;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace RealEstate.Services.TransactionService.Services
 {
@@ -27,7 +28,7 @@ namespace RealEstate.Services.TransactionService.Services
             // code in brackets above needed if authentication required
             try
             {
-                client.SendAsync(message,null);
+                client.SendAsync(message, null);
             }
             catch (SmtpException ex)
             {

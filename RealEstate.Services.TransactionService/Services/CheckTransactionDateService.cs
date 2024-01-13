@@ -1,5 +1,6 @@
 ﻿
 using RealEstate.Services.TransactionService.Constants;
+using RealEstate.Services.TransactionService.Repositories;
 using RealEstate.Services.TransactionService.Repositories.IRepositories;
 
 namespace RealEstate.Services.TransactionService.Services
@@ -43,7 +44,7 @@ namespace RealEstate.Services.TransactionService.Services
 
                 try
                 {
-                    var transactions = await transactionRepository.GetAll(x => x.Status == TransactionStatus.Rented);
+                    var transactions = await transactionRepository.GetAllAsync(x => x.Status == TransactionStatus.Rented);
 
                     if (transactions == null)
                     {
@@ -63,7 +64,8 @@ namespace RealEstate.Services.TransactionService.Services
 
                                 if (response.IsSuccessStatusCode)
                                 {
-                                    await transactionRepository.SaveChanges();
+                                    await transactionRepository.SaveChangesAsync();
+                                    transactionRepository.Dispose();
                                     return;
                                 }
                             }
