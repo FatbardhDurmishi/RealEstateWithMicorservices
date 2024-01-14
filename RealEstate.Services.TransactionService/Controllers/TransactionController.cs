@@ -13,9 +13,9 @@ namespace RealEstate.Services.TransactionService.Controllers
     {
         private readonly ITransactionRepository _transactionRepository;
         private readonly HttpClient _httpClient;
-        private readonly EmailService _emailService;
+        private readonly MailService _emailService;
 
-        public TransactionController(ITransactionRepository transactionRepository, HttpClient httpClient, EmailService emailService)
+        public TransactionController(ITransactionRepository transactionRepository, HttpClient httpClient, MailService emailService)
         {
             _transactionRepository = transactionRepository;
             _httpClient = httpClient;
@@ -119,7 +119,7 @@ namespace RealEstate.Services.TransactionService.Controllers
                     var owner = await GetUser(transactionDto.OwnerId);
                     if (owner != null)
                     {
-                        _emailService.SendEmail(owner.Email, "New Request", $"New Reuqest from: {buyer.Email} for property with ID: {transactionToAdd.PropertyId}");
+                        await _emailService.SendEmailAsync(owner.Email, "New Request", $"New Reuqest from: {buyer.Email} for property with ID: {transactionToAdd.PropertyId}");
                     }
                 }
                 return Ok(transactionToAdd);
@@ -163,7 +163,7 @@ namespace RealEstate.Services.TransactionService.Controllers
                     return BadRequest();
                 }
 
-                _emailService.SendEmail(buyer.Email, "Request Approved for Rent", $"Your Rent Request for property with ID: {transaction.PropertyId} was approved");
+                await _emailService.SendEmailAsync(buyer.Email, "Request Approved for Rent", $"Your Rent Request for property with ID: {transaction.PropertyId} was approved");
 
                 return Ok();
             }
@@ -198,7 +198,7 @@ namespace RealEstate.Services.TransactionService.Controllers
                 await _transactionRepository.SaveChangesAsync();
                 _transactionRepository.Dispose();
 
-                _emailService.SendEmail(buyer.Email, "Request Approved for Sale", $"Your request to property with ID: {transaction.PropertyId} was approved");
+                await _emailService.SendEmailAsync(buyer.Email, "Request Approved for Sale", $"Your request to property with ID: {transaction.PropertyId} was approved");
                 return Ok();
             }
         }
@@ -217,7 +217,7 @@ namespace RealEstate.Services.TransactionService.Controllers
             var buyer = await GetUser(transaction.BuyerId!);
             if (buyer != null)
             {
-                _emailService.SendEmail(buyer.Email, "Request Denied", $"Your Request for property with ID: {transaction.PropertyId} was Denied");
+                await _emailService.SendEmailAsync(buyer.Email, "Request Denied", $"Your Request for property with ID: {transaction.PropertyId} was Denied");
                 return Ok();
             }
             return BadRequest();
