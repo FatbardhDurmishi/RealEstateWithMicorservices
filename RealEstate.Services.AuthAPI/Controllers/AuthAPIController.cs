@@ -57,7 +57,7 @@ namespace RealEstate.Services.AuthAPI.Controllers
                 _roleManager.CreateAsync(new IdentityRole(RoleConstants.Role_User_Indi)).GetAwaiter().GetResult();
                 _roleManager.CreateAsync(new IdentityRole(RoleConstants.Role_User_Comp)).GetAwaiter().GetResult();
             }
-            var result = await _userManager.CreateAsync(user, registerDto.Password);
+            var result = await _userManager.CreateAsync(user, registerDto.Password!);
             if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(user, user.Role);
@@ -120,7 +120,7 @@ namespace RealEstate.Services.AuthAPI.Controllers
             }
             var existingUser = await _userManager.FindByEmailAsync(registerDto.Email);
 
-            existingUser.Name = registerDto.Name;
+            existingUser!.Name = registerDto.Name;
             existingUser.Email = registerDto.Email;
             existingUser.UserName = registerDto.Email;
             existingUser.PhoneNumber = registerDto.PhoneNumber!;
@@ -150,12 +150,12 @@ namespace RealEstate.Services.AuthAPI.Controllers
             {
                 return BadRequest();
             }
-            var isOldPassowrdCorrect = await _userManager.CheckPasswordAsync(existingUser, registerDto.OldPassword);
+            var isOldPassowrdCorrect = await _userManager.CheckPasswordAsync(existingUser, registerDto.OldPassword!);
             if (!isOldPassowrdCorrect)
             {
                 return BadRequest("Old password is incorrect");
             }
-            var changePasswordResult = await _userManager.ChangePasswordAsync(existingUser, registerDto.OldPassword, registerDto.Password);
+            var changePasswordResult = await _userManager.ChangePasswordAsync(existingUser, registerDto.OldPassword!, registerDto.Password!);
             return changePasswordResult.Succeeded ? Ok() : BadRequest();
         }
     }

@@ -42,7 +42,7 @@ namespace RealEstate.Web.Controllers
                 if (transactionsResponse.IsSuccessStatusCode)
                 {
                     transactions = await transactionsResponse.Content.ReadFromJsonAsync<List<TransactionViewModel>>();
-                    if (transactions != null && transactions.Any())
+                    if (transactions != null && transactions.Count > 0)
                     {
                         foreach (var transaction in transactions)
                         {
@@ -105,11 +105,25 @@ namespace RealEstate.Web.Controllers
                         .Select(x => x.TotalPrice)
                         .Sum();
 
-                    ViewBag.BestSellThisYear = transactions?.Where(x => x.Date.Year == DateTime.Now.Year && x.TransactionType == TransactionTypes.Sale && x.Status == TransactionStatus.Sold && users!.Any(y => x.OwnerId == y.Id)).OrderByDescending(x => x.TotalPrice).Select(x => x.TotalPrice).FirstOrDefault();
+                    ViewBag.BestSellThisYear = transactions?.Where(x => x.Date.Year == DateTime.Now.Year
+                        && x.TransactionType == TransactionTypes.Sale
+                        && x.Status == TransactionStatus.Sold
+                        && users!.Any(y => x.OwnerId == y.Id))
+                        .OrderByDescending(x => x.TotalPrice)
+                        .Select(x => x.TotalPrice)
+                        .FirstOrDefault();
 
-                    ViewBag.BestRentThisYear = transactions?.Where(x => x.Date.Year == DateTime.Now.Year && x.TransactionType == TransactionTypes.Rent && x.Status == TransactionStatus.Rented && users!.Any(y => x.OwnerId == y.Id)).OrderByDescending(x => x.RentPrice).Select(x => x.RentPrice).FirstOrDefault();
+                    ViewBag.BestRentThisYear = transactions?.Where(x => x.Date.Year == DateTime.Now.Year
+                        && x.TransactionType == TransactionTypes.Rent
+                        && x.Status == TransactionStatus.Rented
+                        && users!.Any(y => x.OwnerId == y.Id))
+                        .OrderByDescending(x => x.RentPrice)
+                        .Select(x => x.RentPrice)
+                        .FirstOrDefault();
 
-                    ViewBag.TotalProfit = transactions?.Where(x => users!.Any(y => x.OwnerId == y.Id)).Select(x => x.TotalPrice).Sum();
+                    ViewBag.TotalProfit = transactions?.Where(x => users!.Any(y => x.OwnerId == y.Id))
+                        .Select(x => x.TotalPrice)
+                        .Sum();
 
                     var latestTransactions = transactionsList?.OrderByDescending(x => x.Date).Take(5);
 
@@ -162,21 +176,56 @@ namespace RealEstate.Web.Controllers
                         }
                     }
 
-                    ViewBag.TodaySale = transactions?.Where(x => x.Date.Day == DateTime.Today.Day && x.TransactionType == TransactionTypes.Sale && x.Status == TransactionStatus.Sold && x.OwnerId == userId).Select(x => x.TotalPrice).Sum();
+                    ViewBag.TodaySale = transactions?.Where(x => x.Date.Day == DateTime.Today.Day
+                        && x.TransactionType == TransactionTypes.Sale
+                        && x.Status == TransactionStatus.Sold
+                        && x.OwnerId == userId)
+                        .Select(x => x.TotalPrice)
+                        .Sum();
 
-                    ViewBag.TotalSales = transactions?.Where(x => x.TransactionType == TransactionTypes.Sale && x.Status == TransactionStatus.Sold && x.OwnerId == userId).Select(x => x.TotalPrice).Sum();
+                    ViewBag.TotalSales = transactions?.Where(x => x.TransactionType == TransactionTypes.Sale
+                        && x.Status == TransactionStatus.Sold
+                        && x.OwnerId == userId)
+                        .Select(x => x.TotalPrice)
+                        .Sum();
 
-                    ViewBag.RentThisMonth = transactions?.Where(x => x.RentStartDate.Month >= DateTime.Now.Month && x.RentEndDate.Month <= DateTime.Now.Month && x.TransactionType == TransactionTypes.Rent && x.Status == TransactionStatus.Rented && x.OwnerId == userId).Select(x => x.RentPrice).Sum();
+                    ViewBag.RentThisMonth = transactions?.Where(x => x.RentStartDate.Month >= DateTime.Now.Month
+                        && x.RentEndDate.Month <= DateTime.Now.Month
+                        && x.TransactionType == TransactionTypes.Rent
+                        && x.Status == TransactionStatus.Rented && x.OwnerId == userId)
+                        .Select(x => x.RentPrice)
+                        .Sum();
 
-                    ViewBag.TotalRent = transactions?.Where(x => x.TransactionType == TransactionTypes.Rent && x.Status == TransactionStatus.Rented && x.OwnerId == userId).Select(x => x.TotalPrice).Sum();
+                    ViewBag.TotalRent = transactions?.Where(x => x.TransactionType == TransactionTypes.Rent
+                        && x.Status == TransactionStatus.Rented
+                        && x.OwnerId == userId)
+                        .Select(x => x.TotalPrice)
+                        .Sum();
 
-                    ViewBag.Expenses = transactions?.Where(x => x.BuyerId == userId && x.Status != TransactionStatus.Pending).Select(x => x.TotalPrice).Sum();
+                    ViewBag.Expenses = transactions?.Where(x => x.BuyerId == userId
+                        && x.Status != TransactionStatus.Pending)
+                        .Select(x => x.TotalPrice)
+                        .Sum();
 
-                    ViewBag.BestSellThisYear = transactions?.Where(x => x.Date.Year == DateTime.Now.Year && x.TransactionType == TransactionTypes.Sale && x.Status == TransactionStatus.Sold && x.OwnerId == userId).OrderByDescending(x => x.TotalPrice).Select(x => x.TotalPrice).FirstOrDefault();
+                    ViewBag.BestSellThisYear = transactions?.Where(x => x.Date.Year == DateTime.Now.Year
+                        && x.TransactionType == TransactionTypes.Sale
+                        && x.Status == TransactionStatus.Sold
+                        && x.OwnerId == userId)
+                        .OrderByDescending(x => x.TotalPrice)
+                        .Select(x => x.TotalPrice)
+                        .FirstOrDefault();
 
-                    ViewBag.BestRentThisYear = transactions?.Where(x => x.Date.Year == DateTime.Now.Year && x.TransactionType == TransactionTypes.Rent && x.Status == TransactionStatus.Rented && x.OwnerId == userId).OrderByDescending(x => x.RentPrice).Select(x => x.RentPrice).FirstOrDefault();
+                    ViewBag.BestRentThisYear = transactions?.Where(x => x.Date.Year == DateTime.Now.Year
+                        && x.TransactionType == TransactionTypes.Rent
+                        && x.Status == TransactionStatus.Rented
+                        && x.OwnerId == userId)
+                        .OrderByDescending(x => x.RentPrice)
+                        .Select(x => x.RentPrice)
+                        .FirstOrDefault();
 
-                    ViewBag.TotalProfit = transactions?.Where(x => x.OwnerId == userId).Select(x => x.TotalPrice).Sum();
+                    ViewBag.TotalProfit = transactions?.Where(x => x.OwnerId == userId)
+                        .Select(x => x.TotalPrice)
+                        .Sum();
 
                     var latestTransactions = transactionsList?.OrderByDescending(x => x.Date).Take(5);
 

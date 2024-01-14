@@ -5,5 +5,6 @@
         public const string Free = "Free";
         public const string Rented = "Rented";
         public const string Sold = "Sold";
+        public const string Occupied = "Occupied";
     }
 }

@@ -93,13 +93,13 @@ namespace RealEstate.Web.Controllers
             if (response.IsSuccessStatusCode)
             {
                 var transactions = await response.Content.ReadFromJsonAsync<List<TransactionViewModel>>();
-                foreach (var transaction in transactions)
+                foreach (var transaction in transactions!)
                 {
                     var transactionToAdd = new TransactionListViewModel()
                     {
                         Id = transaction.Id,
                         TransactionType = transaction.TransactionType,
-                        Status = transaction.Status,
+                        Status = transaction.Status!,
                         TotalPrice = transaction.TotalPrice,
                         RentPrice = transaction.RentPrice,
                     };
@@ -108,19 +108,19 @@ namespace RealEstate.Web.Controllers
                     if (buyer.IsSuccessStatusCode)
                     {
                         var buyerUser = await buyer.Content.ReadFromJsonAsync<UserDto>();
-                        transactionToAdd.BuyerName = buyerUser.Name;
+                        transactionToAdd.BuyerName = buyerUser!.Name;
                     }
                     var owner = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/user/GetUser/{transaction.OwnerId}");
                     if (owner.IsSuccessStatusCode)
                     {
                         var ownerUser = await owner.Content.ReadFromJsonAsync<UserDto>();
-                        transactionToAdd.OwnerName = ownerUser.Name;
+                        transactionToAdd.OwnerName = ownerUser!.Name;
                     }
                     var property = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/property/GetProperty/{transaction.PropertyId}");
                     if (property.IsSuccessStatusCode)
                     {
                         var propertyDetails = await property.Content.ReadFromJsonAsync<PropertyViewModel>();
-                        transactionToAdd.PropertyName = propertyDetails.Name;
+                        transactionToAdd.PropertyName = propertyDetails!.Name;
                     }
                     if (transaction.OwnerId == currentUserId && transaction.Status != TransactionStatus.Sold && transaction.Status != TransactionStatus.Rented && transaction.Status != TransactionStatus.Denied && transaction.Status != TransactionStatus.Expired)
                     {
@@ -143,7 +143,7 @@ namespace RealEstate.Web.Controllers
             {
                 var transaction = await response.Content.ReadFromJsonAsync<TransactionViewModel>();
                 transactionDetails.Transaction = transaction!;
-                var property = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/property/GetProperty/{transaction.PropertyId}");
+                var property = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/property/GetProperty/{transaction!.PropertyId}");
                 if (property.IsSuccessStatusCode)
                 {
                     var propertyDetails = await property.Content.ReadFromJsonAsync<PropertyViewModel>();

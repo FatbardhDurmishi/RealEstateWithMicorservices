@@ -302,7 +302,7 @@ namespace RealEstate.Services.PropertyService.Controllers
                 {
                     var users = await usersResponse.Content.ReadFromJsonAsync<List<UserDto>>();
                     var properties = await _propertyRepository.GetAllAsync(x => x.Status == PropertyStatus.Free && x.UserId != currentUserId, includeProperties: "PropertyType");
-                    propertiesList = properties?.Where(x => users!.Any(y => x.UserId != y.Id)).ToList();
+                    propertiesList = properties?.Where(x => users == null || !users.Any(y => x.UserId == y.Id)).ToList();
                     if (propertiesList != null)
                     {
                         foreach (var property in propertiesList)

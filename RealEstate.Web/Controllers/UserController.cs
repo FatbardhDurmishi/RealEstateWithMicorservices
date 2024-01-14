@@ -61,7 +61,7 @@ namespace RealEstate.Web.Controllers
             {
                 User = model,
                 CurrentUserId = currentUserId,
-                CurrentUserRole = currentUserRole
+                CurrentUserRole = currentUserRole!
             };
 
 
