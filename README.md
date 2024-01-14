@@ -57,3 +57,24 @@
 
 <h1>Important Notes</h1>
 <p><b>Simulated Transactions: </b>Please be aware that the transaction functionalities within this application are simulated for practice purposes. No real monetary transactions are processed, and the app does not integrate with any actual payment systems.</p>
+
+<h1>Issues</h1>
+<p>If you encounter any issues or have suggestions for improvements, please feel free to open an issue on the GitHub repository. Your feedback is highly valuable.</p>
+
+<h3>How to Open an Issue</h3>
+<p>Visit the Issues Section of the Repository <a href="https://github.com/FatbardhDurmishi/RealEstateWithMicorservices/issues">here</a></p>
+
+<h4>Check Existing Issues:</h4>
+<p>Before opening a new issue, please check if a similar issue already exists.</p>
+
+<h4>New Issue:</h4>
+<p>Click on the "New Issue" button.</p>
+
+<h4>Details to Include:</h4>
+<p>Title of the issue</p>
+<p>Clearly describe the issue or enhancement you're proposing.</p>
+<p>If applicable, include steps to reproduce the problem.</p>
+
+<h4>Submit:</h4>
+<p>Click "Submit new issue."</p>
+
