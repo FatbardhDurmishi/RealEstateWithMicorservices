@@ -16,11 +16,13 @@ namespace RealEstate.Web.Controllers
     {
         private readonly HttpClient _httpClient;
         private readonly IUserService _userService;
+        private readonly ITokenProvider _tokenProvider;
 
-        public AccountController(HttpClient httpClient, IUserService userService)
+        public AccountController(HttpClient httpClient, IUserService userService, ITokenProvider tokenProvider)
         {
             _httpClient = httpClient;
             _userService = userService;
+            _tokenProvider = tokenProvider;
         }
 
         [HttpGet]
@@ -40,11 +42,15 @@ namespace RealEstate.Web.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     var loginResponse = await response.Content.ReadFromJsonAsync<LoginResponseDto>();
+
                     _userService.SetCurrentUser(loginResponse!.User);
+                    _tokenProvider.SetToken(loginResponse!.Token);
+
                     var claims = DecodeToken(loginResponse.Token);
 
                     var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     var principal = new ClaimsPrincipal(identity);
+
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
                     TempData["success"] = "Login successful";
@@ -102,9 +108,10 @@ namespace RealEstate.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
-            HttpContext.SignOutAsync();
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            _tokenProvider.ClearToken();
             _userService.RemoveCurrentUser();
             return RedirectToAction(nameof(Login));
         }
@@ -167,12 +174,13 @@ namespace RealEstate.Web.Controllers
         private List<Claim> DecodeToken(string token)
         {
             var handler = new JwtSecurityTokenHandler();
-            JwtSecurityToken? result = handler.ReadToken(token) as JwtSecurityToken;
+            JwtSecurityToken? result = handler.ReadJwtToken(token) as JwtSecurityToken;
 
             if (result == null)
             {
                 return new List<Claim>();
             }
+
             return result.Claims.ToList();
         }
     }

@@ -4,7 +4,6 @@ using RealEstate.Services.AuthAPI.Data;
 using RealEstate.Services.AuthAPI.Models;
 using RealEstate.Services.AuthAPI.Repositories;
 using RealEstate.Services.AuthAPI.Repositories.IRepository;
-using RealEstate.Services.AuthAPI.Service;
 using RealEstate.Services.AuthAPI.Service.IService;
 
 var builder = WebApplication.CreateBuilder(args);

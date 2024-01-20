@@ -278,3 +278,6 @@ C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWit
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.TransactionService\obj\Release\net8.0\RealEstate.Services.TransactionService.pdb
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.TransactionService\obj\Release\net8.0\RealEstate.Services.TransactionService.genruntimeconfig.cache
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.TransactionService\obj\Release\net8.0\ref\RealEstate.Services.TransactionService.dll
+C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.TransactionService\bin\Release\net8.0\BouncyCastle.Cryptography.dll
+C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.TransactionService\bin\Release\net8.0\MailKit.dll
+C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.TransactionService\bin\Release\net8.0\MimeKit.dll
