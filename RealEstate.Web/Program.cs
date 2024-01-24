@@ -8,11 +8,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<IUserService, UserService>();
 builder.Services.AddScoped<ITokenProvider, TokenProvider>();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 .AddCookie(options =>
 {
-    options.ExpireTimeSpan = TimeSpan.FromHours(10),
+    options.ExpireTimeSpan = TimeSpan.FromHours(10);
     options.LoginPath = "/Account/Login";
     options.AccessDeniedPath = "/Account/AccessDenied";
 });
@@ -35,15 +36,13 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-
 app.UseAuthentication();
 app.UseAuthorization();
 
-
 app.MapControllerRoute(
-       name: "default",
-       pattern: "{controller=Home}/{action=Index}"
-       );
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}"
+        );
 //app.UseEndpoints(endpoints =>
 //{
 //    endpoints.MapControllerRoute(
@@ -55,6 +54,8 @@ app.MapControllerRoute(
 //        name: "default",
 //        pattern: "{controller=Home}/{action=Index}"
 //        );
+
+//    endpoints.MapRazorPages();
 //});
 
 app.Run();

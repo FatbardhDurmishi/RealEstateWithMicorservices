@@ -1,6 +1,7 @@
 ﻿using Azure.Storage;
 using Azure.Storage.Blobs;
 using Azure.Storage.Sas;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealEstate.Services.PropertyService.Constants;
 using RealEstate.Services.PropertyService.Helpers;
@@ -12,12 +13,13 @@ namespace RealEstate.Services.PropertyService.Controllers
 {
     [Route("api/property")]
     [ApiController]
+    [Authorize]
     public class PropertiesController : ControllerBase
     {
         private readonly BlobServiceClient blobServiceClient;
         private readonly BlobContainerClient containerClient;
-        private readonly string accountName = "riinvestdetyra";
-        private readonly string accountKey = "ar97PiHstwAOJfq9Op8Op7b1jrmVVniJc0xvUoGnfsQAK9dBBoWm5MnM2o8jRYSJQ7b//JC8oGFv+AStXgiw5A==";
+        private readonly string accountName = "estateville";
+        private readonly string accountKey = "yj2rtRQLS0zZsUg7zov/rmbN8aiQx0g10kVcxPuq/R8NQ3L19dmzYvN1os7G8OifyC0+YK64PeL2+ASt49OmQQ==";
         private readonly StorageSharedKeyCredential credential;
         private readonly IPropertyRepository _propertyRepository;
         private readonly HttpClient _httpClient;
@@ -30,7 +32,7 @@ namespace RealEstate.Services.PropertyService.Controllers
 
             credential = new StorageSharedKeyCredential(accountName, accountKey);
             blobServiceClient = new BlobServiceClient(_configuration.GetConnectionString("AzureStorageConnection"));
-            containerClient = blobServiceClient.GetBlobContainerClient("pictures");
+            containerClient = blobServiceClient.GetBlobContainerClient("estateville");
             _propertyRepository = propertyRepository;
             _httpClient = httpClient;
             _propertyImageRepository = propertyImageRepository;

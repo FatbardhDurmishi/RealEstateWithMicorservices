@@ -7,7 +7,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "realestateservicesauthapi.azurewebsites.net",
+          "Host": "estatevilleauthservice.azurewebsites.net",
           "Port": 443
         }
       ],
@@ -19,7 +19,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "realestateservicesauthapi.azurewebsites.net",
+          "Host": "estatevilleauthservice.azurewebsites.net",
           "Port": 443
         }
       ],
@@ -31,7 +31,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "realestateservicesauthapi.azurewebsites.net",
+          "Host": "estatevilleauthservice.azurewebsites.net",
           "Port": 443
         }
       ],
@@ -43,7 +43,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "realestateservicesauthapi.azurewebsites.net",
+          "Host": "estatevilleauthservice.azurewebsites.net",
           "Port": 443
         }
       ],
@@ -55,7 +55,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "realestateservicesauthapi.azurewebsites.net",
+          "Host": "estatevilleauthservice.azurewebsites.net",
           "Port": 443
         }
       ],
@@ -67,7 +67,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "realestateservicesauthapi.azurewebsites.net",
+          "Host": "estatevilleauthservice.azurewebsites.net",
           "Port": 443
         }
       ],
@@ -79,7 +79,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "realestateservicesauthapi.azurewebsites.net",
+          "Host": "estatevilleauthservice.azurewebsites.net",
           "Port": 443
         }
       ],
@@ -91,7 +91,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "realestateservicesauthapi.azurewebsites.net",
+          "Host": "estatevilleauthservice.azurewebsites.net",
           "Port": 443
         }
       ],
@@ -103,7 +103,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "realestateservicesauthapi.azurewebsites.net",
+          "Host": "estatevilleauthservice.azurewebsites.net",
           "Port": 443
         }
       ],
@@ -115,7 +115,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "realestateservicesauthapi.azurewebsites.net",
+          "Host": "estatevilleauthservice.azurewebsites.net",
           "Port": 443
         }
       ],
@@ -129,7 +129,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "realestateservicespropertyservice.azurewebsites.net",
+          "Host": "estatevillepropertyservice.azurewebsites.net",
           "Port": 443
         }
       ],
@@ -141,7 +141,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "realestateservicespropertyservice.azurewebsites.net",
+          "Host": "estatevillepropertyservice.azurewebsites.net",
           "Port": 443
         }
       ],
@@ -153,7 +153,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "realestateservicespropertyservice.azurewebsites.net",
+          "Host": "estatevillepropertyservice.azurewebsites.net",
           "Port": 443
         }
       ],
@@ -165,7 +165,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "realestateservicespropertyservice.azurewebsites.net",
+          "Host": "estatevillepropertyservice.azurewebsites.net",
           "Port": 443
         }
       ],
@@ -177,7 +177,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "realestateservicespropertyservice.azurewebsites.net",
+          "Host": "estatevillepropertyservice.azurewebsites.net",
           "Port": 443
         }
       ],
@@ -189,7 +189,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "realestateservicespropertyservice.azurewebsites.net",
+          "Host": "estatevillepropertyservice.azurewebsites.net",
           "Port": 443
         }
       ],
@@ -201,7 +201,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "realestateservicespropertyservice.azurewebsites.net",
+          "Host": "estatevillepropertyservice.azurewebsites.net",
           "Port": 443
         }
       ],
@@ -213,7 +213,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "realestateservicespropertyservice.azurewebsites.net",
+          "Host": "estatevillepropertyservice.azurewebsites.net",
           "Port": 443
         }
       ],
@@ -225,7 +225,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "realestateservicespropertyservice.azurewebsites.net",
+          "Host": "estatevillepropertyservice.azurewebsites.net",
           "Port": 443
         }
       ],
@@ -237,7 +237,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "realestateservicespropertyservice.azurewebsites.net",
+          "Host": "estatevillepropertyservice.azurewebsites.net",
           "Port": 443
         }
       ],
@@ -249,7 +249,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "realestateservicespropertyservice.azurewebsites.net",
+          "Host": "estatevillepropertyservice.azurewebsites.net",
           "Port": 443
         }
       ],
@@ -261,7 +261,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "realestateservicespropertyservice.azurewebsites.net",
+          "Host": "estatevillepropertyservice.azurewebsites.net",
           "Port": 443
         }
       ],
@@ -273,7 +273,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "realestateservicespropertyservice.azurewebsites.net",
+          "Host": "estatevillepropertyservice.azurewebsites.net",
           "Port": 443
         }
       ],
@@ -285,7 +285,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "realestateservicespropertyservice.azurewebsites.net",
+          "Host": "estatevillepropertyservice.azurewebsites.net",
           "Port": 443
         }
       ],
@@ -297,7 +297,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "realestateservicespropertyservice.azurewebsites.net",
+          "Host": "estatevillepropertyservice.azurewebsites.net",
           "Port": 443
         }
       ],
@@ -309,7 +309,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "realestateservicespropertyservice.azurewebsites.net",
+          "Host": "estatevillepropertyservice.azurewebsites.net",
           "Port": 443
         }
       ],
@@ -322,7 +322,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "realestateservicestransactionservice.azurewebsites.net",
+          "Host": "estatevilletransactionservice.azurewebsites.net",
           "Port": 443
         }
       ],
@@ -334,7 +334,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "realestateservicestransactionservice.azurewebsites.net",
+          "Host": "estatevilletransactionservice.azurewebsites.net",
           "Port": 443
         }
       ],
@@ -346,7 +346,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "realestateservicestransactionservice.azurewebsites.net",
+          "Host": "estatevilletransactionservice.azurewebsites.net",
           "Port": 443
         }
       ],
@@ -358,7 +358,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "realestateservicestransactionservice.azurewebsites.net",
+          "Host": "estatevilletransactionservice.azurewebsites.net",
           "Port": 443
         }
       ],
@@ -370,7 +370,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "realestateservicestransactionservice.azurewebsites.net",
+          "Host": "estatevilletransactionservice.azurewebsites.net",
           "Port": 443
         }
       ],
@@ -382,7 +382,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "realestateservicestransactionservice.azurewebsites.net",
+          "Host": "estatevilletransactionservice.azurewebsites.net",
           "Port": 443
         }
       ],
@@ -390,7 +390,7 @@
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "https://realestateapigateway.azurewebsites.net"
+    "BaseUrl": "https://estatevilleapigateway.azurewebsites.net"
   }
 }
 

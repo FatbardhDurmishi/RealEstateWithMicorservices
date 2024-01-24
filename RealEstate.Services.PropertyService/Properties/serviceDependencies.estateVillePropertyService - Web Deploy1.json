@@ -1,0 +1,20 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Web/sites/estateVillePropertyService/providers/Microsoft.ServiceLinker/linkers/ConnectionStringsDefaultConnection_07DF5FBF0B",
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/estatevilleserver/databases/RealEstate.Services.PropertyService_db",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:DefaultConnection",
+      "dynamicId": null
+    },
+    "storage1": {
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Web/sites/estateVillePropertyService/providers/Microsoft.ServiceLinker/linkers/ConnectionStringsAzureStorageConnection_F52E236C8C, /subscriptions/096b3c3b-cb07-47c3-9591-2229b4069e24/resourcegroups/estateVille/providers/Microsoft.Web/sites/estateVillePropertyService/providers/Microsoft.ServiceLinker/linkers/ConnectionStringsAzureStorageConnection_0E40C0038C",
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Storage/storageAccounts/estateville",
+      "type": "storage.azure",
+      "connectionId": "ConnectionStrings:AzureStorageConnection",
+      "dynamicId": null
+    }
+  }
+}

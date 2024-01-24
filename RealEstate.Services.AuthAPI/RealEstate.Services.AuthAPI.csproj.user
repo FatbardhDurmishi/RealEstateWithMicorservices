@@ -3,6 +3,6 @@
   <PropertyGroup>
     <Controller_SelectedScaffolderID>ApiControllerEmptyScaffolder</Controller_SelectedScaffolderID>
     <Controller_SelectedScaffolderCategoryPath>root/Common/Api</Controller_SelectedScaffolderCategoryPath>
-    <NameOfLastUsedPublishProfile>C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.AuthAPI\Properties\PublishProfiles\RealEstateServicesAuthAPI - Web Deploy.pubxml</NameOfLastUsedPublishProfile>
+    <NameOfLastUsedPublishProfile>C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.AuthAPI\Properties\PublishProfiles\estateVilleAuthService - Web Deploy.pubxml</NameOfLastUsedPublishProfile>
   </PropertyGroup>
 </Project>

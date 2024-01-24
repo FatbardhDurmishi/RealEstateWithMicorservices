@@ -12,6 +12,7 @@ using System.Security.Claims;
 namespace RealEstate.Web.Controllers
 {
     [AllowAnonymous]
+
     public class AccountController : Controller
     {
         private readonly HttpClient _httpClient;
@@ -46,12 +47,7 @@ namespace RealEstate.Web.Controllers
                     _userService.SetCurrentUser(loginResponse!.User);
                     _tokenProvider.SetToken(loginResponse!.Token);
 
-                    var claims = DecodeToken(loginResponse.Token);
-
-                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                    var principal = new ClaimsPrincipal(identity);
-
-                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+                    await SignInUser(loginResponse);
 
                     TempData["success"] = "Login successful";
                     if (loginResponse.User.Role == RoleConstants.Role_Admin)
@@ -118,7 +114,7 @@ namespace RealEstate.Web.Controllers
 
 
         [HttpPost]
-        [AuthorizeUsers(RoleConstants.Role_User_Indi, RoleConstants.Role_User_Comp, RoleConstants.Role_Admin)]
+        [Authorize(Roles = RoleConstants.Role_User_Indi + "," + RoleConstants.Role_User_Comp + "," + RoleConstants.Role_Admin)]
         public async Task<IActionResult> Update(RegisterViewModel model)
         {
             ModelState.Remove("Password");
@@ -138,7 +134,7 @@ namespace RealEstate.Web.Controllers
         }
 
         [HttpGet]
-        [AuthorizeUsers(RoleConstants.Role_User_Indi, RoleConstants.Role_User_Comp, RoleConstants.Role_Admin)]
+        [Authorize(Roles = RoleConstants.Role_User_Indi + "," + RoleConstants.Role_User_Comp + "," + RoleConstants.Role_Admin)]
         public async Task<IActionResult> ChangePassword(string userId)
         {
             var userReponse = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/user/GetUser/{userId}");
@@ -152,7 +148,7 @@ namespace RealEstate.Web.Controllers
         }
 
         [HttpPost]
-        [AuthorizeUsers(RoleConstants.Role_User_Indi, RoleConstants.Role_User_Comp, RoleConstants.Role_Admin)]
+        [Authorize(Roles = RoleConstants.Role_User_Indi + "," + RoleConstants.Role_User_Comp + "," + RoleConstants.Role_Admin)]
         public async Task<IActionResult> ChangePassword(RegisterViewModel model)
         {
             var response = await _httpClient.PutAsJsonAsync($"{APIGatewayUrl.URL}api/auth/changePassword", model);
@@ -171,17 +167,24 @@ namespace RealEstate.Web.Controllers
             return View();
         }
 
-        private List<Claim> DecodeToken(string token)
+        private async Task SignInUser(LoginResponseDto model)
         {
             var handler = new JwtSecurityTokenHandler();
-            JwtSecurityToken? result = handler.ReadJwtToken(token) as JwtSecurityToken;
+            JwtSecurityToken? result = handler.ReadJwtToken(model.Token) as JwtSecurityToken;
 
-            if (result == null)
-            {
-                return new List<Claim>();
-            }
+            var jwt = handler.ReadJwtToken(model!.Token);
 
-            return result.Claims.ToList();
+            //var claims = DecodeToken(loginResponse.Token);
+
+            var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+            identity.AddClaim(new Claim(JwtRegisteredClaimNames.Email, jwt.Claims.FirstOrDefault(U => U.Type == JwtRegisteredClaimNames.Email).Value));
+            identity.AddClaim(new Claim(JwtRegisteredClaimNames.Sub, jwt.Claims.FirstOrDefault(U => U.Type == JwtRegisteredClaimNames.Sub).Value));
+            identity.AddClaim(new Claim(JwtRegisteredClaimNames.Name, jwt.Claims.FirstOrDefault(U => U.Type == JwtRegisteredClaimNames.Name).Value));
+            identity.AddClaim(new Claim(ClaimTypes.Role, jwt.Claims.FirstOrDefault(U => U.Type == "role").Value));
+
+            var principal = new ClaimsPrincipal(identity);
+
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
         }
     }
 }

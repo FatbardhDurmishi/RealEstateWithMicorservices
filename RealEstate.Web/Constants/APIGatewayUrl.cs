@@ -2,6 +2,6 @@
 {
     public class APIGatewayUrl
     {
-        public const string URL = "https://realestateapigateway.azurewebsites.net/";
+        public const string URL = "https://estatevilleapigateway.azurewebsites.net/";
     }
 }

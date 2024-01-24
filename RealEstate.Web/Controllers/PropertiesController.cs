@@ -9,7 +9,7 @@ using RealEstate.Web.Services.IServices;
 
 namespace RealEstate.Web.Controllers
 {
-    [AuthorizeUsers(RoleConstants.Role_User_Indi, RoleConstants.Role_User_Comp)]
+    [Authorize(Roles = (RoleConstants.Role_User_Comp + "," + RoleConstants.Role_User_Indi))]
     public class PropertiesController : Controller
     {
         private readonly HttpClient _httpClient;

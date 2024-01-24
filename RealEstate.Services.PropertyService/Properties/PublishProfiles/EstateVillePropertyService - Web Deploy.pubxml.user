@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project>
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA+MX00Tl7mEOVpQhSWw9kVAAAAAACAAAAAAAQZgAAAAEAACAAAAD3XeyBT9qdLNV2BxL+pw6RuZYAvK+WJufjgDZgtu7NCwAAAAAOgAAAAAIAACAAAABDScqXvHqfft0FV3APsYUxzSTtQL6eB7qS6kiGaED41oAAAAB5nHsEC5E7uzzZnCI8eX5L7/lunxvWGmWtZuzw0yDGcJlC9H1eFFp3ZShL+usASDBzgA7MHNPVCA7wXU8p0mXdByB2AU3HNN+ZdQrPh63jalkOUyNB0Z7XQw85jIEU01+S6lVvStGHlX5u8yd5il78HeT7BX9E0TYJmF9wGMDrikAAAAB7mhojeynLc4NrR9lWiYAOCpMuohNEVvUVqWtgyBlYA9v0G8fykZSCVjeKEbsciuLc1iBfNjPXZMmKESOJRsqn</EncryptedPassword>
+    <History>True|2024-01-21T16:01:37.9207738Z;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="DefaultConnection">
+      <Value>Data Source=estatevilleserver.database.windows.net,1433%3bInitial Catalog=RealEstate.Services.PropertyService_db%3bUser ID=bardhi%3bPassword=Estateville123</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+  <ItemGroup>
+    <EFMigrations Include="RealEstate.Services.PropertyService.Data.AppDbContext">
+      <Value>Data Source=estatevilleserver.database.windows.net,1433%3bInitial Catalog=RealEstate.Services.PropertyService_db%3bUser ID=bardhi%3bPassword=Estateville123</Value>
+    </EFMigrations>
+  </ItemGroup>
+</Project>

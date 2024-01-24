@@ -39,9 +39,7 @@ C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWit
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.AuthAPI\bin\Release\net8.0\Microsoft.SqlServer.Server.dll
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.AuthAPI\bin\Release\net8.0\Microsoft.Win32.SystemEvents.dll
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.AuthAPI\bin\Release\net8.0\Mono.TextTemplating.dll
-C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.AuthAPI\bin\Release\net8.0\MySqlConnector.dll
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.AuthAPI\bin\Release\net8.0\Newtonsoft.Json.dll
-C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.AuthAPI\bin\Release\net8.0\Pomelo.EntityFrameworkCore.MySql.dll
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.AuthAPI\bin\Release\net8.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.AuthAPI\bin\Release\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.AuthAPI\bin\Release\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll

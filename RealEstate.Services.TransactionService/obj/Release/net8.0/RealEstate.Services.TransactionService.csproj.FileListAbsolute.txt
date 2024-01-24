@@ -281,3 +281,4 @@ C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWit
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.TransactionService\bin\Release\net8.0\BouncyCastle.Cryptography.dll
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.TransactionService\bin\Release\net8.0\MailKit.dll
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.TransactionService\bin\Release\net8.0\MimeKit.dll
+C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.TransactionService\bin\Release\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

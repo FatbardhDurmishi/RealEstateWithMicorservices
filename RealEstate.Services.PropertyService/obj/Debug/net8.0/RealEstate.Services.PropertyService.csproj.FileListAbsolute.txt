@@ -12,6 +12,7 @@ C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWit
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.PropertyService\bin\Debug\net8.0\Azure.Storage.Files.Shares.dll
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.PropertyService\bin\Debug\net8.0\Azure.Storage.Queues.dll
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.PropertyService\bin\Debug\net8.0\Humanizer.dll
+C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.PropertyService\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.PropertyService\bin\Debug\net8.0\Microsoft.AspNetCore.JsonPatch.dll
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.PropertyService\bin\Debug\net8.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.PropertyService\bin\Debug\net8.0\Microsoft.AspNetCore.Razor.Language.dll

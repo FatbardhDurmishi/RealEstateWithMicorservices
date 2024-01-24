@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RealEstate.Services.PropertyService.Models;
 using RealEstate.Services.PropertyService.Repositories.IRepositories;
 
@@ -6,6 +7,7 @@ namespace RealEstate.Services.PropertyService.Controllers
 {
     [Route("api/propertyTypes")]
     [ApiController]
+    [Authorize]
     public class PropertyTypesController : ControllerBase
     {
         private readonly IPropertyTypeRepository _propertyTypeRepository;

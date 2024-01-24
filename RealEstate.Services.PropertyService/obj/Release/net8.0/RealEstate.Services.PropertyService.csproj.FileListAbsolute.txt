@@ -287,3 +287,4 @@ C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWit
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.PropertyService\obj\Release\net8.0\RealEstate.Services.PropertyService.pdb
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.PropertyService\obj\Release\net8.0\RealEstate.Services.PropertyService.genruntimeconfig.cache
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.PropertyService\obj\Release\net8.0\ref\RealEstate.Services.PropertyService.dll
+C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Services.PropertyService\bin\Release\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

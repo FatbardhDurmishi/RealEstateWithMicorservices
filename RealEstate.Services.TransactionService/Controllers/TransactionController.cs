@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RealEstate.Services.TransactionService.Constants;
 using RealEstate.Services.TransactionService.Models;
 using RealEstate.Services.TransactionService.Models.Dtos;
@@ -9,6 +10,7 @@ namespace RealEstate.Services.TransactionService.Controllers
 {
     [Route("api/transaction")]
     [ApiController]
+    [Authorize]
     public class TransactionController : ControllerBase
     {
         private readonly ITransactionRepository _transactionRepository;

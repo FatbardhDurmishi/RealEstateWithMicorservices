@@ -52,16 +52,16 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-ApplyMigrations();
+//ApplyMigrations();
 
 app.Run();
 
-void ApplyMigrations()
-{
-    using var serviceScope = app.Services.CreateScope();
-    var context = serviceScope.ServiceProvider.GetService<AppDbContext>();
-    if (context!.Database.GetPendingMigrations().Count() > 0)
-    {
-        context.Database.Migrate();
-    }
-}
+//void ApplyMigrations()
+//{
+//    using var serviceScope = app.Services.CreateScope();
+//    var context = serviceScope.ServiceProvider.GetService<AppDbContext>();
+//    if (context!.Database.GetPendingMigrations().Count() > 0)
+//    {
+//        context.Database.Migrate();
+//    }
+//}

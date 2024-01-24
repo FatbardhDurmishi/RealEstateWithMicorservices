@@ -3,10 +3,6 @@
     "mssql1": {
       "restored": true,
       "restoreTime": "2023-12-16T15:52:40.6087101Z"
-    },
-    "storage1": {
-      "restored": true,
-      "restoreTime": "2023-12-16T15:50:36.0350957Z"
     }
   },
   "parameters": {
@@ -19,16 +15,6 @@
       "Name": "mssql1.resourceGroupName",
       "Type": "resourceGroup",
       "Value": "EstateVille"
-    },
-    "storage1.resourceGroupName": {
-      "Name": "storage1.resourceGroupName",
-      "Type": "resourceGroup",
-      "Value": "EstateVille"
-    },
-    "storage1.subscriptionId": {
-      "Name": "storage1.subscriptionId",
-      "Type": "subscription",
-      "Value": "f206bbc7-d7c9-4bb9-9e8e-6232fc965b5f"
     }
   }
 }
