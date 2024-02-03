@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using RealEstate.Web.Common;
 using RealEstate.Web.Constants;
-using RealEstate.Web.CustomAttributes;
 using RealEstate.Web.Models;
 using RealEstate.Web.Models.Dtos;
 using RealEstate.Web.Services.IServices;
@@ -14,15 +14,18 @@ namespace RealEstate.Web.Controllers
     {
         private readonly IUserService _userService;
         private readonly HttpClient _httpClient;
+        private readonly ITokenProvider _tokenProvider;
 
-        public HomeController(IUserService userService, HttpClient httpClient)
+        public HomeController(IUserService userService, HttpClient httpClient, ITokenProvider tokenProvider)
         {
             _userService = userService;
             _httpClient = httpClient;
+            _tokenProvider = tokenProvider;
+            ApiRequestHelper.SetBearerToken(_httpClient, _tokenProvider.GetToken());
         }
 
         [HttpGet]
-        [AuthorizeUsers(RoleConstants.Role_User_Indi, RoleConstants.Role_User_Comp)]
+        [Authorize(Roles = RoleConstants.Role_User_Indi + "," + RoleConstants.Role_User_Comp + ",")]
         public async Task<IActionResult> Dashboard()
         {
             var userId = _userService.GetCurrentUser().Id;

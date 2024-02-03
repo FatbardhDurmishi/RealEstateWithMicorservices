@@ -1,12 +1,13 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Azure;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
 using RealEstate.Services.PropertyService.Data;
 using RealEstate.Services.PropertyService.Repositories;
 using RealEstate.Services.PropertyService.Repositories.IRepositories;
-using Newtonsoft.Json;
-using Microsoft.Extensions.Azure;
 using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -56,7 +57,35 @@ builder.Services.AddAuthorization();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddSwaggerGen(option =>
+{
+    option.AddSecurityDefinition(name: JwtBearerDefaults.AuthenticationScheme, securityScheme: new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Description = "Enter the Bearer Tokne generated from the login",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = JwtBearerDefaults.AuthenticationScheme
+    });
+    option.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+
+           new OpenApiSecurityScheme
+           {
+               Reference = new OpenApiReference
+               {
+                   Type = ReferenceType.SecurityScheme,
+                   Id = JwtBearerDefaults.AuthenticationScheme
+               }
+           },new string[] {}
+        }
+
+    });
+});
+
+
 builder.Services.AddAzureClients(clientBuilder =>
 {
     clientBuilder.AddBlobServiceClient(builder.Configuration["ConnectionStrings:AzureStorageConnection:blob"], preferMsi: true);

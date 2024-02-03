@@ -1,0 +1,93 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "dependsOrder": "parallel",
+            "dependsOn": [
+                "webApiBuild",
+                "webBuild"
+            ]
+        },
+        {
+            "label": "webBuild",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/RealEstate.Web/RealEstate.Web.csproj",
+                "property:GenerateFullPaths-true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile",
+            "presentation": {
+                "reveal": "always"
+            },
+            "group": "build"
+        },
+        {
+            "label": "webApibuild",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/APIGateway/APIGateway.csproj",
+                "property:GenerateFullPaths-true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile",
+            "presentation": {
+                "reveal": "always"
+            },
+            "group": "build"
+        },
+        {
+            "label": "webApibuild",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/RealEstate.Services.AuthApi/RealEstate.Services.AuthApi.csproj",
+                "property:GenerateFullPaths-true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile",
+            "presentation": {
+                "reveal": "always"
+            },
+            "group": "build"
+        },
+        {
+            "label": "webApibuild",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/RealEstate.Services.PropertyService/RealEstate.Services.PropertyService.csproj",
+                "property:GenerateFullPaths-true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile",
+            "presentation": {
+                "reveal": "always"
+            },
+            "group": "build"
+        },
+        {
+            "label": "webApibuild",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/RealEstate.Services.TransactionService/RealEstate.Services.TransactionService.csproj",
+                "property:GenerateFullPaths-true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile",
+            "presentation": {
+                "reveal": "always"
+            },
+            "group": "build"
+        },
+    ]
+}

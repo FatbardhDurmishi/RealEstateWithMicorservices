@@ -1,18 +1,16 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RealEstate.Services.AuthAPI.Constants;
 using RealEstate.Services.AuthAPI.Models;
 using RealEstate.Services.AuthAPI.Models.Dto;
 using RealEstate.Services.AuthAPI.Repositories.IRepository;
-using System.ComponentModel.Design;
-using System.Data;
-using System.IdentityModel.Tokens.Jwt;
 
 namespace RealEstate.Services.AuthAPI.Controllers
 {
     [Route("api/user")]
     [ApiController]
+    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly IUserRepository _userRepository;

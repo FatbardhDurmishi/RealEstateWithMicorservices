@@ -73,16 +73,36 @@ namespace RealEstate.Services.AuthAPI.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
-
-            var user = _context.ApplicationUsers.FirstOrDefault(x => x.Email!.ToLower() == loginDto.Email.ToLower());
-            if (user == null)
+            if (!await _roleManager.RoleExistsAsync(RoleConstants.Role_Admin))
             {
-                return BadRequest();
+                await _roleManager.CreateAsync(new IdentityRole(RoleConstants.Role_Admin));
+                await _roleManager.CreateAsync(new IdentityRole(RoleConstants.Role_User_Indi));
+                await _roleManager.CreateAsync(new IdentityRole(RoleConstants.Role_User_Comp));
+            }
+            var admin = await _userRepository.GetFirstOrDefaultAsync(x => x.Role == RoleConstants.Role_Admin);
+            if (admin == null)
+            {
+                var userAdmin = new ApplicationUser { UserName = "admin@gmail.com", Email = "admin@gmail.com", EmailConfirmed = true };
+
+                userAdmin.StreetAddres = "Admin";
+                userAdmin.City = "Admin";
+                userAdmin.State = "Admin";
+                userAdmin.PostalCode = "Admin";
+                userAdmin.Name = "Admin";
+                userAdmin.PhoneNumber = "Admin";
+                userAdmin.Role = "Admin";
+
+                var result = await _userManager.CreateAsync(userAdmin, "Admin.123");
+
+                if (result.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(userAdmin, RoleConstants.Role_Admin);
+                }
             }
 
-            bool isValid = await _userManager.CheckPasswordAsync(user, loginDto.Password);
 
-            if (isValid == false)
+            var user = _context.ApplicationUsers.FirstOrDefault(x => x.Email!.ToLower() == loginDto.Email.ToLower());
+            if (user == null || !await _userManager.CheckPasswordAsync(user, loginDto.Password))
             {
                 return BadRequest();
             }

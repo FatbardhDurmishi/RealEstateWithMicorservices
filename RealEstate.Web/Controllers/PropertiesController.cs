@@ -1,24 +1,27 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using RealEstate.Web.Common;
 using RealEstate.Web.Constants;
-using RealEstate.Web.CustomAttributes;
 using RealEstate.Web.Models;
 using RealEstate.Web.Models.Dtos;
 using RealEstate.Web.Services.IServices;
 
 namespace RealEstate.Web.Controllers
 {
-    [Authorize(Roles = (RoleConstants.Role_User_Comp + "," + RoleConstants.Role_User_Indi))]
+    [Authorize(Roles = RoleConstants.Role_User_Indi + "," + RoleConstants.Role_User_Comp)]
     public class PropertiesController : Controller
     {
         private readonly HttpClient _httpClient;
         private readonly IUserService _userService;
+        private readonly ITokenProvider _tokenProvider;
 
-        public PropertiesController(HttpClient httpClient, IUserService userService)
+        public PropertiesController(HttpClient httpClient, IUserService userService, ITokenProvider tokenProvider)
         {
             _httpClient = httpClient;
             _userService = userService;
+            _tokenProvider = tokenProvider;
+            ApiRequestHelper.SetBearerToken(_httpClient, _tokenProvider.GetToken());
         }
 
         [HttpGet]
@@ -94,12 +97,45 @@ namespace RealEstate.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                TempData["error"] = "Something went wrong! Try Again";
+                TempData["error"] = "Invalid input. Please try again.";
                 ModelState.AddModelError("Errors", "Invalid attempt");
                 return RedirectToAction("AddProperty", model);
             }
+
             var currentUser = _userService.GetCurrentUser();
-            var propertyDto = new PropertyDto()
+            var propertyDto = MapToPropertyDto(model, currentUser);
+
+            var propertyCreationResponse = await CreateProperty(propertyDto, model.CoverImage, model.PropertyImages);
+
+            if (propertyCreationResponse.IsSuccessStatusCode)
+            {
+                TempData["success"] = "Property added successfully";
+                return RedirectToAction("Index");
+            }
+
+            TempData["error"] = "Failed to add property. Please try again.";
+            return RedirectToAction("AddProperty", model);
+        }
+
+        private async Task<HttpResponseMessage> CreateProperty(PropertyDto propertyDto, IFormFile coverImage, IFormFileCollection propertyImages)
+        {
+            var propertyCreationResponse = await _httpClient.PostAsJsonAsync($"{APIGatewayUrl.URL}api/property/AddProperty", propertyDto);
+            if (propertyCreationResponse.IsSuccessStatusCode)
+            {
+                var property = await propertyCreationResponse.Content.ReadFromJsonAsync<PropertyDto>();
+                var imageUploadResponse = await UploadImages(property!.Id, coverImage, propertyImages);
+                if (imageUploadResponse.IsSuccessStatusCode)
+                {
+                    return propertyCreationResponse;
+                }
+                await DeleteProperty(property.Id);
+            }
+            return propertyCreationResponse;
+        }
+
+        private PropertyDto MapToPropertyDto(AddPropertyViewModel model, UserDto currentUser)
+        {
+            return new PropertyDto
             {
                 Id = model.Property.Id,
                 Name = model.Property.Name,
@@ -119,37 +155,18 @@ namespace RealEstate.Web.Controllers
                 CurrentUserId = currentUser.Id,
                 CurrentUserRole = currentUser.Role!,
             };
-
-            var response = await _httpClient.PostAsJsonAsync($"{APIGatewayUrl.URL}api/property/AddProperty", propertyDto);
-            if (response.IsSuccessStatusCode)
-            {
-                var property = await response.Content.ReadFromJsonAsync<PropertyDto>();
-                var content = new MultipartFormDataContent
-                    {
-                        { new StreamContent(model.CoverImage.OpenReadStream()), "CoverImage", model.CoverImage.FileName }
-                    };
-                foreach (var image in model.PropertyImages)
-                {
-                    content.Add(new StreamContent(image.OpenReadStream()), "PropertyImages", image.FileName);
-                }
-                var uploadImagesResponse = await _httpClient.PostAsync($"{APIGatewayUrl.URL}api/property/UploadImages/{property!.Id}", content);
-                if (uploadImagesResponse.IsSuccessStatusCode)
-                {
-                    TempData["success"] = "Property added succesfully";
-                    return RedirectToAction("Index");
-                }
-                await DeleteProperty(property.Id);
-                TempData["error"] = "Something went wrong! Try Again";
-                return RedirectToAction("AddProperty", model);
-
-            }
-            TempData["error"] = "Something went wrong! Try Again";
-            ModelState.AddModelError("", "Invalid attempt");
-            return RedirectToAction("AddProperty", propertyDto);
-
         }
 
-
+        private async Task<HttpResponseMessage> UploadImages(int propertyId, IFormFile coverImage, IFormFileCollection
+         propertyImages)
+        {
+            var content = new MultipartFormDataContent { { new StreamContent(coverImage.OpenReadStream()), "CoverImage", coverImage.FileName } };
+            foreach (var image in propertyImages)
+            {
+                content.Add(new StreamContent(image.OpenReadStream()), "PropertyImages", image.FileName);
+            }
+            return await _httpClient.PostAsync($"{APIGatewayUrl.URL}api/property/UploadImages/{propertyId}", content);
+        }
 
         [HttpGet]
         public async Task<IActionResult> GetProperties()
@@ -279,7 +296,7 @@ namespace RealEstate.Web.Controllers
                         return View("Index");
                     }
                 }
-                TempData["success"] = "Property updated succesfully";
+                TempData["success"] = "Property updated successfully";
                 return View("Index");
             }
             ModelState.AddModelError("", "Invalid attempt");

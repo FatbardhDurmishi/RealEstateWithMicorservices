@@ -1,19 +1,23 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RealEstate.Web.Common;
 using RealEstate.Web.Constants;
-using RealEstate.Web.CustomAttributes;
 using RealEstate.Web.Models;
+using RealEstate.Web.Services.IServices;
 
 namespace RealEstate.Web.Controllers
 {
-    [AuthorizeUsers(RoleConstants.Role_Admin)]
+    [Authorize(Roles = RoleConstants.Role_Admin)]
     public class PropertyTypesController : Controller
     {
         private readonly HttpClient _httpClient;
+        private readonly ITokenProvider _tokenProvider;
 
-        public PropertyTypesController(HttpClient httpClient)
+        public PropertyTypesController(HttpClient httpClient, ITokenProvider tokenProvider)
         {
             _httpClient = httpClient;
+            _tokenProvider = tokenProvider;
+            ApiRequestHelper.SetBearerToken(_httpClient, _tokenProvider.GetToken());
         }
 
         public IActionResult Index()

@@ -1,23 +1,25 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RealEstate.Web.Common;
 using RealEstate.Web.Constants;
-using RealEstate.Web.CustomAttributes;
 using RealEstate.Web.Models;
 using RealEstate.Web.Models.Dtos;
 using RealEstate.Web.Services.IServices;
 
 namespace RealEstate.Web.Controllers
 {
-    [AuthorizeUsers(RoleConstants.Role_User_Indi, RoleConstants.Role_User_Comp)]
+    [Authorize(Roles = RoleConstants.Role_User_Indi + "," + RoleConstants.Role_User_Comp)]
     public class TransactionController : Controller
     {
         private readonly HttpClient _httpClient;
         private readonly IUserService _userService;
-
-        public TransactionController(HttpClient httpClient, IUserService userService)
+        private readonly ITokenProvider _tokenProvider;
+        public TransactionController(HttpClient httpClient, IUserService userService, ITokenProvider tokenProvider)
         {
             _httpClient = httpClient;
             _userService = userService;
+            _tokenProvider = tokenProvider;
+            ApiRequestHelper.SetBearerToken(_httpClient, _tokenProvider.GetToken());
         }
 
         public IActionResult Index()

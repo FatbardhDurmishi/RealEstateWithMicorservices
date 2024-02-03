@@ -18,31 +18,33 @@ namespace RealEstate.Services.AuthAPI.Repositories
 
         public string GenerateToken(ApplicationUser applicationUser)
         {
-            var tokenHandler = new JwtSecurityTokenHandler();
-
-            var key = Encoding.ASCII.GetBytes(_jwtOptions.Secret);
 
             var claimList = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Email,applicationUser.Email),
+                new Claim(JwtRegisteredClaimNames.Email,applicationUser.Email!),
                 new Claim(JwtRegisteredClaimNames.Sub,applicationUser.Id),
                 new Claim(JwtRegisteredClaimNames.Name,applicationUser.Name),
                 new Claim(ClaimTypes.Role,applicationUser.Role),
             };
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+
+            var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_jwtOptions.Secret));
+
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Audience = _jwtOptions.Audience,
                 Issuer = _jwtOptions.Issuer,
                 Subject = new ClaimsIdentity(claimList),
-                Expires = DateTime.UtcNow.AddMinutes(5),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                Expires = DateTime.UtcNow.AddDays(1),
+                SigningCredentials = creds
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
             return tokenHandler.WriteToken(token);
-
         }
     }
 }

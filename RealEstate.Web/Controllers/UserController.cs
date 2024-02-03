@@ -1,24 +1,26 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RealEstate.Web.Common;
 using RealEstate.Web.Constants;
-using RealEstate.Web.CustomAttributes;
 using RealEstate.Web.Models;
 using RealEstate.Web.Models.Dtos;
 using RealEstate.Web.Services.IServices;
-using System.IdentityModel.Tokens.Jwt;
 
 namespace RealEstate.Web.Controllers
 {
-    [AuthorizeUsers(RoleConstants.Role_Admin, RoleConstants.Role_User_Comp)]
+    [Authorize(Roles = RoleConstants.Role_User_Comp + "," + RoleConstants.Role_Admin)]
     public class UserController : Controller
     {
         private readonly HttpClient _httpClient;
         private readonly IUserService _userService;
+        private readonly ITokenProvider _tokenProvider;
 
-        public UserController(HttpClient httpClient, IUserService userService)
+        public UserController(HttpClient httpClient, IUserService userService, ITokenProvider tokenProvider)
         {
             _httpClient = httpClient;
             _userService = userService;
+            _tokenProvider = tokenProvider;
+            ApiRequestHelper.SetBearerToken(_httpClient, _tokenProvider.GetToken());
         }
 
         public IActionResult Index()
@@ -96,7 +98,7 @@ namespace RealEstate.Web.Controllers
         }
 
 
-        #region API CALLS
+
 
         [HttpGet]
         public async Task<IActionResult> GetUsersJson()
@@ -133,6 +135,6 @@ namespace RealEstate.Web.Controllers
             return new JsonResult(new { message = "Delete Not Successful", success = false });
         }
 
-        #endregion API CALLS
+
     }
 }

@@ -1,0 +1,100 @@
+{
+    "configurations": [
+        {
+            "name": "APIGateway",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "${workspaceFolder}/APIGateway/bin/Debug/net8.0/APIGateway.dll",
+            "args":[],
+            "cwd": "${workspaceFolder}/APIGateway",
+            "stopAtEntry": false,
+            "serverReadyAction":{
+                "action": "openExternally",
+                "killOnServerStop": false
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT":"Development"
+            }
+        },
+        {
+            "name": "AuthService",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "${workspaceFolder}/RealEstate.Services.AuthAPI/bin/Debug/net8.0/RealEstate.Services.AuthAPI.dll",
+            "args":[],
+            "cwd": "${workspaceFolder}/RealEstate.Services.AuthAPI",
+            "stopAtEntry": false,
+            "serverReadyAction":{
+                "action": "openExternally",
+                "killOnServerStop": false
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT":"Development"
+            }
+        },
+        {
+            "name": "PropertyService",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "${workspaceFolder}/RealEstate.Services.PropertyService/bin/Debug/net8.0/RealEstate.Services.PropertyService.dll",
+            "args":[],
+            "cwd": "${workspaceFolder}/RealEstate.Services.PropertyService",
+            "stopAtEntry": false,
+            "serverReadyAction":{
+                "action": "openExternally",
+                "killOnServerStop": false
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT":"Development"
+            }
+        },
+        {
+            "name": "TransactionService",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "${workspaceFolder}/RealEstate.Services.TransactionService/bin/Debug/net8.0/RealEstate.Services.TransactionService.dll",
+            "args":[],
+            "cwd": "${workspaceFolder}/RealEstate.Services.TransactionService",
+            "stopAtEntry": false,
+            "serverReadyAction":{
+                "action": "openExternally",
+                "killOnServerStop": false
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT":"Development"
+            }
+        },
+        {
+            "name": "Web",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "${workspaceFolder}/RealEstate.Web/bin/Debug/net8.0/RealEstate.Web.dll",
+            "args":[],
+            "cwd": "${workspaceFolder}/RealEstate.Web",
+            "stopAtEntry": false,
+            "serverReadyAction":{
+                "action": "openExternally",
+                "killOnServerStop": false
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT":"Development"
+            }
+        },
+    // {
+    //     "name": "EstateVille",
+    //     "type": "dotnet",
+    //     "request": "launch",
+    //     "projectPath": "${workspaceFolder}/RealEstate.Web/RealEstate.Web.csproj",
+    //     "serverReadyAction":{
+    //         "action": "openExternally",
+    //         "killOnServerStop": false
+    //     },
+    // }
+    ],
+    "compounds": [
+        {
+            "name": "Compound",
+            "configurations": ["Web","APIGateway","AuthService","PropertyService","TransactionService"],
+        }
+    ]
+}

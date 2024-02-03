@@ -13,13 +13,24 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 .AddCookie(options =>
 {
-    options.ExpireTimeSpan = TimeSpan.FromHours(10);
     options.LoginPath = "/Account/Login";
     options.AccessDeniedPath = "/Account/AccessDenied";
+    options.Cookie.HttpOnly = true;
+    options.SlidingExpiration = false;
+    options.Cookie.IsEssential = true;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
 });
 
 builder.Services.AddHttpClient();
 builder.Services.AddHttpContextAccessor();
+
+
+builder.Services.Configure<CookiePolicyOptions>(options =>
+{
+    // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+    options.CheckConsentNeeded = context => true; // was true
+    options.MinimumSameSitePolicy = SameSiteMode.Strict;
+});
 
 var app = builder.Build();
 

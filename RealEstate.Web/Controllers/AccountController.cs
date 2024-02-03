@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealEstate.Web.Constants;
-using RealEstate.Web.CustomAttributes;
 using RealEstate.Web.Models;
 using RealEstate.Web.Services.IServices;
 using System.IdentityModel.Tokens.Jwt;
@@ -12,7 +11,6 @@ using System.Security.Claims;
 namespace RealEstate.Web.Controllers
 {
     [AllowAnonymous]
-
     public class AccountController : Controller
     {
         private readonly HttpClient _httpClient;
@@ -114,7 +112,7 @@ namespace RealEstate.Web.Controllers
 
 
         [HttpPost]
-        [Authorize(Roles = RoleConstants.Role_User_Indi + "," + RoleConstants.Role_User_Comp + "," + RoleConstants.Role_Admin)]
+        [Authorize]
         public async Task<IActionResult> Update(RegisterViewModel model)
         {
             ModelState.Remove("Password");
@@ -134,7 +132,7 @@ namespace RealEstate.Web.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = RoleConstants.Role_User_Indi + "," + RoleConstants.Role_User_Comp + "," + RoleConstants.Role_Admin)]
+        [Authorize]
         public async Task<IActionResult> ChangePassword(string userId)
         {
             var userReponse = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/user/GetUser/{userId}");
@@ -148,7 +146,7 @@ namespace RealEstate.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = RoleConstants.Role_User_Indi + "," + RoleConstants.Role_User_Comp + "," + RoleConstants.Role_Admin)]
+        [Authorize]
         public async Task<IActionResult> ChangePassword(RegisterViewModel model)
         {
             var response = await _httpClient.PutAsJsonAsync($"{APIGatewayUrl.URL}api/auth/changePassword", model);
@@ -170,9 +168,8 @@ namespace RealEstate.Web.Controllers
         private async Task SignInUser(LoginResponseDto model)
         {
             var handler = new JwtSecurityTokenHandler();
-            JwtSecurityToken? result = handler.ReadJwtToken(model.Token) as JwtSecurityToken;
 
-            var jwt = handler.ReadJwtToken(model!.Token);
+            var jwt = handler.ReadJwtToken(model.Token);
 
             //var claims = DecodeToken(loginResponse.Token);
 

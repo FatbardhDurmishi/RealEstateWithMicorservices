@@ -1,10 +1,13 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using RealEstate.Services.AuthAPI.Data;
 using RealEstate.Services.AuthAPI.Models;
 using RealEstate.Services.AuthAPI.Repositories;
 using RealEstate.Services.AuthAPI.Repositories.IRepository;
 using RealEstate.Services.AuthAPI.Service.IService;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +32,28 @@ builder.Services.AddHttpClient();
 
 builder.Services.AddControllers();
 
+var secret = builder.Configuration.GetValue<string>("ApiSettings:JwtOptions:Secret");
+var issuer = builder.Configuration.GetValue<string>("ApiSettings:JwtOptions:Issuer");
+var audience = builder.Configuration.GetValue<string>("ApiSettings:JwtOptions:Audience");
+
+var key = Encoding.ASCII.GetBytes(secret!);
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(x =>
+{
+    x.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ValidateIssuer = true,
+        ValidIssuer = issuer,
+        ValidateAudience = true,
+        ValidAudience = audience
+    };
+});
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
