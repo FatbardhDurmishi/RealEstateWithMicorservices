@@ -6,7 +6,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>EstateVille</title>
+    <title>PropManagePro</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -43,7 +43,8 @@
 
 <body>
     @* qetu zevendesohet me current user *@
-    @if (!(userService.GetCurrentUser()!=null))
+    @* !(userService.GetCurrentUser()!=null) *@
+    @if (!User.Identity.IsAuthenticated)
     {
         <partial name="_Navbar" />
 
@@ -52,7 +53,8 @@
     <div class="mx-3 px-3">
         <partial name="_Notification" />
        @* qetu zevendesohet me current user *@
-        @if (userService.GetCurrentUser() !=null)
+        @* userService.GetCurrentUser() !=null *@
+        @if (User.Identity.IsAuthenticated)
         {
             <partial name="_Sidebar" />
 

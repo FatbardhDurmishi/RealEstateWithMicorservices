@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RealEstate.Web.Common;
 using RealEstate.Web.Constants;
 using RealEstate.Web.Models;
 using RealEstate.Web.Services.IServices;
@@ -22,6 +23,7 @@ namespace RealEstate.Web.Controllers
             _httpClient = httpClient;
             _userService = userService;
             _tokenProvider = tokenProvider;
+            ApiRequestHelper.SetBearerToken(_httpClient, _tokenProvider.GetToken());
         }
 
         [HttpGet]
@@ -31,7 +33,6 @@ namespace RealEstate.Web.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (ModelState.IsValid)
@@ -81,7 +82,6 @@ namespace RealEstate.Web.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             ModelState.Remove("OldPassword");
@@ -104,7 +104,7 @@ namespace RealEstate.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignOutAsync();
             _tokenProvider.ClearToken();
             _userService.RemoveCurrentUser();
             return RedirectToAction(nameof(Login));
@@ -171,17 +171,23 @@ namespace RealEstate.Web.Controllers
 
             var jwt = handler.ReadJwtToken(model.Token);
 
-            //var claims = DecodeToken(loginResponse.Token);
-
             var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
             identity.AddClaim(new Claim(JwtRegisteredClaimNames.Email, jwt.Claims.FirstOrDefault(U => U.Type == JwtRegisteredClaimNames.Email).Value));
             identity.AddClaim(new Claim(JwtRegisteredClaimNames.Sub, jwt.Claims.FirstOrDefault(U => U.Type == JwtRegisteredClaimNames.Sub).Value));
             identity.AddClaim(new Claim(JwtRegisteredClaimNames.Name, jwt.Claims.FirstOrDefault(U => U.Type == JwtRegisteredClaimNames.Name).Value));
             identity.AddClaim(new Claim(ClaimTypes.Role, jwt.Claims.FirstOrDefault(U => U.Type == "role").Value));
+            identity.AddClaim(new Claim("UserId", model.User.Id));
 
             var principal = new ClaimsPrincipal(identity);
 
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+            var authProperties = new AuthenticationProperties
+            {
+                AllowRefresh = true,
+                IsPersistent = true,
+                IssuedUtc = DateTimeOffset.UtcNow,
+            };
+
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, authProperties);
         }
     }
 }

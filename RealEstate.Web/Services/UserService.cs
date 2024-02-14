@@ -1,6 +1,5 @@
 ﻿using RealEstate.Web.Models.Dtos;
 using RealEstate.Web.Services.IServices;
-using System.Runtime.CompilerServices;
 
 namespace RealEstate.Web.Services
 {
@@ -19,7 +18,7 @@ namespace RealEstate.Web.Services
         {
             if (CurrentUser == null)
             {
-                return null!;
+                return new();
             }
             return CurrentUser;
         }

@@ -42,15 +42,23 @@
           "dependencies": {
             "Azure.Core": {
               "target": "Package",
-              "version": "[1.36.0, )"
+              "version": "[1.37.0, )"
+            },
+            "Microsoft.AspNetCore.Authentication.Cookies": {
+              "target": "Package",
+              "version": "[2.2.0, )"
             },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[8.0.2, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[8.0.1, )"
             },
             "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",
-              "version": "[7.1.2, )"
+              "version": "[7.3.1, )"
             }
           },
           "imports": [

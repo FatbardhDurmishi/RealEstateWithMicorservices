@@ -7,7 +7,7 @@
     var culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name;
 }
 
-@if (userService.GetCurrentUser() != null)
+@if (User.Identity.IsAuthenticated)
 {
     <div class="content">
 
