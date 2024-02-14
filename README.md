@@ -53,7 +53,7 @@
  
 
 <h1>Demo</h1>
-<p>Explore the app<a href="https://estateville.azurewebsites.net/" target=”_blank”> here</a></p>
+<p>Explore the app<a href="https://estatevillee.azurewebsites.net/" target=”_blank”> here</a></p>
 
 <h1>Important Notes</h1>
 <p><b>Simulated Transactions: </b>Please be aware that the transaction functionalities within this application are simulated for practice purposes. No real monetary transactions are processed, and the app does not integrate with any actual payment systems.</p>
