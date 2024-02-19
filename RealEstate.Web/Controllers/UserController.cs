@@ -79,6 +79,7 @@ namespace RealEstate.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateUser(RegisterViewModel model)
         {
+            ApiRequestHelper.SetBearerToken(_httpClient, _tokenProvider.GetToken());
             ModelState.Remove("Password");
             ModelState.Remove("ConfirmPassword");
             ModelState.Remove("OldPassword");
@@ -103,6 +104,8 @@ namespace RealEstate.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> GetUsersJson()
         {
+            ApiRequestHelper.SetBearerToken(_httpClient, _tokenProvider.GetToken());
+
             var currentUserRole = _userService.GetCurrentUser().Role;
             var currentUserId = _userService.GetCurrentUser().Id;
             var users = new List<UserDto>();
@@ -127,6 +130,8 @@ namespace RealEstate.Web.Controllers
 
         public async Task<IActionResult> DeleteUser(string id)
         {
+            ApiRequestHelper.SetBearerToken(_httpClient, _tokenProvider.GetToken());
+
             var response = await _httpClient.DeleteAsync($"{APIGatewayUrl.URL}api/user/DeleteUser/{id}");
             if (response.IsSuccessStatusCode)
             {

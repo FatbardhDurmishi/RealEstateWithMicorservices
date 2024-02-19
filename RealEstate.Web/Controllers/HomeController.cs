@@ -28,6 +28,7 @@ namespace RealEstate.Web.Controllers
         [Authorize(Roles = RoleConstants.Role_User_Indi + "," + RoleConstants.Role_User_Comp + ",")]
         public async Task<IActionResult> Dashboard()
         {
+            ApiRequestHelper.SetBearerToken(_httpClient, _tokenProvider.GetToken());
             var userId = _userService.GetCurrentUser().Id;
             var userRole = _userService.GetCurrentUser().Role;
             var transactionsList = new List<TransactionListViewModel>();

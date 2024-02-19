@@ -32,6 +32,7 @@ C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWit
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Web\obj\Release\net8.0\PubTmp\Out\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Web\obj\Release\net8.0\PubTmp\Out\Microsoft.IdentityModel.Tokens.dll
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Web\obj\Release\net8.0\PubTmp\Out\Microsoft.NET.StringTools.dll
+C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Web\obj\Release\net8.0\PubTmp\Out\Microsoft.Owin.dll
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Web\obj\Release\net8.0\PubTmp\Out\Microsoft.VisualStudio.Web.CodeGeneration.dll
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Web\obj\Release\net8.0\PubTmp\Out\Microsoft.VisualStudio.Web.CodeGeneration.Core.dll
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Web\obj\Release\net8.0\PubTmp\Out\dotnet-aspnet-codegenerator-design.dll
@@ -51,6 +52,7 @@ C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWit
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Web\obj\Release\net8.0\PubTmp\Out\NuGet.ProjectModel.dll
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Web\obj\Release\net8.0\PubTmp\Out\NuGet.Protocol.dll
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Web\obj\Release\net8.0\PubTmp\Out\NuGet.Versioning.dll
+C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Web\obj\Release\net8.0\PubTmp\Out\Owin.dll
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Web\obj\Release\net8.0\PubTmp\Out\System.CodeDom.dll
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Web\obj\Release\net8.0\PubTmp\Out\System.Composition.AttributedModel.dll
 C:\Riinvest\VitiIII\Semestri6\TemaDiplomes\RealEstateMicroservices\RealEstateWithMicorservices\RealEstate.Web\obj\Release\net8.0\PubTmp\Out\System.Composition.Convention.dll

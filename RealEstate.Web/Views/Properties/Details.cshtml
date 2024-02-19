@@ -29,7 +29,7 @@
     {
         content = "Buy Property";
     }
-    if (userService.GetCurrentUser() != null)
+    if (User.Identity.IsAuthenticated && userService.GetCurrentUser() != null)
     {
         if (userService.GetCurrentUser().Id == Model.Property.UserId || userService.GetCurrentUser().Id == Model.User.CompanyId || userService.GetCurrentUser().Role == RoleConstants.Role_User_Comp)
         {
@@ -41,7 +41,7 @@
 
 
 }
-@if (userService.GetCurrentUser() != null)
+@if (User.Identity.IsAuthenticated)
 {
     <div class="@open">
         <partial name="_Navbar" />

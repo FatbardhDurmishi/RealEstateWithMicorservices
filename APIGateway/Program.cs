@@ -1,7 +1,10 @@
+using APIGateway.Extensions;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.AddAppAuthentication();
 
 var filePath = Path.Combine(AppContext.BaseDirectory, "ocelot.json");
 builder.Configuration.SetBasePath(builder.Environment.ContentRootPath)

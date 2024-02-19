@@ -1,20 +1,28 @@
 {
   "version": 2,
-  "dgSpecHash": "M6MPw+XilL1EZG64fsmMcrwWhyewu+rRxWB4OBwJBZyEQYkAq27KjBmmszVgyLeRWaybIw5vuSOW7OAdBH2acA==",
+  "dgSpecHash": "9TvBQbPHNSIw7fujsB0i2BLxfnLACX0anQPgvDytlXIFpTlqM/WXiL73wUbx87ISggWT4zhdQsb3PrGoYcysxg==",
   "success": true,
   "projectFilePath": "C:\\Riinvest\\VitiIII\\Semestri6\\TemaDiplomes\\RealEstateMicroservices\\RealEstateWithMicorservices\\APIGateway\\APIGateway.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\fatba\\.nuget\\packages\\fluentvalidation\\10.3.6\\fluentvalidation.10.3.6.nupkg.sha512",
+    "C:\\Users\\fatba\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\8.0.2\\microsoft.aspnetcore.authentication.jwtbearer.8.0.2.nupkg.sha512",
     "C:\\Users\\fatba\\.nuget\\packages\\microsoft.aspnetcore.jsonpatch\\6.0.1\\microsoft.aspnetcore.jsonpatch.6.0.1.nupkg.sha512",
     "C:\\Users\\fatba\\.nuget\\packages\\microsoft.aspnetcore.middlewareanalysis\\6.0.1\\microsoft.aspnetcore.middlewareanalysis.6.0.1.nupkg.sha512",
     "C:\\Users\\fatba\\.nuget\\packages\\microsoft.aspnetcore.mvc.newtonsoftjson\\6.0.1\\microsoft.aspnetcore.mvc.newtonsoftjson.6.0.1.nupkg.sha512",
     "C:\\Users\\fatba\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\fatba\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\6.0.0\\microsoft.extensions.dependencyinjection.abstractions.6.0.0.nupkg.sha512",
     "C:\\Users\\fatba\\.nuget\\packages\\microsoft.extensions.diagnosticadapter\\3.1.22\\microsoft.extensions.diagnosticadapter.3.1.22.nupkg.sha512",
+    "C:\\Users\\fatba\\.nuget\\packages\\microsoft.identitymodel.abstractions\\7.1.2\\microsoft.identitymodel.abstractions.7.1.2.nupkg.sha512",
+    "C:\\Users\\fatba\\.nuget\\packages\\microsoft.identitymodel.jsonwebtokens\\7.1.2\\microsoft.identitymodel.jsonwebtokens.7.1.2.nupkg.sha512",
+    "C:\\Users\\fatba\\.nuget\\packages\\microsoft.identitymodel.logging\\7.1.2\\microsoft.identitymodel.logging.7.1.2.nupkg.sha512",
+    "C:\\Users\\fatba\\.nuget\\packages\\microsoft.identitymodel.protocols\\7.1.2\\microsoft.identitymodel.protocols.7.1.2.nupkg.sha512",
+    "C:\\Users\\fatba\\.nuget\\packages\\microsoft.identitymodel.protocols.openidconnect\\7.1.2\\microsoft.identitymodel.protocols.openidconnect.7.1.2.nupkg.sha512",
+    "C:\\Users\\fatba\\.nuget\\packages\\microsoft.identitymodel.tokens\\7.1.2\\microsoft.identitymodel.tokens.7.1.2.nupkg.sha512",
     "C:\\Users\\fatba\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
     "C:\\Users\\fatba\\.nuget\\packages\\newtonsoft.json.bson\\1.0.2\\newtonsoft.json.bson.1.0.2.nupkg.sha512",
     "C:\\Users\\fatba\\.nuget\\packages\\ocelot\\18.0.0\\ocelot.18.0.0.nupkg.sha512",
-    "C:\\Users\\fatba\\.nuget\\packages\\system.diagnostics.diagnosticsource\\4.7.1\\system.diagnostics.diagnosticsource.4.7.1.nupkg.sha512"
+    "C:\\Users\\fatba\\.nuget\\packages\\system.diagnostics.diagnosticsource\\4.7.1\\system.diagnostics.diagnosticsource.4.7.1.nupkg.sha512",
+    "C:\\Users\\fatba\\.nuget\\packages\\system.identitymodel.tokens.jwt\\7.1.2\\system.identitymodel.tokens.jwt.7.1.2.nupkg.sha512"
   ],
   "logs": []
 }

@@ -172,22 +172,15 @@ namespace RealEstate.Web.Controllers
             var jwt = handler.ReadJwtToken(model.Token);
 
             var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
-            identity.AddClaim(new Claim(JwtRegisteredClaimNames.Email, jwt.Claims.FirstOrDefault(U => U.Type == JwtRegisteredClaimNames.Email).Value));
-            identity.AddClaim(new Claim(JwtRegisteredClaimNames.Sub, jwt.Claims.FirstOrDefault(U => U.Type == JwtRegisteredClaimNames.Sub).Value));
-            identity.AddClaim(new Claim(JwtRegisteredClaimNames.Name, jwt.Claims.FirstOrDefault(U => U.Type == JwtRegisteredClaimNames.Name).Value));
-            identity.AddClaim(new Claim(ClaimTypes.Role, jwt.Claims.FirstOrDefault(U => U.Type == "role").Value));
+            identity.AddClaim(new Claim(JwtRegisteredClaimNames.Email, jwt.Claims.FirstOrDefault(U => U.Type == JwtRegisteredClaimNames.Email)!.Value));
+            identity.AddClaim(new Claim(JwtRegisteredClaimNames.Sub, jwt.Claims.FirstOrDefault(U => U.Type == JwtRegisteredClaimNames.Sub)!.Value));
+            identity.AddClaim(new Claim(JwtRegisteredClaimNames.Name, jwt.Claims.FirstOrDefault(U => U.Type == JwtRegisteredClaimNames.Name)!.Value));
+            identity.AddClaim(new Claim(ClaimTypes.Role, jwt.Claims.FirstOrDefault(U => U.Type == "role")!.Value));
             identity.AddClaim(new Claim("UserId", model.User.Id));
+            identity.AddClaim(new Claim(ClaimTypes.Name, jwt.Claims.FirstOrDefault(u => u.Type == JwtRegisteredClaimNames.Email)!.Value));
 
             var principal = new ClaimsPrincipal(identity);
-
-            var authProperties = new AuthenticationProperties
-            {
-                AllowRefresh = true,
-                IsPersistent = true,
-                IssuedUtc = DateTimeOffset.UtcNow,
-            };
-
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, authProperties);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
         }
     }
 }
