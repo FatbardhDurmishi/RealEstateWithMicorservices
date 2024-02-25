@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RealEstate.Services.AuthAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d988742b005b36e0097b411257de14fe1146907f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+87c2d22b7a53082d4b4a74f3e728672be632e7ed")]
 [assembly: System.Reflection.AssemblyProductAttribute("RealEstate.Services.AuthAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RealEstate.Services.AuthAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

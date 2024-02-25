@@ -52,7 +52,7 @@ IF NOT EXISTS (
 )
 BEGIN
     INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-    VALUES (N'20231123123039_SqlServer', N'8.0.1');
+    VALUES (N'20231123123039_SqlServer', N'8.0.2');
 END;
 GO
 

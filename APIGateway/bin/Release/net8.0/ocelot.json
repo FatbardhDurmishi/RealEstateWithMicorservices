@@ -16,6 +16,9 @@
     {
       "UpstreamPathTemplate": "/api/auth/updateUserData",
       "UpstreamHttpMethod": [ "Put" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -28,6 +31,9 @@
     {
       "UpstreamPathTemplate": "/api/auth/changePassword",
       "UpstreamHttpMethod": [ "Put" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -52,6 +58,9 @@
     {
       "UpstreamPathTemplate": "/api/user/GetUsers/{currentUserId}/{currentUserRole}",
       "UpstreamHttpMethod": [ "Get" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -64,6 +73,9 @@
     {
       "UpstreamPathTemplate": "/api/user/GetUsersByCompanyId/{companyId}",
       "UpstreamHttpMethod": [ "Get" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -76,6 +88,9 @@
     {
       "UpstreamPathTemplate": "/api/user/CreateUser",
       "UpstreamHttpMethod": [ "Post" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -88,6 +103,9 @@
     {
       "UpstreamPathTemplate": "/api/user/DeleteUser/{id}",
       "UpstreamHttpMethod": [ "Delete" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -112,6 +130,9 @@
     {
       "UpstreamPathTemplate": "/api/user/UpdateUser",
       "UpstreamHttpMethod": [ "Put" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -126,6 +147,9 @@
     {
       "UpstreamPathTemplate": "/api/property/addProperty",
       "UpstreamHttpMethod": [ "Post" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -138,6 +162,9 @@
     {
       "UpstreamPathTemplate": "/api/property/UploadImages/{propertyId}",
       "UpstreamHttpMethod": [ "Post" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -150,6 +177,9 @@
     {
       "UpstreamPathTemplate": "/api/property/UpdateProperty",
       "UpstreamHttpMethod": [ "Put" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -162,6 +192,9 @@
     {
       "UpstreamPathTemplate": "/api/property/GetProperties/{currentUserId}/{currentUserRole}",
       "UpstreamHttpMethod": [ "Get" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -210,6 +243,9 @@
     {
       "UpstreamPathTemplate": "/api/property/DeleteProperty/{id}",
       "UpstreamHttpMethod": [ "Delete" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -270,6 +306,9 @@
     {
       "UpstreamPathTemplate": "/api/propertyTypes/AddPropertyType",
       "UpstreamHttpMethod": [ "Post" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -282,6 +321,9 @@
     {
       "UpstreamPathTemplate": "/api/propertyTypes/UpdatePropertyType",
       "UpstreamHttpMethod": [ "Put" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -319,6 +361,9 @@
     {
       "UpstreamPathTemplate": "/api/transaction/GetTransactions/{currentUserId}/{currentUserRole}",
       "UpstreamHttpMethod": [ "Get" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -331,6 +376,9 @@
     {
       "UpstreamPathTemplate": "/api/transaction/GetTransaction/{id}",
       "UpstreamHttpMethod": [ "Get" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -343,6 +391,9 @@
     {
       "UpstreamPathTemplate": "/api/transaction/AddTransaction",
       "UpstreamHttpMethod": [ "Post" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -355,6 +406,9 @@
     {
       "UpstreamPathTemplate": "/api/transaction/ApproveRequest/{id}",
       "UpstreamHttpMethod": [ "Post" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -367,6 +421,9 @@
     {
       "UpstreamPathTemplate": "/api/transaction/DenyRequest/{id}",
       "UpstreamHttpMethod": [ "Post" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
