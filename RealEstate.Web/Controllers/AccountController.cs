@@ -23,7 +23,7 @@ namespace RealEstate.Web.Controllers
             _httpClient = httpClient;
             _userService = userService;
             _tokenProvider = tokenProvider;
-            ApiRequestHelper.SetBearerToken(_httpClient, _tokenProvider.GetToken());
+            ApiRequestHelper.SetBearerToken(_httpClient, _tokenProvider.GetToken(_userService.GetCurrentUser().Id));
         }
 
         [HttpGet]
@@ -44,7 +44,7 @@ namespace RealEstate.Web.Controllers
                     var loginResponse = await response.Content.ReadFromJsonAsync<LoginResponseDto>();
 
                     _userService.SetCurrentUser(loginResponse!.User);
-                    _tokenProvider.SetToken(loginResponse!.Token);
+                    _tokenProvider.SetToken(loginResponse!.User.Id, loginResponse!.Token);
 
                     await SignInUser(loginResponse);
 
@@ -71,10 +71,10 @@ namespace RealEstate.Web.Controllers
                 RegisterViewModel model = new RegisterViewModel();
                 return View(model);
             }
-            var userReponse = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/user/GetUser/{userId}");
-            if (userReponse.IsSuccessStatusCode)
+            var userResponse = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/user/GetUser/{userId}");
+            if (userResponse.IsSuccessStatusCode)
             {
-                var user = await userReponse.Content.ReadFromJsonAsync<RegisterViewModel>();
+                var user = await userResponse.Content.ReadFromJsonAsync<RegisterViewModel>();
                 return View("Update", user);
             }
             TempData["error"] = "Something went wrong!";
@@ -104,7 +104,7 @@ namespace RealEstate.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync();
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             _tokenProvider.ClearToken();
             _userService.RemoveCurrentUser();
             return RedirectToAction(nameof(Login));
@@ -135,10 +135,10 @@ namespace RealEstate.Web.Controllers
         [Authorize]
         public async Task<IActionResult> ChangePassword(string userId)
         {
-            var userReponse = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/user/GetUser/{userId}");
-            if (userReponse.IsSuccessStatusCode)
+            var userResponse = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/user/GetUser/{userId}");
+            if (userResponse.IsSuccessStatusCode)
             {
-                var user = await userReponse.Content.ReadFromJsonAsync<RegisterViewModel>();
+                var user = await userResponse.Content.ReadFromJsonAsync<RegisterViewModel>();
                 return View("ChangePassword", user);
             }
             TempData["error"] = "Something went wrong! Try again";

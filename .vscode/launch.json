@@ -10,7 +10,7 @@
             "stopAtEntry": false,
             "serverReadyAction":{
                 "action": "openExternally",
-                "killOnServerStop": false
+                "killOnServerStop": true
             },
             "env": {
                 "ASPNETCORE_ENVIRONMENT":"Development"
@@ -26,7 +26,7 @@
             "stopAtEntry": false,
             "serverReadyAction":{
                 "action": "openExternally",
-                "killOnServerStop": false
+                "killOnServerStop": true
             },
             "env": {
                 "ASPNETCORE_ENVIRONMENT":"Development"
@@ -42,7 +42,7 @@
             "stopAtEntry": false,
             "serverReadyAction":{
                 "action": "openExternally",
-                "killOnServerStop": false
+                "killOnServerStop": true
             },
             "env": {
                 "ASPNETCORE_ENVIRONMENT":"Development"
@@ -58,7 +58,7 @@
             "stopAtEntry": false,
             "serverReadyAction":{
                 "action": "openExternally",
-                "killOnServerStop": false
+                "killOnServerStop": true
             },
             "env": {
                 "ASPNETCORE_ENVIRONMENT":"Development"
@@ -74,22 +74,12 @@
             "stopAtEntry": false,
             "serverReadyAction":{
                 "action": "openExternally",
-                "killOnServerStop": false
+                "killOnServerStop": true,
             },
             "env": {
                 "ASPNETCORE_ENVIRONMENT":"Development"
-            }
+            },
         },
-    // {
-    //     "name": "EstateVille",
-    //     "type": "dotnet",
-    //     "request": "launch",
-    //     "projectPath": "${workspaceFolder}/RealEstate.Web/RealEstate.Web.csproj",
-    //     "serverReadyAction":{
-    //         "action": "openExternally",
-    //         "killOnServerStop": false
-    //     },
-    // }
     ],
     "compounds": [
         {

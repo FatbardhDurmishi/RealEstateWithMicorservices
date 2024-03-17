@@ -12,12 +12,14 @@ namespace RealEstate.Web.Controllers
     {
         private readonly HttpClient _httpClient;
         private readonly ITokenProvider _tokenProvider;
+        private readonly IUserService _userService;
 
-        public PropertyTypesController(HttpClient httpClient, ITokenProvider tokenProvider)
+        public PropertyTypesController(HttpClient httpClient, ITokenProvider tokenProvider, IUserService userService)
         {
             _httpClient = httpClient;
             _tokenProvider = tokenProvider;
-            ApiRequestHelper.SetBearerToken(_httpClient, _tokenProvider.GetToken());
+            _userService = userService;
+            ApiRequestHelper.SetBearerToken(_httpClient, _tokenProvider.GetToken(_userService.GetCurrentUser().Id));
         }
 
         public IActionResult Index()

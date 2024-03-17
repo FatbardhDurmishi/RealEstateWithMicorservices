@@ -17,17 +17,17 @@ namespace RealEstate.Web.Services
             _contextAccessor.HttpContext?.Response.Cookies.Delete(Token.TokenCookie);
         }
 
-        public string? GetToken()
+        public string? GetToken(string userId = "")
         {
             string? token = null;
-            bool? hasToken = _contextAccessor.HttpContext?.Request.Cookies.TryGetValue(Token.TokenCookie, out token);
+            bool? hasToken = _contextAccessor.HttpContext?.Request.Cookies.TryGetValue(userId == null ? "" : userId, out token);
 
             return hasToken is true ? token : null;
         }
 
-        public void SetToken(string token)
+        public void SetToken(string userId, string token)
         {
-            _contextAccessor.HttpContext?.Response.Cookies.Append(Token.TokenCookie, token);
+            _contextAccessor.HttpContext?.Response.Cookies.Append(userId, token);
         }
     }
 }

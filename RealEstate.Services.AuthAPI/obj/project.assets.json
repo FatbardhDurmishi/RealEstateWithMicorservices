@@ -4465,19 +4465,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\fatba\\.nuget\\packages\\": {}
+    "C:\\Users\\Fatbardh Durmishi\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Riinvest\\VitiIII\\Semestri6\\TemaDiplomes\\RealEstateMicroservices\\RealEstateWithMicorservices\\RealEstate.Services.AuthAPI\\RealEstate.Services.AuthAPI.csproj",
+      "projectUniqueName": "C:\\Users\\Fatbardh Durmishi\\source\\repos\\RealEstateWithMicorservices\\RealEstate.Services.AuthAPI\\RealEstate.Services.AuthAPI.csproj",
       "projectName": "RealEstate.Services.AuthAPI",
-      "projectPath": "C:\\Riinvest\\VitiIII\\Semestri6\\TemaDiplomes\\RealEstateMicroservices\\RealEstateWithMicorservices\\RealEstate.Services.AuthAPI\\RealEstate.Services.AuthAPI.csproj",
-      "packagesPath": "C:\\Users\\fatba\\.nuget\\packages\\",
-      "outputPath": "C:\\Riinvest\\VitiIII\\Semestri6\\TemaDiplomes\\RealEstateMicroservices\\RealEstateWithMicorservices\\RealEstate.Services.AuthAPI\\obj\\",
+      "projectPath": "C:\\Users\\Fatbardh Durmishi\\source\\repos\\RealEstateWithMicorservices\\RealEstate.Services.AuthAPI\\RealEstate.Services.AuthAPI.csproj",
+      "packagesPath": "C:\\Users\\Fatbardh Durmishi\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Fatbardh Durmishi\\source\\repos\\RealEstateWithMicorservices\\RealEstate.Services.AuthAPI\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\fatba\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Fatbardh Durmishi\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -4497,6 +4497,11 @@
         "warnAsError": [
           "NU1605"
         ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -4563,7 +4568,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.102/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

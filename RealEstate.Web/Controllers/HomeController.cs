@@ -21,14 +21,13 @@ namespace RealEstate.Web.Controllers
             _userService = userService;
             _httpClient = httpClient;
             _tokenProvider = tokenProvider;
-            ApiRequestHelper.SetBearerToken(_httpClient, _tokenProvider.GetToken());
+            ApiRequestHelper.SetBearerToken(_httpClient, _tokenProvider.GetToken(_userService.GetCurrentUser().Id));
         }
 
         [HttpGet]
         [Authorize(Roles = RoleConstants.Role_User_Indi + "," + RoleConstants.Role_User_Comp + ",")]
         public async Task<IActionResult> Dashboard()
         {
-            ApiRequestHelper.SetBearerToken(_httpClient, _tokenProvider.GetToken());
             var userId = _userService.GetCurrentUser().Id;
             var userRole = _userService.GetCurrentUser().Role;
             var transactionsList = new List<TransactionListViewModel>();
