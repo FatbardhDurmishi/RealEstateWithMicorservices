@@ -32,7 +32,7 @@ builder.Services.AddAuthentication(o =>
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ClockSkew = TimeSpan.FromSeconds(1),
-        ValidateIssuer = false,
+        ValidateIssuer = true,
         ValidateAudience = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
@@ -54,11 +54,6 @@ builder.Services.AddAuthentication(o =>
 });
 
 
-// var multiSchemePolicy = new AuthorizationPolicyBuilder(
-//     CookieAuthenticationDefaults.AuthenticationScheme,
-//     JwtBearerDefaults.AuthenticationScheme)
-//   .RequireAuthenticatedUser()
-//   .Build();
 
 
 var app = builder.Build();

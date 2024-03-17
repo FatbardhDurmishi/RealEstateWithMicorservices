@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/096b3c3b-cb07-47c3-9591-2229b4069e24/resourceGroups/estateVille/providers/Microsoft.Web/sites/EstateVillee",
+    "appService.deploySubpath": "RealEstate.Web\\bin\\Publish"
+}

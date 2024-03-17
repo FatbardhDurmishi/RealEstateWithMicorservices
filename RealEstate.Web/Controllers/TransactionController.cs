@@ -34,7 +34,7 @@ namespace RealEstate.Web.Controllers
             if (response.IsSuccessStatusCode)
             {
                 var property = await response.Content.ReadFromJsonAsync<PropertyViewModel>();
-                AddTranscationViewModel transaction = new()
+                AddTransactionViewModel transaction = new()
                 {
                     Property = property!,
                     Transaction = new()
@@ -46,7 +46,7 @@ namespace RealEstate.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddTransaction(AddTranscationViewModel model)
+        public async Task<IActionResult> AddTransaction(AddTransactionViewModel model)
         {
             var errorMessage = string.Empty;
             if (ModelState.IsValid)
@@ -61,12 +61,7 @@ namespace RealEstate.Web.Controllers
                     TransactionType = model.Transaction.TransactionType,
                     PropertyPrice = model.Property.Price,
                 };
-                //var parameters = new
-                //{
-                //    property = model.Property,
-                //    transaction = model.Transaction,
-                //    userId = _userService.GetCurrentUser().Id
-                //};
+
                 var response = await _httpClient.PostAsJsonAsync($"{APIGatewayUrl.URL}api/transaction/AddTransaction", transactionDto);
                 if (response.IsSuccessStatusCode)
                 {
@@ -77,8 +72,6 @@ namespace RealEstate.Web.Controllers
 
                 // Assuming the error content has a "Message" property
                 errorMessage = errorContent["message"];
-
-
             }
             TempData["error"] = errorMessage;
             return View(model);
@@ -89,7 +82,7 @@ namespace RealEstate.Web.Controllers
         {
             var currentUserId = _userService.GetCurrentUser().Id;
             var currentUserRole = _userService.GetCurrentUser().Role;
-            var transactiosList = new List<TransactionListViewModel>();
+            var transactionList = new List<TransactionListViewModel>();
 
             var response = await _httpClient.GetAsync($"{APIGatewayUrl.URL}api/transaction/GetTransactions/{currentUserId}/{currentUserRole}");
             if (response.IsSuccessStatusCode)
@@ -129,11 +122,11 @@ namespace RealEstate.Web.Controllers
                         transactionToAdd.ShowButtons = true;
                     }
 
-                    transactiosList.Add(transactionToAdd);
+                    transactionList.Add(transactionToAdd);
                 }
-                return new JsonResult(transactiosList);
+                return new JsonResult(transactionList);
             }
-            return new JsonResult(transactiosList);
+            return new JsonResult(transactionList);
         }
 
         [HttpGet]
@@ -207,7 +200,6 @@ namespace RealEstate.Web.Controllers
             }
             TempData["error"] = "Something went wrong!";
             return View(nameof(Index));
-
         }
     }
 }

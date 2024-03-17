@@ -2,16 +2,6 @@
 @model TransactionDetailsViewModel
 
 @{
-    var buttonName = "";
-    if (Model.Property.TransactionType == TransactionTypes.Rent)
-    {
-        buttonName = "Request to Rent Property";
-    }
-    else
-    {
-        buttonName = "Request to buy Property";
-    }
-
     var owner = "";
     var buyer = "";
     if (Model.Transaction.TransactionType == TransactionTypes.Rent)
@@ -30,7 +20,8 @@
     <div class="container-fluid pt-4 px-4 col-12 justify-content-between">
         <div class="row mb-3">
             <div class="text-start">
-                <a asp-area="Company" asp-controller="Transaction" asp-action="Index" class="btn btn-primary ">Back to List</a>
+                <a asp-area="Company" asp-controller="Transaction" asp-action="Index" class="btn btn-primary ">Back to
+                    List</a>
             </div>
         </div>
         <form>
@@ -69,42 +60,50 @@
 
             <div class="d-flex row">
                 <div class="form-floating mb-3  col-sm-6 ">
-                    <input disabled asp-for="Property.BedRooms" class="form-control" id="floatingText" placeholder="text">
+                    <input disabled asp-for="Property.BedRooms" class="form-control" id="floatingText"
+                        placeholder="text">
                     <label for="floatingText">&nbsp; BedRooms</label>
                 </div>
                 <div class="form-floating mb-3 col-sm-6">
-                    <input disabled asp-for="Property.BathRooms" class="form-control" id="floatingText" placeholder="Password">
+                    <input disabled asp-for="Property.BathRooms" class="form-control" id="floatingText"
+                        placeholder="Password">
                     <label for="floatingText">&nbsp; BathRooms</label>
                 </div>
             </div>
             <div class="row justify-content-between">
                 <div class="form-floating mb-3 col-sm-6">
-                    <input disabled asp-for="Property.Area" class="form-control" id="floatingText" placeholder="Password">
+                    <input disabled asp-for="Property.Area" class="form-control" id="floatingText"
+                        placeholder="Password">
                     <label for="floatingText">&nbsp; Area(in m&sup2;)</label>
                 </div>
 
                 <div class="form-floating mb-3 col-sm-6">
-                    <input disabled asp-for="Property.Status" class="form-control" id="floatingText" placeholder="Password">
+                    <input disabled asp-for="Property.Status" class="form-control" id="floatingText"
+                        placeholder="Password">
                     <label for="floatingText">&nbsp; Status</label>
                 </div>
             </div>
             <div class="row">
                 <div class="form-floating mb-3 col-sm-6">
-                    <input disabled asp-for="Property.City" class="form-control" id="floatingText" placeholder="Password">
+                    <input disabled asp-for="Property.City" class="form-control" id="floatingText"
+                        placeholder="Password">
                     <label for="floatingText">&nbsp; City</label>
                 </div>
                 <div class="form-floating mb-3 col-sm-6">
-                    <input disabled asp-for="Property.StreetAddress" class="form-control" id="floatingText" placeholder="Password">
+                    <input disabled asp-for="Property.StreetAddress" class="form-control" id="floatingText"
+                        placeholder="Password">
                     <label for="floatingText">&nbsp; Street Address</label>
                 </div>
             </div>
             <div class="row">
                 <div class="form-floating mb-3 col-sm-6">
-                    <input disabled asp-for="Property.PropertyType!.Name" class="form-control" id="floatingText" placeholder="Password">
+                    <input disabled asp-for="Property.PropertyType!.Name" class="form-control" id="floatingText"
+                        placeholder="Password">
                     <label for="floatingText">&nbsp; Property Type</label>
                 </div>
                 <div class="form-floating mb-3 col-sm-6">
-                    <input disabled asp-for="Property.TransactionType" class="form-control" id="floatingText" placeholder="Password">
+                    <input disabled asp-for="Property.TransactionType" class="form-control" id="floatingText"
+                        placeholder="Password">
                     <label for="floatingText">&nbsp;Transaction Type</label>
                 </div>
             </div>
@@ -112,11 +111,13 @@
             {
                 <div class="row">
                     <div class="form-floating mb-3 col-sm-6">
-                        <input disabled  type="date" asp-for="Transaction.RentStartDate" class="form-control" id="floatingText" placeholder="Password">
+                        <input disabled type="date" asp-for="Transaction.RentStartDate" class="form-control"
+                            id="floatingText" placeholder="Password">
                         <label for="floatingText">&nbsp; Rent Start Date</label>
                     </div>
                     <div class="form-floating mb-3 col-sm-6">
-                        <input disabled  type="date" asp-for="Transaction.RentEndDate" class="form-control" id="floatingText" placeholder="Password">
+                        <input disabled type="date" asp-for="Transaction.RentEndDate" class="form-control" id="floatingText"
+                            placeholder="Password">
                         <label for="floatingText">&nbsp; Rent End Date </label>
 
                     </div>
@@ -125,4 +126,3 @@
         </form>
     </div>
 </div>
-

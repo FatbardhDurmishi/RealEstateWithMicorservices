@@ -2,7 +2,7 @@
 {
     public class CityConstants
     {
-        public string Name;
+        public string Name {get;set;} = String.Empty;
 
         public static List<CityConstants> _cities = new List<CityConstants>()
         {

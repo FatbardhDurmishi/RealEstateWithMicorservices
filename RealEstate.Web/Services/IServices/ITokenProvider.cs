@@ -4,6 +4,6 @@
     {
         void SetToken(string userId, string token);
         string? GetToken(string userId);
-        void ClearToken();
+        void ClearToken(string userId);
     }
 }

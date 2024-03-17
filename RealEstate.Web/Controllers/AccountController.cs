@@ -105,7 +105,7 @@ namespace RealEstate.Web.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            _tokenProvider.ClearToken();
+            _tokenProvider.ClearToken(_userService.GetCurrentUser().Id);
             _userService.RemoveCurrentUser();
             return RedirectToAction(nameof(Login));
         }

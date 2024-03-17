@@ -12,9 +12,9 @@ namespace RealEstate.Web.Services
             _contextAccessor = contextAccessor;
         }
 
-        public void ClearToken()
+        public void ClearToken(string userId)
         {
-            _contextAccessor.HttpContext?.Response.Cookies.Delete(Token.TokenCookie);
+            _contextAccessor.HttpContext?.Response.Cookies.Delete(userId);
         }
 
         public string? GetToken(string userId = "")
