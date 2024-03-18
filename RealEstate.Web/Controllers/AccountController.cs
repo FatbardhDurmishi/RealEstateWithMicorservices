@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealEstate.Web.Common;
@@ -23,7 +24,7 @@ namespace RealEstate.Web.Controllers
             _httpClient = httpClient;
             _userService = userService;
             _tokenProvider = tokenProvider;
-            ApiRequestHelper.SetBearerToken(_httpClient, _tokenProvider.GetToken(_userService.GetCurrentUser().Id));
+            ApiRequestHelper.SetBearerToken(_httpClient, _tokenProvider.GetToken());
         }
 
         [HttpGet]
@@ -44,7 +45,7 @@ namespace RealEstate.Web.Controllers
                     var loginResponse = await response.Content.ReadFromJsonAsync<LoginResponseDto>();
 
                     _userService.SetCurrentUser(loginResponse!.User);
-                    _tokenProvider.SetToken(loginResponse!.User.Id, loginResponse!.Token);
+                    _tokenProvider.SetToken(loginResponse!.Token);
 
                     await SignInUser(loginResponse);
 
@@ -104,8 +105,8 @@ namespace RealEstate.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            _tokenProvider.ClearToken(_userService.GetCurrentUser().Id);
+            await HttpContext.SignOutAsync();
+            _tokenProvider.ClearToken();
             _userService.RemoveCurrentUser();
             return RedirectToAction(nameof(Login));
         }
@@ -171,7 +172,7 @@ namespace RealEstate.Web.Controllers
 
             var jwt = handler.ReadJwtToken(model.Token);
 
-            var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+            var identity = new ClaimsIdentity(JwtBearerDefaults.AuthenticationScheme);
             identity.AddClaim(new Claim(JwtRegisteredClaimNames.Email, jwt.Claims.FirstOrDefault(U => U.Type == JwtRegisteredClaimNames.Email)!.Value));
             identity.AddClaim(new Claim(JwtRegisteredClaimNames.Sub, jwt.Claims.FirstOrDefault(U => U.Type == JwtRegisteredClaimNames.Sub)!.Value));
             identity.AddClaim(new Claim(JwtRegisteredClaimNames.Name, jwt.Claims.FirstOrDefault(U => U.Type == JwtRegisteredClaimNames.Name)!.Value));
@@ -179,7 +180,7 @@ namespace RealEstate.Web.Controllers
             identity.AddClaim(new Claim(ClaimTypes.Name, jwt.Claims.FirstOrDefault(u => u.Type == JwtRegisteredClaimNames.Name)!.Value));
 
             var principal = new ClaimsPrincipal(identity);
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+            await HttpContext.SignInAsync(principal);
         }
     }
 }

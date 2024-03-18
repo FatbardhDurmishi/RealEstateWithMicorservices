@@ -1,5 +1,5 @@
 ﻿@using RealEstate.Web.Constants;
-@model AddTranscationViewModel
+@model AddTransactionViewModel
 
 @{
     var buttonName = "";
@@ -33,7 +33,8 @@
             </ol>
             </div>*@
             <div class="col-2 text-end">
-                <a a asp-controller="Properties" asp-action="Details" asp-route-propertyId="@Model.Property.Id" class="btn btn-primary ">Back to Property</a>
+                <a a asp-controller="Properties" asp-action="Details" asp-route-propertyId="@Model.Property.Id"
+                    class="btn btn-primary ">Back to Property</a>
             </div>
         </div>
         <form asp-controller="Transaction" asp-action="AddTransaction" method="post">
@@ -67,42 +68,50 @@
 
             <div class="d-flex row">
                 <div class="form-floating mb-3  col-sm-6 ">
-                    <input readonly asp-for="Property.BedRooms" class="form-control" id="floatingText" placeholder="text">
+                    <input readonly asp-for="Property.BedRooms" class="form-control" id="floatingText"
+                        placeholder="text">
                     <label for="floatingText">&nbsp; BedRooms</label>
                 </div>
                 <div class="form-floating mb-3 col-sm-6">
-                    <input readonly asp-for="Property.BathRooms" class="form-control" id="floatingText" placeholder="Password">
+                    <input readonly asp-for="Property.BathRooms" class="form-control" id="floatingText"
+                        placeholder="Password">
                     <label for="floatingText">&nbsp; BathRooms</label>
                 </div>
             </div>
             <div class="row justify-content-between">
                 <div class="form-floating mb-3 col-sm-6">
-                    <input readonly asp-for="Property.Area" class="form-control" id="floatingText" placeholder="Password">
+                    <input readonly asp-for="Property.Area" class="form-control" id="floatingText"
+                        placeholder="Password">
                     <label for="floatingText">&nbsp; Area(in m&sup2;)</label>
                 </div>
 
                 <div class="form-floating mb-3 col-sm-6">
-                    <input readonly asp-for="Property.Status" class="form-control" id="floatingText" placeholder="Password">
+                    <input readonly asp-for="Property.Status" class="form-control" id="floatingText"
+                        placeholder="Password">
                     <label for="floatingText">&nbsp; Status</label>
                 </div>
             </div>
             <div class="row">
                 <div class="form-floating mb-3 col-sm-6">
-                    <input readonly asp-for="Property.City" class="form-control" id="floatingText" placeholder="Password">
+                    <input readonly asp-for="Property.City" class="form-control" id="floatingText"
+                        placeholder="Password">
                     <label for="floatingText">&nbsp; City</label>
                 </div>
                 <div class="form-floating mb-3 col-sm-6">
-                    <input readonly asp-for="Property.StreetAddress" class="form-control" id="floatingText" placeholder="Password">
+                    <input readonly asp-for="Property.StreetAddress" class="form-control" id="floatingText"
+                        placeholder="Password">
                     <label for="floatingText">&nbsp; Street Address</label>
                 </div>
             </div>
             <div class="row">
                 <div class="form-floating mb-3 col-sm-6">
-                    <input readonly asp-for="Property.PropertyType!.Name" class="form-control" id="floatingText" placeholder="Password">
+                    <input readonly asp-for="Property.PropertyType!.Name" class="form-control" id="floatingText"
+                        placeholder="Password">
                     <label for="floatingText">&nbsp; Property Type</label>
                 </div>
                 <div class="form-floating mb-3 col-sm-6">
-                    <input readonly asp-for="Property.TransactionType" class="form-control" id="floatingText" placeholder="Password">
+                    <input readonly asp-for="Property.TransactionType" class="form-control" id="floatingText"
+                        placeholder="Password">
                     <label for="floatingText">&nbsp;Transaction Type</label>
                 </div>
             </div>
@@ -110,12 +119,14 @@
             {
                 <div class="row">
                     <div class="form-floating mb-3 col-sm-6">
-                        <input type="date" asp-for="Transaction.RentStartDate" class="form-control" id="floatingText" placeholder="Password">
+                        <input type="date" asp-for="Transaction.RentStartDate" class="form-control" id="floatingText"
+                            placeholder="Password">
                         <label for="floatingText">&nbsp; Rent Start Date</label>
                         <span asp-validation-for="Transaction.RentStartDate" class="text-danger"></span>
                     </div>
                     <div class="form-floating mb-3 col-sm-6">
-                        <input type="date" asp-for="Transaction.RentEndDate" class="form-control" id="floatingText" placeholder="Password">
+                        <input type="date" asp-for="Transaction.RentEndDate" class="form-control" id="floatingText"
+                            placeholder="Password">
                         <label for="floatingText">&nbsp; Rent End Date </label>
                         <span asp-validation-for="Transaction.RentEndDate" class="text-danger"></span>
 
@@ -128,5 +139,5 @@
 </div>
 
 @*@section Scripts{
-    <partial name="_ValidationScriptsPartial" />
+<partial name="_ValidationScriptsPartial" />
 }*@

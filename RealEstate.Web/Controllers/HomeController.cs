@@ -21,7 +21,7 @@ namespace RealEstate.Web.Controllers
             _userService = userService;
             _httpClient = httpClient;
             _tokenProvider = tokenProvider;
-            ApiRequestHelper.SetBearerToken(_httpClient, _tokenProvider.GetToken(_userService.GetCurrentUser().Id));
+            ApiRequestHelper.SetBearerToken(_httpClient, _tokenProvider.GetToken());
         }
 
         [HttpGet]

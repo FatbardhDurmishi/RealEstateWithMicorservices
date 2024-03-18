@@ -23,8 +23,11 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddAuthentication(o =>
 {
+    o.DefaultSignOutScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    o.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
     o.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
     o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    o.RequireAuthenticatedSignIn = true;
 })
 .AddJwtBearer(options =>
 {
@@ -40,6 +43,7 @@ builder.Services.AddAuthentication(o =>
         ValidAudience = builder.Configuration["ApiSettings:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["ApiSettings:Secret"]!))
     };
+    options.ClaimsIssuer = builder.Configuration["ApiSettings:Issuer"];
 })
 .AddCookie(options =>
 {
@@ -53,7 +57,7 @@ builder.Services.AddAuthentication(o =>
     };
 });
 
-
+builder.Services.AddAuthorization();
 
 
 var app = builder.Build();
