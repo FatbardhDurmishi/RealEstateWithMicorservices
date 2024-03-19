@@ -47,14 +47,17 @@ namespace RealEstate.Web.Controllers
                     _userService.SetCurrentUser(loginResponse!.User);
                     _tokenProvider.SetToken(loginResponse!.Token);
 
-                    await SignInUser(loginResponse);
-
-                    TempData["success"] = "Login successful";
-                    if (loginResponse.User.Role == RoleConstants.Role_Admin)
+                    var signInResult = await SignInUser(loginResponse);
+                    if (signInResult)
                     {
-                        return RedirectToAction("Index", "User");
+                        TempData["success"] = "Login successful";
+                        if (loginResponse.User.Role == RoleConstants.Role_Admin)
+                        {
+                            return RedirectToAction("Index", "User");
+                        }
+                        return RedirectToAction("Dashboard", "Home");
                     }
-                    return RedirectToAction("Dashboard", "Home");
+
                 }
             }
 
@@ -105,7 +108,7 @@ namespace RealEstate.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync();
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             _tokenProvider.ClearToken();
             _userService.RemoveCurrentUser();
             return RedirectToAction(nameof(Login));
@@ -166,21 +169,31 @@ namespace RealEstate.Web.Controllers
             return View();
         }
 
-        private async Task SignInUser(LoginResponseDto model)
+        private async Task<bool> SignInUser(LoginResponseDto model)
         {
             var handler = new JwtSecurityTokenHandler();
 
             var jwt = handler.ReadJwtToken(model.Token);
 
-            var identity = new ClaimsIdentity(JwtBearerDefaults.AuthenticationScheme);
-            identity.AddClaim(new Claim(JwtRegisteredClaimNames.Email, jwt.Claims.FirstOrDefault(U => U.Type == JwtRegisteredClaimNames.Email)!.Value));
-            identity.AddClaim(new Claim(JwtRegisteredClaimNames.Sub, jwt.Claims.FirstOrDefault(U => U.Type == JwtRegisteredClaimNames.Sub)!.Value));
-            identity.AddClaim(new Claim(JwtRegisteredClaimNames.Name, jwt.Claims.FirstOrDefault(U => U.Type == JwtRegisteredClaimNames.Name)!.Value));
-            identity.AddClaim(new Claim(ClaimTypes.Role, jwt.Claims.FirstOrDefault(U => U.Type == "role")!.Value));
-            identity.AddClaim(new Claim(ClaimTypes.Name, jwt.Claims.FirstOrDefault(u => u.Type == JwtRegisteredClaimNames.Name)!.Value));
+            HttpContext.Request.Headers.Append("Authorization", $"Bearer {model.Token}");
 
-            var principal = new ClaimsPrincipal(identity);
-            await HttpContext.SignInAsync(principal);
+            var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            if (result.Succeeded)
+            {
+                var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+                identity.AddClaim(new Claim(JwtRegisteredClaimNames.Email, jwt.Claims.FirstOrDefault(U => U.Type == JwtRegisteredClaimNames.Email)!.Value));
+                identity.AddClaim(new Claim(JwtRegisteredClaimNames.Sub, jwt.Claims.FirstOrDefault(U => U.Type == JwtRegisteredClaimNames.Sub)!.Value));
+                identity.AddClaim(new Claim(JwtRegisteredClaimNames.Name, jwt.Claims.FirstOrDefault(U => U.Type == JwtRegisteredClaimNames.Name)!.Value));
+                identity.AddClaim(new Claim(ClaimTypes.Role, jwt.Claims.FirstOrDefault(U => U.Type == "role")!.Value));
+                identity.AddClaim(new Claim(ClaimTypes.Name, jwt.Claims.FirstOrDefault(u => u.Type == JwtRegisteredClaimNames.Name)!.Value));
+
+                var principal = new ClaimsPrincipal(identity);
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+            }
+
+            return result.Succeeded;
+
         }
     }
 }

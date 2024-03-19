@@ -1,6 +1,7 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using RealEstate.Web.Services;
 using RealEstate.Web.Services.IServices;
@@ -14,6 +15,12 @@ builder.Services.AddSingleton<IUserService, UserService>();
 builder.Services.AddScoped<ITokenProvider, TokenProvider>();
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddLogging(loggingBuilder =>
+{
+    loggingBuilder.AddConsole();
+    loggingBuilder.AddDebug();
+});
+
 
 // builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 //     .AddCookie(options =>
@@ -21,13 +28,15 @@ builder.Services.AddControllersWithViews();
 
 //     });
 
+var secret = builder.Configuration["ApiSettings:Secret"]!;
+var issuer = builder.Configuration["ApiSettings:Issuer"]!;
+var audience = builder.Configuration["ApiSettings:Audience"]!;
+
 builder.Services.AddAuthentication(o =>
 {
-    o.DefaultSignOutScheme = CookieAuthenticationDefaults.AuthenticationScheme;
     o.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
     o.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
     o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    o.RequireAuthenticatedSignIn = true;
 })
 .AddJwtBearer(options =>
 {
@@ -39,25 +48,28 @@ builder.Services.AddAuthentication(o =>
         ValidateAudience = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        ValidIssuer = builder.Configuration["ApiSettings:Issuer"],
-        ValidAudience = builder.Configuration["ApiSettings:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["ApiSettings:Secret"]!))
+        ValidIssuer = issuer,
+        ValidAudience = audience,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret))
     };
-    options.ClaimsIssuer = builder.Configuration["ApiSettings:Issuer"];
+    options.Events = new JwtBearerEvents
+    {
+        OnAuthenticationFailed = context =>
+        {
+            // Log the authentication failure
+            var logger = builder.Services.BuildServiceProvider().GetRequiredService<ILogger<Program>>();
+            logger.LogError("Authentication failed: {Message}", context.Exception.Message);
+            return Task.CompletedTask;
+        }
+    };
 })
-.AddCookie(options =>
+.AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
 {
-    options.ExpireTimeSpan = TimeSpan.FromHours(10);
+    options.ExpireTimeSpan = TimeSpan.FromHours(1);
     options.LoginPath = "/Account/Login";
     options.AccessDeniedPath = "/Account/AccessDenied";
-    options.Events.OnRedirectToLogin = c =>
-    {
-        c.Response.StatusCode = StatusCodes.Status401Unauthorized;
-        return Task.CompletedTask;
-    };
 });
 
-builder.Services.AddAuthorization();
 
 
 var app = builder.Build();
