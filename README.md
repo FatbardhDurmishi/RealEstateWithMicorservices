@@ -14,7 +14,7 @@
 <p><b>Individual Deployments: </b>Each microservice is independently deployed on Azure app services, allowing for scalability and flexibility.</p>
 <p><b>Isolated Databases: </b>For databases I used Azure Sql Databases. Every microservice has its dedicated database, ensuring data autonomy and separation of concerns.</p>
 
-<script type="text/javascript" src="https://viewer.diagrams.net/js/viewer-static.min.js"></script>
+<script src="https://viewer.diagrams.net/js/viewer-static.min.js"></script>
 
 <h1>Frontend: MVC Architecture</h1>
 <p>The frontend of this application is developed using the MVC architecture, providing a structured and modular approach to design. Key aspects include:</p>
