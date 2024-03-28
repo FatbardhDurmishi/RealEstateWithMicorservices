@@ -1,8 +1,4 @@
-using System.Text;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.IdentityModel.Tokens;
 using RealEstate.Web.Services;
 using RealEstate.Web.Services.IServices;
 
@@ -32,42 +28,38 @@ var secret = builder.Configuration["ApiSettings:Secret"]!;
 var issuer = builder.Configuration["ApiSettings:Issuer"]!;
 var audience = builder.Configuration["ApiSettings:Audience"]!;
 
-builder.Services.AddAuthentication(o =>
-{
-    o.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    o.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(options =>
-{
-    options.SaveToken = true;
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ClockSkew = TimeSpan.FromSeconds(1),
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = issuer,
-        ValidAudience = audience,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret))
-    };
-    options.Events = new JwtBearerEvents
-    {
-        OnAuthenticationFailed = context =>
-        {
-            // Log the authentication failure
-            var logger = builder.Services.BuildServiceProvider().GetRequiredService<ILogger<Program>>();
-            logger.LogError("Authentication failed: {Message}", context.Exception.Message);
-            return Task.CompletedTask;
-        }
-    };
-})
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+// .AddJwtBearer(options =>
+// {
+//     options.SaveToken = true;
+//     options.TokenValidationParameters = new TokenValidationParameters
+//     {
+//         ClockSkew = TimeSpan.FromSeconds(1),
+//         ValidateIssuer = true,
+//         ValidateAudience = true,
+//         ValidateLifetime = true,
+//         ValidateIssuerSigningKey = true,
+//         ValidIssuer = issuer,
+//         ValidAudience = audience,
+//         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret))
+//     };
+//     options.Events = new JwtBearerEvents
+//     {
+//         OnAuthenticationFailed = context =>
+//         {
+//             // Log the authentication failure
+//             var logger = builder.Services.BuildServiceProvider().GetRequiredService<ILogger<Program>>();
+//             logger.LogError("Authentication failed: {Message}", context.Exception.Message);
+//             return Task.CompletedTask;
+//         }
+//     };
+// })
 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
 {
     options.ExpireTimeSpan = TimeSpan.FromHours(1);
     options.LoginPath = "/Account/Login";
     options.AccessDeniedPath = "/Account/AccessDenied";
+    options.Cookie.Name = "user_session";
 });
 
 

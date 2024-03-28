@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RealEstate.Web")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0abd02e8ff7bf438d672cfc666c02205d9e03e3f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f176b2be0fbb11fd8207b1040211036cd1ccc050")]
 [assembly: System.Reflection.AssemblyProductAttribute("RealEstate.Web")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RealEstate.Web")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

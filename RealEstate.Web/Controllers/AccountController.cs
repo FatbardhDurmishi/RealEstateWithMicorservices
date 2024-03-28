@@ -47,17 +47,14 @@ namespace RealEstate.Web.Controllers
                     _userService.SetCurrentUser(loginResponse!.User);
                     _tokenProvider.SetToken(loginResponse!.Token);
 
-                    var signInResult = await SignInUser(loginResponse);
-                    if (signInResult)
-                    {
-                        TempData["success"] = "Login successful";
-                        if (loginResponse.User.Role == RoleConstants.Role_Admin)
-                        {
-                            return RedirectToAction("Index", "User");
-                        }
-                        return RedirectToAction("Dashboard", "Home");
-                    }
+                    await SignInUser(loginResponse);
 
+                    TempData["success"] = "Login successful";
+                    if (loginResponse.User.Role == RoleConstants.Role_Admin)
+                    {
+                        return RedirectToAction("Index", "User");
+                    }
+                    return RedirectToAction("Dashboard", "Home");
                 }
             }
 
@@ -169,31 +166,20 @@ namespace RealEstate.Web.Controllers
             return View();
         }
 
-        private async Task<bool> SignInUser(LoginResponseDto model)
+        private async Task SignInUser(LoginResponseDto model)
         {
             var handler = new JwtSecurityTokenHandler();
 
             var jwt = handler.ReadJwtToken(model.Token);
 
-            HttpContext.Request.Headers.Append("Authorization", $"Bearer {model.Token}");
+            var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+            identity.AddClaim(new Claim(ClaimTypes.Email, jwt.Claims.FirstOrDefault(U => U.Type == JwtRegisteredClaimNames.Email)!.Value));
+            identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, jwt.Claims.FirstOrDefault(U => U.Type == JwtRegisteredClaimNames.Sub)!.Value));
+            identity.AddClaim(new Claim(ClaimTypes.Name, jwt.Claims.FirstOrDefault(U => U.Type == JwtRegisteredClaimNames.Name)!.Value));
+            identity.AddClaim(new Claim(ClaimTypes.Role, jwt.Claims.FirstOrDefault(U => U.Type == "role")!.Value));
 
-            var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-
-            if (result.Succeeded)
-            {
-                var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
-                identity.AddClaim(new Claim(JwtRegisteredClaimNames.Email, jwt.Claims.FirstOrDefault(U => U.Type == JwtRegisteredClaimNames.Email)!.Value));
-                identity.AddClaim(new Claim(JwtRegisteredClaimNames.Sub, jwt.Claims.FirstOrDefault(U => U.Type == JwtRegisteredClaimNames.Sub)!.Value));
-                identity.AddClaim(new Claim(JwtRegisteredClaimNames.Name, jwt.Claims.FirstOrDefault(U => U.Type == JwtRegisteredClaimNames.Name)!.Value));
-                identity.AddClaim(new Claim(ClaimTypes.Role, jwt.Claims.FirstOrDefault(U => U.Type == "role")!.Value));
-                identity.AddClaim(new Claim(ClaimTypes.Name, jwt.Claims.FirstOrDefault(u => u.Type == JwtRegisteredClaimNames.Name)!.Value));
-
-                var principal = new ClaimsPrincipal(identity);
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
-            }
-
-            return result.Succeeded;
-
+            var principal = new ClaimsPrincipal(identity);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
         }
     }
 }
